@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Container, ContainerListOffers, ContainerLi, ImageOffer, ContentTextOffer, TextOffer } from './styles';
+import { Container, ContainerListOffers, ContainerLi, ContentTextOffer, TextOffer } from './styles';
+
 import Image from 'next/image';
 
 export const Cards: React.FC = () => {
