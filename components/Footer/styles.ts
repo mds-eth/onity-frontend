@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.footer`
   width: 100%;
-  height: 80px;
-  background-color: red;
+  height: 60px;
+  background-color: black;
   position: fixed;
   bottom: 0;
   display: flex;
@@ -14,5 +14,5 @@ export const Container = styled.footer`
 
 export const AlertPrivate = styled.a`
   font-weight: 600;
-  color: #666666;
+  color: white;
 `;

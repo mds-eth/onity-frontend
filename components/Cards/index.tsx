@@ -4,40 +4,45 @@ import { Container, ContainerListOffers, ContainerLi, ContentTextOffer, TextOffe
 
 import Image from 'next/image';
 
+import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
+import HTStin from '../../assets/img/ht-626-satin.jpg';
+import Serene from '../../assets/img/serene.jpg';
+import TrilliumRfid from '../../assets/img/trillium-rfid.jpg';
+
 export const Cards: React.FC = () => {
 
   return (
     <Container>
       <ContainerListOffers>
         <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="oi" width={120} height={120} />
+          <Image src={AdvanceTrillium} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Ola mundo
+              Advance Trillium
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
         <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="oi" width={120} height={120} />
+          <Image src={HTStin} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Ola mundo
+              HT Stin
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
         <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="oi" width={120} height={120} />
+          <Image src={Serene} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Ola mundo
+              Serene
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
         <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="oi" width={120} height={120} />
+          <Image src={TrilliumRfid} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Ola mundo
+              Trillium RFID
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>

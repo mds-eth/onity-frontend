@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  min-height: 330px;
+  min-height: 400px;
   height: auto;
   background-image: url("./img/background-offers.jpeg");
   display: flex;
   flex-direction: column;
+  margin-bottom: 60px;
 
   #container-form {
     background: none !important;
@@ -45,14 +46,16 @@ export const ContainerNotContent = styled.div`
 
 export const ContainerLi = styled.li`
   width: 45%;
-  height: 320px;
-  max-height: 380px;
+  height: 360px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   border: 1px solid #666666;
   cursor: pointer;
-
+  border-radius: 6px;
+  justify-content: space-between;
+  align-items: center;
+  
   @media (max-width: 800px) {
     width: 100%;
     max-height: 250px;
