@@ -2,20 +2,17 @@ import type { NextPage } from 'next'
 
 import { useRouter } from 'next/router'
 
-import { Header } from '../../components/Header'
-import Footer from '../../components/Footer'
-import { Cards } from '../../components/Cards'
+import { Header } from '../../../components/Header'
+import Footer from '../../../components/Footer'
 
 const EventSlug: NextPage = () => {
   const router = useRouter();
 
-  const { eventSlug } = router.query;
+  const { event, product } = router.query;
 
-  console.log(eventSlug);
   return (
     <>
       <Header />
-      <Cards />
       <Footer />
     </>
   )

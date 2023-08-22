@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 import ImageEvent from '../../assets/img/image-event.png';
 
-export const Cards: React.FC = () => {
+export const CardsHome: React.FC = () => {
 
   return (
     <Container>

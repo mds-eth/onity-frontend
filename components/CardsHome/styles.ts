@@ -4,10 +4,10 @@ export const Container = styled.section`
   width: 100%;
   min-height: 400px;
   height: auto;
-  background-image: url("./img/background-offers.jpeg");
   display: flex;
   flex-direction: column;
   margin-bottom: 60px;
+  background-color: #F3F3F3;
 
   #container-form {
     background: none !important;
