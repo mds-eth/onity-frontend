@@ -18,7 +18,7 @@ export const ContainerListOffers = styled.ul`
   width: 100%;
   min-height: 500px;
   height: auto;
-  max-width: 1920px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -45,12 +45,12 @@ export const ContainerNotContent = styled.div`
 `;
 
 export const ContainerLi = styled.li`
-  width: 45%;
-  height: 360px;
+  width: 30%;
+  height: 320px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #666666;
+  border: 1px solid #D8D8D8;
   cursor: pointer;
   border-radius: 6px;
   justify-content: space-between;
@@ -59,6 +59,11 @@ export const ContainerLi = styled.li`
   @media (max-width: 800px) {
     width: 100%;
     max-height: 250px;
+  }
+
+  img{
+    height: 100%;
+    width: 100%;
   }
 `;
 

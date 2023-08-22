@@ -4,45 +4,42 @@ import { Container, ContainerListOffers, ContainerLi, ContentTextOffer, TextOffe
 
 import Image from 'next/image';
 
-import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
-import HTStin from '../../assets/img/ht-626-satin.jpg';
-import Serene from '../../assets/img/serene.jpg';
-import TrilliumRfid from '../../assets/img/trillium-rfid.jpg';
+import ImageEvent from '../../assets/img/image-event.png';
 
 export const Cards: React.FC = () => {
 
   return (
     <Container>
       <ContainerListOffers>
-        <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src={AdvanceTrillium} alt="oi" width={120} height={120} />
+        <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
+          <Image src={ImageEvent} alt="oi" />
           <ContentTextOffer>
             <TextOffer>
-              Advance Trillium
+              Feira Equipotel
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
-        <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src={HTStin} alt="oi" width={120} height={120} />
+        <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
+          <Image src={ImageEvent} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              HT Stin
+              Feira Equipotel
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
-        <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src={Serene} alt="oi" width={120} height={120} />
+        <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
+          <Image src={ImageEvent} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Serene
+              Feira Equipotel
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>
-        <ContainerLi onClick={() => window.location.href = `/ce/offers/`}>
-          <Image src={TrilliumRfid} alt="oi" width={120} height={120} />
+        <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
+          <Image src={ImageEvent} alt="oi" width={120} height={120} />
           <ContentTextOffer>
             <TextOffer>
-              Trillium RFID
+              Feira Equipotel
             </TextOffer>
           </ContentTextOffer>
         </ContainerLi>

@@ -6,11 +6,15 @@ export const Container = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #C6C6C6;
+  background-color: #041424;
   padding: 0px 50px;
+
+  img{
+    cursor: pointer;
+  }
 `;
 
 export const TextTopHeader = styled.span`
   font-weight: 600;
-  color: black;
+  color: #FFFFFF;
 `;
