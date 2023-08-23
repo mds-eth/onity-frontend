@@ -7,7 +7,7 @@ export const Container = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 60px;
-  background-color: #F3F3F3;
+  background-color: #DADADA;
 
   #container-form {
     background: none !important;
@@ -18,7 +18,7 @@ export const ContainerListOffers = styled.ul`
   width: 100%;
   min-height: 500px;
   height: auto;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
