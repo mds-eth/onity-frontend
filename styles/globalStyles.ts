@@ -25,6 +25,8 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
+    border-radius: 6px;
+    outline: none;
   }
 
   @media screen and (max-width: 768px) {

@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Advance Trillium",
+    "product_code": "193BCHSUUAK",
+    "price": "R$ 250,00",
+    "main_product": true,
+    "status": true,
+    "file_path": "../assets/img/advance-trillium-rfid.jpg",
+    "create_at": "2023-08-23 20:20",
+    "updated_at": "2023-08-23 20:20"
+  },
+  {
+    "id": 2,
+    "title": "HT Stin",
+    "product_code": "HJFH82882JS",
+    "price": "R$ 180,00",
+    "main_product": true,
+    "status": true,
+    "file_path": "../assets/img/ht-626-satin.jpg",
+    "create_at": "2023-08-23 20:20",
+    "updated_at": "2023-08-23 20:20"
+  },
+  {
+    "id": 3,
+    "title": "Serene",
+    "product_code": "JAHSD98234KJSHD",
+    "price": "R$ 560,00",
+    "main_product": true,
+    "status": true,
+    "file_path": "../assets/img/serene.jpg",
+    "create_at": "2023-08-23 20:20",
+    "updated_at": "2023-08-23 20:20"
+  },
+  {
+    "id": 4,
+    "title": "Trillium RFID",
+    "product_code": "321J4HWD9F8",
+    "price": "R$ 250,00",
+    "main_product": true,
+    "status": true,
+    "file_path": "../assets/img/trillium-rfid.jpg",
+    "create_at": "2023-08-23 20:20",
+    "updated_at": "2023-08-23 20:20"
+  }
+]

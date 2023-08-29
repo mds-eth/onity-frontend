@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  min-height: 400px;
+  min-height: calc(100vh - 120px);
   height: auto;
   display: flex;
   flex-direction: column;
   margin-bottom: 60px;
-  background-color: #DADADA;
+  background-color: #dadada;
 
   #container-form {
     background: none !important;
@@ -50,18 +50,18 @@ export const ContainerLi = styled.li`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #D8D8D8;
+  border: 1px solid #d8d8d8;
   cursor: pointer;
   border-radius: 6px;
   justify-content: space-between;
   align-items: center;
-  
+
   @media (max-width: 800px) {
     width: 100%;
     max-height: 250px;
   }
 
-  img{
+  img {
     height: 100%;
     width: 100%;
   }

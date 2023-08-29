@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.section`
   width: 100%;
   height: calc(100vh - 120px);
-  background-color: #DADADA;
+  background-color: #dadada;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,7 +96,13 @@ export const ButtonAddCart = styled.button`
   align-items: center;
   justify-content: center;
 
-  svg{
+  svg {
     margin-right: 10px;
   }
+`;
+
+export const PriceProduct = styled.span`
+  font-size: 24px;
+  color: black;
+  margin-bottom: 15px;
 `;

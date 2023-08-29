@@ -31,15 +31,33 @@ export const SubTitle = styled.p`
   margin-top: 20px;
 `;
 
+export const SpaceMeio = styled.div`
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  input {
+    width: 50px;
+    height: 28px;
+    border: none;
+  }
+`;
+
 export const ContainerCart = styled.div`
   width: 100%;
-  height: 600px;
-  background-color: red;
+  height: 480px;
   max-width: 1200px;
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
 `;
 
 export const ContentCart = styled.ul`
-  width: 50%;
+  width: 49%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -54,8 +72,7 @@ export const ContentCart = styled.ul`
 
 export const ItemCart = styled.li`
   width: 100%;
-  min-height: 130px;
-  background-color: #ffffff;
+  min-height: 100px;
   border: 1px solid #c5c5c5;
   padding: 10px 30px;
   display: flex;
@@ -64,13 +81,15 @@ export const ItemCart = styled.li`
 `;
 
 export const SpaceImage = styled.div`
-  max-width: 80px;
+  width: 100px;
   max-height: 100%;
+  border-radius: 50%;
 
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width: 60%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 50%;
   }
 `;
 
@@ -100,22 +119,17 @@ export const ButtonAddCart = styled.button`
 `;
 
 export const ButtonRemove = styled.button`
-  width: 100%;
+  width: 40px;
   min-height: 30px;
   cursor: pointer;
   border-radius: 6px;
   border: none;
   background-color: red;
   color: #ffffff;
-  margin-top: 60px;
   font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  svg {
-    margin-right: 10px;
-  }
 `;
 
 export const ContentActionsItem = styled.div`
@@ -123,7 +137,84 @@ export const ContentActionsItem = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 `;
 
+export const ContentForm = styled.div`
+  width: 49%;
+  height: 100%;
+  border: 1px solid #c5c5c5;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 20px;
+`;
+
+export const HeaderForm = styled.header`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FormCart = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    padding: 0px 10px;
+  }
+`;
+
+export const Row = styled.div`
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  input,
+  select {
+    width: 98%;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    padding: 0px 10px;
+  }
+`;
+
+export const FooterForm = styled.footer`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+`;
+
+export const Submit = styled.button`
+  width: 120px;
+  height: 100%;
+  background-color: green;
+  border-radius: 6px;
+  border: none;
+  color: #ffffff;
+  opacity: ${(props) => (props.disabled ? "0.5" : "1")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+`;

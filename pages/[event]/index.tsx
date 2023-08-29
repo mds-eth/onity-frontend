@@ -10,8 +10,11 @@ import HTStin from '../../assets/img/ht-626-satin.jpg';
 import Serene from '../../assets/img/serene.jpg';
 import TrilliumRfid from '../../assets/img/trillium-rfid.jpg';
 
+import productsData from '../../data/products.json';
+
 import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from './styles';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { CartItem } from '../../@types/products-type';
 
 const HomeProductsEvent: NextPage = () => {
 
@@ -27,22 +30,14 @@ const HomeProductsEvent: NextPage = () => {
           <TitleEvent>Feira Equipotel - 10/09/2023 - 20/09/2023</TitleEvent>
           <SubTitle>Explore uma variedade de modelos de maçanetas e acabamentos para personalizar o estilo de fechadura Serene™.</SubTitle>
           <ContentProducts>
-            <ProductItem onClick={() => router.push(`${event}/advance-trillium`)}>
-              <Image src={AdvanceTrillium} alt="image" layout='responsive' />
-              <NameProduct>Advance Trillium</NameProduct>
-            </ProductItem>
-            <ProductItem onClick={() => router.push(`${event}/ht-stin`)}>
-              <Image src={HTStin} alt="image" layout='responsive' />
-              <NameProduct>HT Stin</NameProduct>
-            </ProductItem>
-            <ProductItem onClick={() => router.push(`${event}/serene`)}>
-              <Image src={Serene} alt="image" layout='responsive' />
-              <NameProduct>Serene</NameProduct>
-            </ProductItem>
-            <ProductItem onClick={() => router.push(`${event}/trillium-rfid`)}>
-              <Image src={TrilliumRfid} alt="image" layout='responsive' />
-              <NameProduct>Trillium RFID</NameProduct>
-            </ProductItem>
+            {productsData.map((product: CartItem) => {
+              return (
+                <ProductItem key={product.id} onClick={() => router.push(`${event}/advance-trillium`)}>
+                  <Image src={AdvanceTrillium} alt="image" layout='responsive' />
+                  <NameProduct>{product.title}</NameProduct>
+                </ProductItem>
+              )
+            })}
           </ContentProducts>
         </ContentHomeProducts>
       </Container>

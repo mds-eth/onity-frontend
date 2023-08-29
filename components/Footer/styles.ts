@@ -15,9 +15,11 @@ export const Container = styled.footer`
 export const Copy = styled.p`
   font-weight: 600;
   color: #FFFFFF;
+  font-size: 14px;
 `
 
 export const AlertPrivate = styled.a`
   font-weight: 600;
   color: #FFFFFF;
+  font-size: 14px;
 `;
