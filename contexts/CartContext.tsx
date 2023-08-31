@@ -97,9 +97,12 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   };
 
+  const calculateTotalQuantity = (cartItems: CartItem[]) => {
+    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  };
 
   const contextValue: CartContextType = {
-    countCart: cart.length,
+    countCart: calculateTotalQuantity(cart),
     totalPrice,
     cart,
     addToCart,
