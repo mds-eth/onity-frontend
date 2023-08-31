@@ -41,9 +41,9 @@ export const ContentProducts = styled.div`
 `;
 
 export const ProductItem = styled.div`
-  width: 320px;
+  width: 220px;
   max-width: 30%;
-  height: 320px;
+  height: 220px;
   background-color: #f3f3f3;
   margin: 20px 20px;
   display: flex;

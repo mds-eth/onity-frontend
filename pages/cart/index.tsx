@@ -2,6 +2,12 @@ import type { NextPage } from 'next'
 
 import Image from 'next/image';
 
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+import InputMask from 'react-input-mask';
+
 import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
 import { BsFillTrashFill } from "react-icons/bs";
@@ -10,30 +16,68 @@ import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterFor
 import { useRouter } from 'next/router';
 
 import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
-import { NameProduct } from '../[event]/styles';
 import { useCart } from '../../contexts/CartContext';
 import { CartItem } from '../../@types/products-type';
+import { formatCoinBR } from '../../utils/Utils';
+import { useEffect, useState } from 'react';
+import CustomToast from '../../components/Toast';
+
+interface FormValues {
+  hotel: string;
+  name: string;
+  email: string;
+  phone: string;
+  state: string;
+  cnpj: string;
+  icms: string;
+}
 
 const CartUser: NextPage = () => {
 
   const router = useRouter();
+  const [visibleToast, setVisibleToast] = useState<boolean>(false);
 
-  const { cart, countCart, removeFromCart } = useCart();
-  console.log(countCart)
+  const { cart, countCart, totalPrice, removeFromCart, removeFromCartOneProduct, addToCart } = useCart();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const schema = yup.object().shape({
+    hotel: yup.string().required('Hotel name is required'),
+    name: yup.string().required('Name is required'),
+    email: yup.string().email('Invalid email').required('Email is required'),
+    phone: yup.string().required('Phone number is required'),
+    state: yup.string().required('State is required'),
+    cnpj: yup.string().required('CNPJ is required'),
+    icms: yup.string().required('ICMS option is required'),
+  });
 
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+  });
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      return setVisibleToast(true)
+    }
+    return setVisibleToast(false)
+  }, [errors])
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
 
     router.push('/success');
-  }
+  };
 
   return (
     <>
       <Header />
       <Container>
+        {visibleToast && (
+          <CustomToast type='error' message="Todos os campos são de preenchimento obrigatório" onClose={() => { }} />
+        )}
         <ContentHomeProducts>
-          <TitleEvent>Feira Equipotel - 10/09/2023 - 20/09/2023</TitleEvent>
+          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContainerCart>
             <ContentCart>
               {countCart > 0 ? (
@@ -44,8 +88,13 @@ const CartUser: NextPage = () => {
                         <Image src={AdvanceTrillium} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
-                        <NameProduct>{item.title}</NameProduct>
-                        <input type="number" min="0" />
+                        <span>{formatCoinBR(item.price)}</span>
+                        <span>{item.title}</span>
+                      </SpaceMeio>
+                      <SpaceMeio className='count'>
+                        <div className='less' onClick={() => removeFromCartOneProduct(item?.id)}>-</div>
+                        <div className='total'>{item?.quantity === null ? 1 : item?.quantity}</div>
+                        <div className='more' onClick={() => addToCart(item)}>+</div>
                       </SpaceMeio>
                       <ContentActionsItem>
                         <ButtonRemove onClick={() => removeFromCart(item.id)}>
@@ -63,33 +112,34 @@ const CartUser: NextPage = () => {
               <HeaderForm>
                 <span>Preencha os dados abaixo para solicitar orçamento.</span>
               </HeaderForm>
-              <FormCart onSubmit={handleSubmit}>
+              <FormCart onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="hotel">Hotel</label>
-                <input disabled={countCart === 0} type="text" name="hotel" id="hotel" />
+                <input {...register('hotel')} disabled={countCart === 0} type="text" name="hotel" id="hotel" className={errors.hotel && 'error'} />
 
-                <label htmlFor="nome">Nome</label>
-                <input disabled={countCart === 0} type="text" name="nome" id="nome" />
+                <label htmlFor="name">Nome</label>
+                <input {...register('name')} disabled={countCart === 0} type="text" name="name" id="name" className={errors.name && 'error'} />
 
                 <label htmlFor="email">Email</label>
-                <input disabled={countCart === 0} type="text" name="email" id="email" />
+                <input {...register('email')} disabled={countCart === 0} type="text" name="email" id="email" className={errors.email && 'error'} />
                 <Row>
                   <div>
                     <label htmlFor="phone">Celular</label>
-                    <input disabled={countCart === 0} type="text" name="phone" id="phone" />
+                    <InputMask  {...register('phone')} disabled={countCart === 0} mask="(99) 99999-9999" placeholder="(00) 00000-0000" name="phone" id="phone" className={errors.phone && 'error'} />
                   </div>
                   <div>
                     <label htmlFor="state">Estado</label>
-                    <input disabled={countCart === 0} type="text" name="state" id="state" />
+                    <input {...register('state')} disabled={countCart === 0} type="text" name="state" id="state" className={errors.state && 'error'} />
                   </div>
                 </Row>
                 <Row>
                   <div>
                     <label htmlFor="cnpj">CNPJ</label>
-                    <input disabled={countCart === 0} type="text" name="cnpj" id="cnpj" />
+                    <InputMask {...register('cnpj')} disabled={countCart === 0} mask="99.999.999/9999-99" placeholder="00.000.000/0000-00" name="cnpj" id="cnpj" className={errors.cnpj && 'error'} />
+
                   </div>
                   <div>
                     <label htmlFor="icms">Contribuinte ICMS?</label>
-                    <select id="icms" name="icms" disabled={countCart === 0}>
+                    <select {...register('icms')} id="icms" name="icms" disabled={countCart === 0} className={errors.icms && 'error'}>
                       <option value="null">Selecione</option>
                       <option value="1">SIM</option>
                       <option value="0">NAO</option>
@@ -97,14 +147,14 @@ const CartUser: NextPage = () => {
                   </div>
                 </Row>
                 <FooterForm>
-                  <span>Valor total: <b>R$ 2530,10</b></span>
+                  <span>Valor total: <b>{formatCoinBR(totalPrice)}</b></span>
                   <Submit type='submit' disabled={countCart === 0}>Enviar</Submit>
                 </FooterForm>
               </FormCart>
             </ContentForm>
           </ContainerCart>
         </ContentHomeProducts>
-      </Container>
+      </Container >
       <Footer />
     </>
   )

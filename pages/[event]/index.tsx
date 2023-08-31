@@ -6,9 +6,6 @@ import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
 
 import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
-import HTStin from '../../assets/img/ht-626-satin.jpg';
-import Serene from '../../assets/img/serene.jpg';
-import TrilliumRfid from '../../assets/img/trillium-rfid.jpg';
 
 import productsData from '../../data/products.json';
 
@@ -27,7 +24,7 @@ const HomeProductsEvent: NextPage = () => {
       <Header />
       <Container>
         <ContentHomeProducts>
-          <TitleEvent>Feira Equipotel - 10/09/2023 - 20/09/2023</TitleEvent>
+          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <SubTitle>Explore uma variedade de modelos de maçanetas e acabamentos para personalizar o estilo de fechadura Serene™.</SubTitle>
           <ContentProducts>
             {productsData.map((product: CartItem) => {

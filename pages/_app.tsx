@@ -4,7 +4,6 @@ import CartProvider from '../contexts/CartContext'
 import { parseCookies } from 'nookies';
 
 export default function App({ Component, pageProps, cart }: AppProps & { cart: any }) {
-
   return (
     <CartProvider>
       <GlobalStyles />

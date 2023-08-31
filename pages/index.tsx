@@ -39,54 +39,6 @@ const Home: NextPage = () => {
               </TextOffer>
             </ContentTextOffer>
           </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
-          <ContainerLi onClick={() => window.location.href = `/feira-equipotel`}>
-            <Image src={ImageEvent} alt="oi" width={120} height={120} />
-            <ContentTextOffer>
-              <TextOffer>
-                Feira Equipotel
-              </TextOffer>
-            </ContentTextOffer>
-          </ContainerLi>
         </ContainerListOffers>
       </Container>
       <Footer />

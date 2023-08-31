@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  height: calc(100vh - 120px);
   height: auto;
-  background-color: #DADADA;
+  background-color: #dadada;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +16,7 @@ export const ContentHomeProducts = styled.div`
   height: auto;
   display: flex;
   align-items: center;
-  background-color: #DADADA;
+  background-color: #dadada;
   flex-direction: column;
   margin-bottom: 120px;
 `;
@@ -46,8 +45,8 @@ export const ContentProducts = styled.ul`
 `;
 
 export const ProductItem = styled.li`
-  width: 320px;
-  height: 320px;
+  width: 160px;
+  height: 160px;
   background-color: #f3f3f3;
   margin: 20px 20px;
   display: flex;

@@ -20,7 +20,7 @@ const PageSuccess: NextPage = () => {
       <Header />
       <Container>
         <ContentSuccess>
-          <TitleEvent>Feira Equipotel - 10/09/2023 - 20/09/2023</TitleEvent>
+          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContentMessage>
             <AiFillCheckCircle />
             <p>Seu pedido foi criado com sucesso. Acompanhe seu e-mail para maiores informações.</p>
