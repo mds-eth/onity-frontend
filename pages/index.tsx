@@ -17,20 +17,24 @@ import {
 
 import ApiService from '../services/api.service';
 import { EventsType } from '../@types/events-type';
+import { useRouter } from 'next/router';
 
 interface HomeProps {
   events: EventsType[];
 }
 
 const Home: NextPage<HomeProps> = ({ events }) => {
+
+  const router = useRouter();
+
   return (
     <>
       <Header />
       <Container>
         <ContainerListOffers>
           {events?.map((event) => (
-            <ContainerLi key={event.id}>
-              <Image src={ImageEvent} alt="oi" width={120} height={120} />
+            <ContainerLi key={event.id} onClick={() => router.push(`/feira-equipotel`)}>
+              <Image src={ImageEvent} alt={`image-${event.id}`} width={120} height={120} />
               <ContentTextOffer>
                 <TextOffer>{event.event_name}</TextOffer>
               </ContentTextOffer>
@@ -54,11 +58,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
       props: { events },
     };
   } catch (error) {
-    console.error('Erro ao buscar eventos:', error);
 
     return {
       redirect: {
-        destination: '/erro',
+        destination: '/admin/dashboard',
         permanent: false,
       },
     };
