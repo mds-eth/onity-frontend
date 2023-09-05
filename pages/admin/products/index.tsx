@@ -1,5 +1,7 @@
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import React, { useState } from "react";
+
+import nookies from 'nookies';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
@@ -101,5 +103,27 @@ const Dashboard: NextPage = () => {
     </Container>
   );
 }
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { res } = ctx;
+
+  const user = nookies.get(ctx)['[@auth:user]'];
+
+  if (!user) {
+    res.writeHead(302, {
+      Location: '/admin/auth/login',
+      'Content-Type': 'text/html; charset=utf-8',
+    });
+    res.end();
+
+    return {
+      props: {},
+    };
+  }
+  return {
+    props: {},
+  };
+}
+
 
 export default Dashboard;

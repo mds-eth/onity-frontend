@@ -9,7 +9,7 @@ import { encryptionData } from '../utils/Utils';
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => void;
-  logout: () => void;
+  logout: (login: boolean) => void;
   nameUser: string;
   token: string;
 }
@@ -56,12 +56,12 @@ export const AuthProvider: React.FC<IAuthProps> = ({ isAuth, tokenSession, userN
     }
   };
 
-  const logout = () => {
+  const logout = (login: boolean) => {
     destroyCookie(undefined, '[@auth:user]', { path: '/', });
 
     setIsAuthenticated(false);
 
-    router.push('/auth/login');
+    if (!login) router.push('/auth/login');
   };
 
   return (

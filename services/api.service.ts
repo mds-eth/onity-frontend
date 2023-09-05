@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { parseCookies } from "nookies";
 import { decryptData } from "../utils/Utils";
 
@@ -52,6 +52,24 @@ class ApiService {
     headers?: Record<string, any>
   ) {
     return await this.axiosInstance.put<T>(url, data, { headers });
+  }
+
+  async putWithFile<T>(
+    url: string,
+    file: File,
+    headers?: Record<string, string>
+  ): Promise<AxiosResponse<T>> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const defaultHeaders = {
+      "Content-Type": "multipart/form-data",
+      ...headers,
+    };
+
+    return await this.axiosInstance.put<T>(url, formData, {
+      headers: defaultHeaders,
+    });
   }
 
   async delete<T>(url: string, headers?: Record<string, any>) {

@@ -1,5 +1,6 @@
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import React, { useState } from "react";
+import nookies from 'nookies';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
@@ -13,6 +14,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Navigation from "../../../components/Admin/Navigation";
+import { AppContext } from "next/app";
+import { ServerResponse } from "http";
 
 function createData(
   title: any,
@@ -100,6 +103,27 @@ const Dashboard: NextPage = () => {
       </ContainerOrderDashboard>
     </Container>
   );
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { res } = ctx;
+
+  const user = nookies.get(ctx)['[@auth:user]'];
+
+  if (!user) {
+    res.writeHead(302, {
+      Location: '/admin/auth/login',
+      'Content-Type': 'text/html; charset=utf-8',
+    });
+    res.end();
+
+    return {
+      props: {},
+    };
+  }
+  return {
+    props: {},
+  };
 }
 
 export default Dashboard;

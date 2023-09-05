@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 
@@ -10,6 +11,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Form, Input, Container, TitleForm } from "./styles";
 
 import { useAuth } from "../../../../contexts/AuthContext";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type FormData = {
   email: string;
@@ -18,11 +20,13 @@ type FormData = {
 
 const Login: NextPage = () => {
 
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   const router = useRouter();
 
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormData>();
+  useEffect(() => {
+    logout(true);
+  }, [])
 
   const schema = yup.object().shape({
     email: yup.string()
@@ -31,6 +35,10 @@ const Login: NextPage = () => {
     password: yup.string()
       .required('Este campo é obrigatório')
       .min(6, 'A senha deve ter pelo menos 6 caracteres'),
+  });
+
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -54,7 +62,7 @@ const Login: NextPage = () => {
           type="email"
           placeholder="Email"
           className={errors.email && 'border-errror'}
-          {...register("email", { required: "Este campo é obrigatório" })}
+          {...register("email")}
         />
         {errors.email && <span className="error">{errors.email.message}</span>}
         <Input
@@ -62,7 +70,7 @@ const Login: NextPage = () => {
           placeholder="Senha"
           className={errors.password && 'border-errror password'}
           style={{ marginTop: '15px' }}
-          {...register("password", { required: "Este campo é obrigatório" })}
+          {...register("password")}
         />
         {errors.password && <span className="error">{errors.password.message}</span>}
         <Button type="submit">Entrar</Button>
