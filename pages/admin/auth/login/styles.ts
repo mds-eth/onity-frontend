@@ -29,6 +29,18 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   position: relative;
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin: 0px;
+  }
+  .password {
+    margin-top: 10px;
+  }
+  .border-errror {
+    border: 1px solid red;
+  }
 `;
 
 export const TitleForm = styled.h1`
@@ -45,7 +57,6 @@ export const Input = styled.input`
   padding: 11px 13px;
   background: #f9f9fa;
   color: #f03d4e;
-  margin-bottom: 0.9rem;
   border-radius: 4px;
   outline: 0;
   border: 1px solid rgba(245, 245, 245, 0.7);

@@ -11,5 +11,6 @@ export const Container = styled.header`
 
   h1 {
     color: #ffffff;
+    font-size: 14px;
   }
 `;

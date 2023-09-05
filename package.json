@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
     "axios": "^1.5.0",
+    "crypto-js": "^4.1.1",
     "next": "13.4.13",
     "nookies": "^2.5.2",
     "react": "18.2.0",
@@ -26,6 +27,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.2",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",
     "@types/react-input-mask": "^3.0.2",

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios, { AxiosInstance } from "axios";
 import { parseCookies } from "nookies";
+import { decryptData } from "../utils/Utils";
 
 class ApiService {
   private readonly axiosInstance: AxiosInstance;
@@ -13,12 +14,16 @@ class ApiService {
     this.setupInterceptors();
   }
 
-  private setupInterceptors() {
-    this.axiosInstance.interceptors.request.use((config) => {
-      const cookies = parseCookies();
+  private async setupInterceptors() {
+    const cookies = parseCookies();
 
-      if (cookies["@token-client"]) {
-        config.headers.Authorization = `${cookies["@token-client"]}`;
+    const token = cookies["[@auth:user]"]
+      ? await decryptData(JSON.parse(cookies["[@auth:user]"]))
+      : false;
+
+    this.axiosInstance.interceptors.request.use((config) => {
+      if (token.access_token) {
+        config.headers.Authorization = `${token.access_token}`;
       }
 
       return config;
