@@ -8,6 +8,8 @@ import * as yup from 'yup';
 
 import InputMask from 'react-input-mask';
 
+import { toast } from 'react-toastify';
+
 import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
 import { BsFillTrashFill } from "react-icons/bs";
@@ -19,8 +21,7 @@ import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
 import { useCart } from '../../contexts/CartContext';
 import { CartItem } from '../../@types/products-type';
 import { formatCoinBR } from '../../utils/Utils';
-import { useEffect, useState } from 'react';
-import CustomToast from '../../components/Toast';
+import { useEffect } from 'react';
 
 interface FormValues {
   hotel: string;
@@ -35,7 +36,6 @@ interface FormValues {
 const CartUser: NextPage = () => {
 
   const router = useRouter();
-  const [visibleToast, setVisibleToast] = useState<boolean>(false);
 
   const { cart, countCart, totalPrice, removeFromCart, removeFromCartOneProduct, addToCart } = useCart();
 
@@ -59,9 +59,8 @@ const CartUser: NextPage = () => {
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
-      return setVisibleToast(true)
+      toast.error('Todos os campos são de preenchimento obrigatório.');
     }
-    return setVisibleToast(false)
   }, [errors])
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -73,9 +72,6 @@ const CartUser: NextPage = () => {
     <>
       <Header />
       <Container>
-        {visibleToast && (
-          <CustomToast type='error' message="Todos os campos são de preenchimento obrigatório" onClose={() => { }} />
-        )}
         <ContentHomeProducts>
           <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContainerCart>

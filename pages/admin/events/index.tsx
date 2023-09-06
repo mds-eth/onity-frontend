@@ -62,7 +62,6 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
                   <TableCell align="right">Status</TableCell>
                   <TableCell align="right">Cidade</TableCell>
                   <TableCell align="right">Estado</TableCell>
-                  <TableCell align="right">País</TableCell>
                   <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
@@ -75,7 +74,6 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
                     <TableCell align="right">{row.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                     <TableCell align="right">{row.city}</TableCell>
                     <TableCell align="right">{row.state}</TableCell>
-                    <TableCell align="right">{row.country}</TableCell>
                     <TableCell align="center">
                       <IconButton aria-label="Editar" onClick={handleEditClick}>
                         <EditIcon />

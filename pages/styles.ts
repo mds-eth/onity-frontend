@@ -2,93 +2,71 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  min-height: calc(100vh - 120px);
   height: auto;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 60px;
   background-color: #dadada;
-
-  #container-form {
-    background: none !important;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-export const ContainerListOffers = styled.ul`
+export const ContentHomeProducts = styled.div`
   width: 100%;
+  max-width: 1200px;
   min-height: 500px;
   height: auto;
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 0px 150px;
-  margin-bottom: 60px;
-
-  @media (max-width: 800px) {
-    padding: 0px 20px;
-  }
+  align-items: center;
+  background-color: #dadada;
+  flex-direction: column;
+  margin-bottom: 120px;
 `;
 
-export const ContainerNotContent = styled.div`
-  min-height: 200px;
+export const TitleEvent = styled.h2`
+  color: #b6a379;
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 30px;
+`;
+
+export const SubTitle = styled.p`
+  font-size: 18px;
+  color: black;
+  font-weight: 300;
+  margin-top: 20px;
+`;
+
+export const ContentProducts = styled.ul`
   width: 100%;
+  max-width: 1200px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  h1 {
-    font-size: 28px;
-    font-family: Estricta Bold, Arial, sans-serif;
-  }
+  flex-wrap: wrap;
 `;
 
-export const ContainerLi = styled.li`
-  width: 30%;
-  height: 320px;
-  margin-top: 20px;
+export const ProductItem = styled.li`
+  width: 160px;
+  height: 160px;
+  background-color: #f3f3f3;
+  margin: 20px 20px;
   display: flex;
-  flex-direction: column;
-  border: 1px solid #d8d8d8;
-  cursor: pointer;
-  border-radius: 6px;
-  justify-content: space-between;
   align-items: center;
-
-  @media (max-width: 800px) {
-    width: 100%;
-    max-height: 250px;
-  }
+  justify-content: space-between;
+  flex-direction: column;
+  border-radius: 12px;
+  cursor: pointer;
+  border-radius: 50%;
 
   img {
-    height: 100%;
+    border-radius: 50%;
     width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
 `;
 
-export const ContentTextOffer = styled.div`
-  width: 100%;
-  height: 80px;
-  background: #0a2d82;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ImageOffer = styled.img`
-  width: 100%;
-  height: 300px;
-  max-height: 300px;
-`;
-
-export const TextOffer = styled.h2`
-  font-size: 22px;
-  color: #ffffff;
-  font-family: Estricta Bold, Arial, sans-serif;
-  text-align: center;
-
-  @media (max-width: 800px) {
-    font-size: 16px;
-  }
+export const NameProduct = styled.h3`
+  font-size: 16px;
+  color: black;
+  margin-bottom: 20px;
 `;

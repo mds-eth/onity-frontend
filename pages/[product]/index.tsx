@@ -6,18 +6,18 @@ import { useRouter } from 'next/router';
 
 import { BsCartPlus } from "react-icons/bs";
 
-import { Header } from '../../../components/Header'
-import Footer from '../../../components/Footer'
+import { Header } from '../../components/Header'
+import Footer from '../../components/Footer'
 
-import AdvanceTrillium from '../../../assets/img/advance-trillium-rfid.jpg';
+import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
 
-import productsData from '../../../data/products.json';
+import productsData from '../../data/products.json';
 
 import { Container, ContentHomeProducts, TitleEvent, ContentProducts, ProductItem, PriceProduct, ContentDetailtProduct, ButtonAddCart, NameProduct, DescriptionProduct } from './styles';
-import { useCart } from '../../../contexts/CartContext';
+import { useCart } from '../../contexts/CartContext';
 import { useEffect, useState } from 'react';
-import { CartItem } from '../../../@types/products-type';
-import { formatCoinBR } from '../../../utils/Utils';
+import { CartItem } from '../../@types/products-type';
+import { formatCoinBR } from '../../utils/Utils';
 
 const ProductDetail: NextPage = () => {
 

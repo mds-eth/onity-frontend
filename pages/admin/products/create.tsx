@@ -33,7 +33,7 @@ const schema = yup.object().shape({
   end_date: yup.date().required('Data final é obrigatória'),
 });
 
-const CreateEvents: NextPage = () => {
+const CreateProducts: NextPage = () => {
 
   const router = useRouter();
 
@@ -54,7 +54,7 @@ const CreateEvents: NextPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6">Cadastrar evento</Typography>
+              <Typography variant="h6">Cadastrar produto</Typography>
             </Grid>
             <Grid item xs={6}>
               <Controller
@@ -174,4 +174,4 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   };
 }
 
-export default CreateEvents;
+export default CreateProducts;

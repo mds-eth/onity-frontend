@@ -1,29 +1,19 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage } from 'next'
 
 import Image from 'next/image';
 
-import ImageEvent from '../assets/img/image-event.png';
+import { Header } from '../components/Header'
+import Footer from '../components/Footer'
 
-import { Header } from '../components/Header';
-import Footer from '../components/Footer';
+import AdvanceTrillium from '../assets/img/advance-trillium-rfid.jpg';
 
-import {
-  Container,
-  ContainerListOffers,
-  ContainerLi,
-  ContentTextOffer,
-  TextOffer,
-} from './styles';
+import productsData from '../data/products.json';
 
-import ApiService from '../services/api.service';
-import { EventsType } from '../@types/events-type';
+import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from './styles';
 import { useRouter } from 'next/router';
+import { CartItem } from '../@types/products-type';
 
-interface HomeProps {
-  events: EventsType[];
-}
-
-const Home: NextPage<HomeProps> = ({ events }) => {
+const HomeProductsEvent: NextPage = () => {
 
   const router = useRouter();
 
@@ -31,41 +21,24 @@ const Home: NextPage<HomeProps> = ({ events }) => {
     <>
       <Header />
       <Container>
-        <ContainerListOffers>
-          {events?.map((event) => (
-            <ContainerLi key={event.id} onClick={() => router.push(`/feira-equipotel`)}>
-              <Image src={ImageEvent} alt={`image-${event.id}`} width={120} height={120} />
-              <ContentTextOffer>
-                <TextOffer>{event.event_name}</TextOffer>
-              </ContentTextOffer>
-            </ContainerLi>
-          ))}
-        </ContainerListOffers>
+        <ContentHomeProducts>
+          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
+          <SubTitle>Explore uma variedade de modelos de maçanetas e acabamentos para personalizar o estilo de fechadura Serene™.</SubTitle>
+          <ContentProducts>
+            {productsData.map((product: CartItem) => {
+              return (
+                <ProductItem key={product.id} onClick={() => router.push('/advance-trillium')}>
+                  <Image src={AdvanceTrillium} alt="image" layout='responsive' />
+                  <NameProduct>{product.title}</NameProduct>
+                </ProductItem>
+              )
+            })}
+          </ContentProducts>
+        </ContentHomeProducts>
       </Container>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-
-    const response = await ApiService.get('/events');
-
-    const events = response.data;
-
-    return {
-      props: { events },
-    };
-  } catch (error) {
-
-    return {
-      redirect: {
-        destination: '/admin/dashboard',
-        permanent: false,
-      },
-    };
-  }
-};
-
-export default Home;
+export default HomeProductsEvent

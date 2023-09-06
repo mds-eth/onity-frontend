@@ -1,7 +1,9 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React from "react";
 
 import nookies from 'nookies';
+
+import ApiService from '../../../services/api.service';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
@@ -15,46 +17,26 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Navigation from "../../../components/Admin/Navigation";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
-function createData(
-  title: any,
-  code_product: any,
-  type_product: any,
-  price_net: any,
-  ipi: any,
-  price_bruto: any,
-  quantity: any,
-  status: any,
-  file: any,
-) {
-  return { title, code_product, type_product, price_net, ipi, price_bruto, quantity, status, file };
+import { EventsType } from "../../../@types/events-type";
+import { Box } from "@mui/material";
+import { useRouter } from "next/router";
+
+interface IAdminOrders {
+  events: EventsType[];
 }
 
-const rows = [
-  createData('Titulo'),
-  createData('Titulo'),
-  createData('Titulo'),
-  createData('Titulo'),
-  createData('Titulo'),
-];
+const AdminOrders: NextPage<IAdminOrders> = ({ events }) => {
 
+  const router = useRouter();
 
+  const handleEditClick = () => { }
 
-const Dashboard: NextPage = () => {
-  const [dados, setDados] = useState({
-    email: "",
-    password: ""
-  });
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(dados);
-  };
-
-  const handleChange = (e: any) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setDados(Object.assign(dados, { [name]: value }));
-  };
+  const handleDeleteClick = () => { }
 
   return (
     <Container>
@@ -62,37 +44,35 @@ const Dashboard: NextPage = () => {
       <Navigation />
       <ContainerOrderDashboard>
         <ContentTable>
+          
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Titulo</TableCell>
-                  <TableCell align="right">Código produto</TableCell>
-                  <TableCell align="right">Tipo produto</TableCell>
-                  <TableCell align="right">Preço NET</TableCell>
-                  <TableCell align="right">IPI</TableCell>
-                  <TableCell align="right">Preço Bruto</TableCell>
-                  <TableCell align="right">Quantidade</TableCell>
+                  <TableCell>Evento</TableCell>
                   <TableCell align="right">Status</TableCell>
-                  <TableCell align="right">Imagem</TableCell>
-                  <TableCell align="right">Acoes</TableCell>
+                  <TableCell align="right">Cidade</TableCell>
+                  <TableCell align="right">Estado</TableCell>
+                  <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.title} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                {events.map((row) => (
+                  <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell component="th" scope="row">
-                      {row.title}
+                      {row.event_name}
                     </TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
+                    <TableCell align="right">{row.status === true ? 'Ativo' : 'Inativo'}</TableCell>
+                    <TableCell align="right">{row.city}</TableCell>
+                    <TableCell align="right">{row.state}</TableCell>
+                    <TableCell align="center">
+                      <IconButton aria-label="Editar" onClick={handleEditClick}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton aria-label="Excluir" onClick={handleDeleteClick}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -121,10 +101,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
+  const response = await ApiService.get('/users');
+
+  const events = response.data;
+
   return {
-    props: {},
+    props: { events },
   };
 }
 
-
-export default Dashboard;
+export default AdminOrders;

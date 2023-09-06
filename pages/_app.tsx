@@ -6,12 +6,17 @@ import { ServerResponse } from 'http';
 import nookies from 'nookies';
 import { decryptData } from '../utils/Utils';
 
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
 
-  if (pageProps.isAdminRoute) {
+  if (pageProps?.isAdminRoute) {
     return (
       <AuthProvider isAuth={pageProps.isAuth} userName={pageProps.user.user_name} tokenSession={pageProps.user.access_token}>
         <GlobalStyles />
+        <ToastContainer />
         <Component {...pageProps} />
       </AuthProvider>
     );
@@ -19,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <GlobalStyles />
+      <ToastContainer />
       <Component {...pageProps} />
     </CartProvider>
   );

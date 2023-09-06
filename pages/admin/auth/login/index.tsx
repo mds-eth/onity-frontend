@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
 import * as yup from 'yup';
+
+import { toast } from 'react-toastify';
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -47,35 +49,38 @@ const Login: NextPage = () => {
       const response: any = await login(data.email, data.password);
 
       if (response) {
-        router.push('/admin/dashboard');
+        return router.push('/admin/dashboard');
       }
+      return toast.error('Dados informados não localizados.');
     } catch (error) {
-      console.log(error);
+      return toast.error('Dados informados não localizados.');
     }
   };
 
   return (
-    <Container>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <TitleForm>Acesso administrativo</TitleForm>
-        <Input
-          type="email"
-          placeholder="Email"
-          className={errors.email && 'border-errror'}
-          {...register("email")}
-        />
-        {errors.email && <span className="error">{errors.email.message}</span>}
-        <Input
-          type="password"
-          placeholder="Senha"
-          className={errors.password && 'border-errror password'}
-          style={{ marginTop: '15px' }}
-          {...register("password")}
-        />
-        {errors.password && <span className="error">{errors.password.message}</span>}
-        <Button type="submit">Entrar</Button>
-      </Form>
-    </Container>
+    <>
+      <Container>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <TitleForm>Acesso administrativo</TitleForm>
+          <Input
+            type="email"
+            placeholder="Email"
+            className={errors.email && 'border-errror'}
+            {...register("email")}
+          />
+          {errors.email && <span className="error">{errors.email.message}</span>}
+          <Input
+            type="password"
+            placeholder="Senha"
+            className={errors.password && 'border-errror password'}
+            style={{ marginTop: '15px' }}
+            {...register("password")}
+          />
+          {errors.password && <span className="error">{errors.password.message}</span>}
+          <Button type="submit">Entrar</Button>
+        </Form>
+      </Container>
+    </>
   );
 }
 

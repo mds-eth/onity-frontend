@@ -13,25 +13,19 @@ export const Header: React.FC = () => {
 
   const router = useRouter();
 
-  const isHomePage = router.pathname === '/';
-
   const { countCart } = useCart();
 
   return (
     <Container>
       <Image onClick={() => router.push('/')} src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="Logo Onity" width={80} height={40} />
 
-      {!isHomePage && (
-        <>
-          <TextTopHeader>Feira Equipotel</TextTopHeader>
-          <SpaceCart onClick={() => router.push('/cart')}>
-            <AiOutlineShoppingCart />
-            {countCart > 0 && (
-              <div className="counter">{countCart}</div>
-            )}
-          </SpaceCart>
-        </>
-      )}
+      <TextTopHeader>Feira Equipotel</TextTopHeader>
+      <SpaceCart onClick={() => router.push('/cart')}>
+        <AiOutlineShoppingCart />
+        {countCart > 0 && (
+          <div className="counter">{countCart}</div>
+        )}
+      </SpaceCart>
     </Container>
   )
 }
