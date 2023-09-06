@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 
 import nookies from 'nookies';
 
@@ -25,6 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 interface IAdminEvents {
   events: EventsType[];
@@ -32,11 +33,52 @@ interface IAdminEvents {
 
 const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
 
+  const [eventList, setEventList] = useState(events);
+
   const router = useRouter();
 
   const handleEditClick = () => { }
 
-  const handleDeleteClick = () => { }
+  const openModalDelete = async (event: EventsType) => {
+
+    Swal.fire({
+      title: 'Atenção!',
+      text: `Deseja remover ${event.event_name}?`,
+      showCancelButton: true,
+      confirmButtonText: 'Remover',
+      cancelButtonAriaLabel: 'Cancelar',
+      icon: 'warning',
+      showCloseButton: true,
+      cancelButtonText: 'Fechar'
+    }).then(async function (result) {
+
+      if (result.isConfirmed) {
+
+        try {
+
+          const response = await ApiService.delete(`/events/${event.id}`);
+
+          if (response.status === 204) {
+            Swal.fire({
+              title: 'Sucesso!',
+              text: 'Registro removido com sucesso.',
+              icon: 'success',
+              confirmButtonText: 'Fechar'
+            }).then(function () {
+              setEventList(eventList.filter((e) => e.id !== event.id));
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            title: 'Atenção!',
+            text: String(error),
+            icon: 'warning',
+            confirmButtonText: 'Fechar'
+          });
+        }
+      }
+    });
+  }
 
   return (
     <Container>
@@ -54,42 +96,48 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
               Adicionar
             </IconButton>
           </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Evento</TableCell>
-                  <TableCell align="right">Status</TableCell>
-                  <TableCell align="right">Cidade</TableCell>
-                  <TableCell align="right">Estado</TableCell>
-                  <TableCell align="center">Ações</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {events.map((row) => (
-                  <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell component="th" scope="row">
-                      {row.event_name}
-                    </TableCell>
-                    <TableCell align="right">{row.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                    <TableCell align="right">{row.city}</TableCell>
-                    <TableCell align="right">{row.state}</TableCell>
-                    <TableCell align="center">
-                      <IconButton aria-label="Editar" onClick={handleEditClick}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton aria-label="Excluir" onClick={handleDeleteClick}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+          {eventList?.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="center">Evento</TableCell>
+                    <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">Cidade</TableCell>
+                    <TableCell align="center">Estado</TableCell>
+                    <TableCell align="center">Ações</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {eventList.map((event) => (
+                    <TableRow key={event.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {event.id}
+                      </TableCell>
+                      <TableCell align="center">{event.event_name}</TableCell>
+                      <TableCell align="center">{event.status === true ? 'Ativo' : 'Inativo'}</TableCell>
+                      <TableCell align="center">{event.city}</TableCell>
+                      <TableCell align="center">{event.state}</TableCell>
+                      <TableCell align="center">
+                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="Excluir" onClick={() => openModalDelete(event)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <h1>Nenhum evento cadastrado</h1>
+          )}
         </ContentTable>
       </ContainerOrderDashboard>
-    </Container>
+    </Container >
   );
 }
 

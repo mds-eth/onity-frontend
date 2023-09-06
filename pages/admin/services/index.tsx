@@ -26,25 +26,24 @@ import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { UsersType } from "../../../@types/users-type";
 
-interface IAdminUsers {
-  users: UsersType[];
+interface IAdminServices {
+  services: EventsType[];
 }
 
-const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
+const AdminServices: NextPage<IAdminServices> = ({ services }) => {
 
-  const [usersList, setUsersList] = useState(users);
+  const [eventList, setEventList] = useState(services);
 
   const router = useRouter();
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (event: UsersType) => {
+  const openModalDelete = async (event: EventsType) => {
 
     Swal.fire({
       title: 'Atenção!',
-      text: `Deseja remover ${event.name}?`,
+      text: `Deseja remover ${event.event_name}?`,
       showCancelButton: true,
       confirmButtonText: 'Remover',
       cancelButtonAriaLabel: 'Cancelar',
@@ -57,7 +56,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
 
         try {
 
-          const response = await ApiService.delete(`/users/${event.id}`);
+          const response = await ApiService.delete(`/services/${event.id}`);
 
           if (response.status === 204) {
             Swal.fire({
@@ -66,7 +65,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
               icon: 'success',
               confirmButtonText: 'Fechar'
             }).then(function () {
-              setUsersList(usersList.filter((e) => e.id !== event.id));
+              setEventList(eventList.filter((e) => e.id !== event.id));
             });
           }
         } catch (error) {
@@ -97,34 +96,32 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
               Adicionar
             </IconButton>
           </Box>
-          {usersList?.length > 0 ? (
+          {eventList?.length > 0 ? (
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell align="center">Nome</TableCell>
-                    <TableCell align="center">Email</TableCell>
-                    <TableCell align="center">Status</TableCell>
-                    <TableCell align="center">Criado em</TableCell>
+                    <TableCell>Evento</TableCell>
+                    <TableCell align="right">Status</TableCell>
+                    <TableCell align="right">Cidade</TableCell>
+                    <TableCell align="right">Estado</TableCell>
                     <TableCell align="center">Ações</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {usersList.map((user) => (
-                    <TableRow key={user.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {eventList.map((event) => (
+                    <TableRow key={event.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        {user.id}
+                        {event.event_name}
                       </TableCell>
-                      <TableCell align="center">{user.name}</TableCell>
-                      <TableCell align="center">{user.email}</TableCell>
-                      <TableCell align="center">{user.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                      <TableCell align="center">{user.email}</TableCell>
+                      <TableCell align="right">{event.status === true ? 'Ativo' : 'Inativo'}</TableCell>
+                      <TableCell align="right">{event.city}</TableCell>
+                      <TableCell align="right">{event.state}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={handleEditClick}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="Excluir" onClick={() => openModalDelete(user)}>
+                        <IconButton aria-label="Excluir" onClick={() => openModalDelete(event)}>
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
@@ -134,7 +131,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
               </Table>
             </TableContainer>
           ) : (
-            <h1>Nenhum usuário cadastrado</h1>
+            <h1>Nenhum serviço cadastrado</h1>
           )}
         </ContentTable>
       </ContainerOrderDashboard>
@@ -159,13 +156,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const response = await ApiService.get('/users');
+  const response = await ApiService.get('/events');
 
-  const users = response.data;
+  const events = response.data;
 
   return {
-    props: { users },
+    props: { events },
   };
 }
 
-export default AdminUsers;
+export default AdminServices;

@@ -45,11 +45,10 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
     };
   }
 
+  const user = nookies.get(ctx)['[@auth:user]'];
   const isAdminRoute = ctx.pathname.startsWith('/admin');
 
   if (isAdminRoute) {
-
-    const user = nookies.get(ctx)['[@auth:user]'];
 
     return {
       pageProps: {

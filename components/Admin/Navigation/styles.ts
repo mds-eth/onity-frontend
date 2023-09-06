@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ContainerOptions = styled.ul`
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 60px;
+  margin-top: 50px;
 
   li:nth-child(even) {
     margin: 0px 20px;

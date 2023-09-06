@@ -1,13 +1,14 @@
-export type CartItem = {
-  id: any;
+export type ProductType = {
+  id: number;
   title: string;
   product_code: string;
-  price: number;
-  main_product: boolean
+  type_product: string;
+  price_net: number;
+  price_gross: number;
+  factor: string;
+  ipi: number;
   status: boolean;
-  description: string;
   file_path: string;
-  create_at: string;
+  created_at: string;
   updated_at: string;
-  quantity: number;
 };

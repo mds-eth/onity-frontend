@@ -38,11 +38,6 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const calculateTotalPrice = (cartItems: CartItem[]) => {
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    setTotalPrice(total);
-  };
-
   const addToCart = (item: CartItem) => {
 
     const existingItem = cart.find(cartItem => cartItem.id === item.id);
@@ -99,6 +94,11 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const calculateTotalQuantity = (cartItems: CartItem[]) => {
     return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const calculateTotalPrice = (cartItems: CartItem[]) => {
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    setTotalPrice(total);
   };
 
   const contextValue: CartContextType = {

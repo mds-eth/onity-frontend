@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 
 import nookies from 'nookies';
 
@@ -22,21 +22,63 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import Swal, { SweetAlertResult } from "sweetalert2";
+import { ProductType } from "../../../@types/products-type";
 
 interface IAdminProducts {
-  events: EventsType[];
+  products: ProductType[]
 }
 
-const AdminProducts: NextPage<IAdminProducts> = ({ events }) => {
+const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
+
+  const [productsList, setProductsList] = useState(products);
 
   const router = useRouter();
 
   const handleEditClick = () => { }
 
-  const handleDeleteClick = () => { }
+  const openModalDelete = async (product: ProductType) => {
+
+    Swal.fire({
+      title: 'Atenção!',
+      text: `Deseja remover ${product.title}?`,
+      showCancelButton: true,
+      confirmButtonText: 'Remover',
+      cancelButtonAriaLabel: 'Cancelar',
+      icon: 'warning',
+      showCloseButton: true,
+      cancelButtonText: 'Fechar'
+    }).then(async function (result: SweetAlertResult) {
+
+      if (result.isConfirmed) {
+
+        try {
+
+          const response = await ApiService.delete(`/products/${product.id}`);
+
+          if (response.status === 204) {
+            Swal.fire({
+              title: 'Sucesso!',
+              text: 'Registro removido com sucesso.',
+              icon: 'success',
+              confirmButtonText: 'Fechar'
+            }).then(function () {
+              setProductsList(productsList.filter((e) => e.id !== product.id));
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            title: 'Atenção!',
+            text: 'Ocorreu algum erro ao tentar remover registro. Tente novamente.',
+            icon: 'warning',
+            confirmButtonText: 'Fechar'
+          });
+        }
+      }
+    });
+  }
 
   return (
     <Container>
@@ -54,42 +96,54 @@ const AdminProducts: NextPage<IAdminProducts> = ({ events }) => {
               Adicionar
             </IconButton>
           </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Evento</TableCell>
-                  <TableCell align="right">Status</TableCell>
-                  <TableCell align="right">Cidade</TableCell>
-                  <TableCell align="right">Estado</TableCell>
-                  <TableCell align="center">Ações</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {events.map((row) => (
-                  <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell component="th" scope="row">
-                      {row.event_name}
-                    </TableCell>
-                    <TableCell align="right">{row.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                    <TableCell align="right">{row.city}</TableCell>
-                    <TableCell align="right">{row.state}</TableCell>
-                    <TableCell align="center">
-                      <IconButton aria-label="Editar" onClick={handleEditClick}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton aria-label="Excluir" onClick={handleDeleteClick}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+          {productsList?.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="center">Title</TableCell>
+                    <TableCell align="center">Código produto</TableCell>
+                    <TableCell align="center">Tipo produto</TableCell>
+                    <TableCell align="center">Preço</TableCell>
+                    <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">IPI</TableCell>
+                    <TableCell align="center">Criado em</TableCell>
+                    <TableCell align="center">Ações</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {productsList.map((product) => (
+                    <TableRow key={product.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {product.id}
+                      </TableCell>
+                      <TableCell align="center">{product.title}</TableCell>
+                      <TableCell align="center">{product.product_code}</TableCell>
+                      <TableCell align="center">{product.type_product}</TableCell>
+                      <TableCell align="center">{product.price_net}</TableCell>
+                      <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
+                      <TableCell align="center">{product.ipi}</TableCell>
+                      <TableCell align="center">{product.created_at}</TableCell>
+                      <TableCell align="center">
+                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="Excluir" onClick={() => openModalDelete(product)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <h1>Nenhum produto cadastrado</h1>
+          )}
         </ContentTable>
       </ContainerOrderDashboard>
-    </Container>
+    </Container >
   );
 }
 
@@ -112,10 +166,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const response = await ApiService.get('/products');
 
-  const events = response.data;
+  const products = response.data;
 
   return {
-    props: { events },
+    props: { products },
   };
 }
 
