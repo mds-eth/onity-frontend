@@ -3,23 +3,23 @@ import React, { useState } from "react";
 
 import nookies from 'nookies';
 
-import ApiService from '../../../services/api.service';
+import ApiService from '../../../../services/api.service';
 
 import InputMask from 'react-input-mask';
 
 import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 
-import { HeaderAdmin } from "../../../components/Admin/Header";
+import { HeaderAdmin } from "../../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "./styles";
+import { Container, ContainerCreate } from "../styles";
 
-import Navigation from "../../../components/Admin/Navigation";
+import Navigation from "../../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
 
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Loader from "../../../components/Loader";
+import Loader from "../../../../components/Loader";
 import Swal from "sweetalert2";
 
 const schema = yup.object().shape({
@@ -39,13 +39,31 @@ interface IDataForm {
   status: boolean;
 }
 
-const CreateUsers: NextPage = () => {
+interface IPropsUserEdit {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  status: boolean;
+  first_access: boolean;
+  last_access: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface IUserProps {
+  user: IPropsUserEdit;
+}
+
+
+const EditUsers: NextPage<IUserProps> = (props) => {
 
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
 
   const { handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
+    defaultValues: props.user
   });
 
   const onSubmit = async (data: IDataForm) => {
@@ -54,13 +72,13 @@ const CreateUsers: NextPage = () => {
 
     try {
 
-      const response = await ApiService.post('/users', data);
+      const response = await ApiService.put(`/users/${props.user.id}`, data);
 
       setLoader(false);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         Swal.fire({
-          text: `Usuário criado com sucesso`,
+          text: `Usuário editado com sucesso`,
           showCancelButton: false,
           confirmButtonText: 'Fechar',
           icon: 'success',
@@ -87,7 +105,7 @@ const CreateUsers: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Cadastrar usuário</Typography>
+                <Typography variant="h6">Editar usuário</Typography>
               </Grid>
               <Grid item xs={6} style={{ marginTop: '20px' }}>
                 <Controller
@@ -149,11 +167,11 @@ const CreateUsers: NextPage = () => {
 
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { res } = ctx;
+  const { res, query } = ctx;
 
-  const user = nookies.get(ctx)['[@auth:user]'];
+  const userSession = nookies.get(ctx)['[@auth:user]'];
 
-  if (!user) {
+  if (!userSession) {
     res.writeHead(302, {
       Location: '/admin/auth/login',
       'Content-Type': 'text/html; charset=utf-8',
@@ -165,9 +183,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
+  const { id } = query;
+
+  const response = await ApiService.get(`/users/${id}`);
+
+  const user = response.data;
+
   return {
-    props: {},
+    props: { user },
   };
 }
 
-export default CreateUsers;
+export default EditUsers;

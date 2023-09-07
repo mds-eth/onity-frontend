@@ -122,7 +122,7 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
                       <TableCell align="center">{event?.state}</TableCell>
                       <TableCell align="center">{event?.created_at}</TableCell>
                       <TableCell align="center">
-                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                        <IconButton aria-label="Editar" onClick={() => router.push(`/admin/events/edit/${event.id}`)}>
                           <EditIcon />
                         </IconButton>
                         <IconButton aria-label="Excluir" onClick={() => openModalDelete(event)}>

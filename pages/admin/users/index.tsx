@@ -120,7 +120,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
                       <TableCell align="center">{user.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{user.email}</TableCell>
                       <TableCell align="center">
-                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                        <IconButton aria-label="Editar" onClick={() => router.push(`/admin/users/edit/${user.id}`)}>
                           <EditIcon />
                         </IconButton>
                         <IconButton aria-label="Excluir" onClick={() => openModalDelete(user)}>

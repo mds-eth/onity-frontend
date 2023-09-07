@@ -36,12 +36,12 @@ export const ContentTable = styled.div`
 
 export const ContainerCreate = styled.section`
   width: 100%;
-  height: 600px;
+  height: 450px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   margin-top: 60px;
-  padding: 20px 120px;
+  padding: 20px 20px;
   background-color: white;
   max-width: 1200px;
 `;
