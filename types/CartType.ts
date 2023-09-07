@@ -1,4 +1,4 @@
-export type CartType = {
+export interface ICart {
   id: any;
   title: string;
   product_code: string;
@@ -10,4 +10,4 @@ export type CartType = {
   create_at: string;
   updated_at: string;
   quantity: number;
-};
+}

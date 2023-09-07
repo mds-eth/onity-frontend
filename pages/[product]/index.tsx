@@ -16,13 +16,13 @@ import productsData from '../../data/products.json';
 import { Container, ContentHomeProducts, TitleEvent, ContentProducts, ProductItem, PriceProduct, ContentDetailtProduct, ButtonAddCart, NameProduct, DescriptionProduct } from './styles';
 import { useCart } from '../../contexts/CartContext';
 import { useEffect, useState } from 'react';
-import { CartItem } from '../../@types/products-type';
 import { formatCoinBR } from '../../utils/Utils';
+import { ICart } from '../../types/CartType';
 
 const ProductDetail: NextPage = () => {
 
   const router = useRouter();
-  const [product, setProduct] = useState<CartItem>();
+  const [product, setProduct] = useState<ICart>();
 
   useEffect(() => {
     setProduct(productsData[Math.floor(Math.random() * 10) + 1]);

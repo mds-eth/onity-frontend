@@ -25,10 +25,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { ServicesType } from "../../../@types/services-type";
+import { IServices } from "../../../types/ServiceType";
 
 interface IAdminServices {
-  services: ServicesType[];
+  services: IServices[];
 }
 
 const AdminServices: NextPage<IAdminServices> = ({ services }) => {
@@ -39,7 +39,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (service: ServicesType) => {
+  const openModalDelete = async (service: IServices) => {
 
     Swal.fire({
       title: 'Atenção!',

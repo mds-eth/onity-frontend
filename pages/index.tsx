@@ -11,7 +11,7 @@ import productsData from '../data/products.json';
 
 import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from './styles';
 import { useRouter } from 'next/router';
-import { CartItem } from '../@types/products-type';
+import { CartItem } from '../types/products-type';
 
 const HomeProductsEvent: NextPage = () => {
 

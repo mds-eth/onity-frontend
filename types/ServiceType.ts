@@ -1,4 +1,4 @@
-export type ServicesType = {
+export interface IServices {
   id: number;
   code: string;
   title: string;
@@ -8,4 +8,4 @@ export type ServicesType = {
   ipi: number;
   status: boolean;
   created_at: string;
-};
+}

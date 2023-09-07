@@ -19,9 +19,9 @@ import { useRouter } from 'next/router';
 
 import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
 import { useCart } from '../../contexts/CartContext';
-import { CartItem } from '../../@types/products-type';
 import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
+import { ICart } from '../../types/CartType';
 
 interface FormValues {
   hotel: string;
@@ -77,7 +77,7 @@ const CartUser: NextPage = () => {
           <ContainerCart>
             <ContentCart>
               {countCart > 0 ? (
-                cart?.map((item: CartItem) => {
+                cart?.map((item: ICart) => {
                   return (
                     <ItemCart key={item.id}>
                       <SpaceImage>

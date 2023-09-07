@@ -7,6 +7,20 @@ export const formatCoinBR = (date: any): string => {
   }).format(date);
 };
 
+export const formatDate = (inputDate: string): string => {
+  if (typeof window !== "undefined") {
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(new Date(inputDate));
+  }
+  return inputDate;
+};
+
 export const encryptionData = async (data: any) => {
   try {
     const encript: any = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;

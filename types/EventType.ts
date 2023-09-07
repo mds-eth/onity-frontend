@@ -1,4 +1,4 @@
-export type EventsType = {
+export interface IEvents {
   id: number;
   event_name: string;
   status: boolean;
@@ -7,6 +7,6 @@ export type EventsType = {
   state: string;
   init_date: Date;
   end_date: Date;
-  created_at: Date;
-  updated_at: Date;
-};
+  created_at: string;
+  updated_at: string;
+}

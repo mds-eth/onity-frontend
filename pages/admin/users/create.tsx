@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 
 import nookies from 'nookies';
 
@@ -19,31 +19,37 @@ import { useRouter } from "next/router";
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Loader from "../../../components/Loader";
 
 const schema = yup.object().shape({
-  event_name: yup.string().required('Nome do evento é obrigatório'),
-  status: yup
+  name: yup.string().required('O nome é obrigatório'),
+  email: yup
     .string()
-    .oneOf(['SIM', 'NAO'], 'Selecione uma opção válida')
-    .required('O campo Status é obrigatório'),
-  file: yup.mixed().required('Arquivo é obrigatório'),
-  city: yup.string().required('Cidade é obrigatória'),
-  state: yup.string().required('Estado é obrigatório'),
-  init_date: yup.date().required('Data inicial é obrigatória'),
-  end_date: yup.date().required('Data final é obrigatória'),
+    .email('O email deve ser um endereço de email válido')
+    .required('O email é obrigatório'),
+  phone: yup.string().matches(/^\d{11}$/, 'O número de telefone deve conter 11 dígitos').required('O número de telefone é obrigatório'),
+  status: yup.boolean().required('O status é obrigatório'),
 });
+
+interface IDataForm {
+  name: string;
+  email: string;
+  phone: string;
+  status: boolean;
+}
 
 const CreateUsers: NextPage = () => {
 
   const router = useRouter();
+  const [loader, setLoader] = useState<boolean>(false);
 
-  const { handleSubmit, control, formState: { errors }, register } = useForm({
+  const { handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    // Lógica para enviar os dados do formulário
-    console.log(data);
+  const onSubmit = (data: IDataForm) => {
+
+    setLoader(true);
   };
 
   return (
@@ -51,101 +57,67 @@ const CreateUsers: NextPage = () => {
       <HeaderAdmin />
       <Navigation />
       <ContainerCreate>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h6">Cadastrar usuário</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="event_name"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Nome do Evento" fullWidth error={!!errors.event_name} helperText={errors.event_name?.message} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.status}>
-                    <InputLabel>Status</InputLabel>
-                    <Select {...field}>
-                      <MenuItem value="SIM">SIM</MenuItem>
-                      <MenuItem value="NAO">NAO</MenuItem>
-                    </Select>
-                    {errors.status && <FormHelperText>{errors.status.message}</FormHelperText>}
-                  </FormControl>
-                )}
-              />
-            </Grid>
+        {loader ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6">Cadastrar usuário</Typography>
+              </Grid>
+              <Grid item xs={6} style={{ marginTop: '20px' }}>
+                <Controller
+                  name="name"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Nome" fullWidth error={!!errors.name} helperText={errors.name?.message} />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6} style={{ marginTop: '20px' }}>
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Email" fullWidth error={!!errors.email} helperText={errors.email?.message} />
+                  )}
+                />
+              </Grid>
 
-            <Grid item xs={6}>
-              <Controller
-                name="state"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Estado" fullWidth error={!!errors.state} helperText={errors.state?.message} />
-                )}
-              />
+              <Grid item xs={6}>
+                <Controller
+                  name="phone"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Contato" fullWidth error={!!errors.phone} helperText={errors.phone?.message} />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="status"
+                  control={control}
+                  defaultValue={false}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.status}>
+                      <InputLabel>STATUS</InputLabel>
+                      <Select {...field}>
+                        <MenuItem value="true">SIM</MenuItem>
+                        <MenuItem value="false">NÃO</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button type="submit" variant="contained" color="primary">Salvar</Button>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="city"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Cidade" fullWidth error={!!errors.city} helperText={errors.city?.message} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="init_date"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputMask  {...field} mask="99/99/9999" placeholder="10/10/2023" name="init_date" id="init_date" />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <InputMask  {...register('init_date')} mask="99/99/9999" placeholder="10/10/2023" name="init_date" id="init_date" />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="file"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="file"
-                    accept=".jpg, .jpeg, .png, .pdf" // Exemplo de tipos de arquivo permitidos
-                    style={{ display: 'none' }} // Oculta o campo de entrada padrão
-                  />
-                )}
-              />
-              <label htmlFor="file">
-                <Button variant="contained" component="span" fullWidth>
-                  Selecionar Arquivo
-                </Button>
-              </label>
-              {errors.file && (
-                <Typography variant="body2" color="error">
-                  {errors.file.message}
-                </Typography>
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">Salvar</Button>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        )}
       </ContainerCreate>
     </Container>
   );

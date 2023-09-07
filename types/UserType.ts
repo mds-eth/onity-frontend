@@ -1,4 +1,4 @@
-export type UsersType = {
+export interface IUsers {
   id: number;
   name: string;
   email: string;
@@ -8,4 +8,4 @@ export type UsersType = {
   last_access: string;
   created_at: Date;
   updated_at: Date;
-};
+}

@@ -22,13 +22,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { IEvents } from "../../../types/EventType";
 
 interface IAdminEvents {
-  events: EventsType[];
+  events: IEvents[];
 }
 
 const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
@@ -39,7 +39,7 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (event: EventsType) => {
+  const openModalDelete = async (event: IEvents) => {
 
     Swal.fire({
       title: 'Atenção!',
@@ -106,19 +106,21 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
                     <TableCell align="center">Status</TableCell>
                     <TableCell align="center">Cidade</TableCell>
                     <TableCell align="center">Estado</TableCell>
+                    <TableCell align="center">Criado em</TableCell>
                     <TableCell align="center">Ações</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {eventList.map((event) => (
-                    <TableRow key={event.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {eventList?.map((event) => (
+                    <TableRow key={event?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        {event.id}
+                        {event?.id}
                       </TableCell>
-                      <TableCell align="center">{event.event_name}</TableCell>
-                      <TableCell align="center">{event.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                      <TableCell align="center">{event.city}</TableCell>
-                      <TableCell align="center">{event.state}</TableCell>
+                      <TableCell align="center">{event?.event_name}</TableCell>
+                      <TableCell align="center">{event?.status === true ? 'Ativo' : 'Inativo'}</TableCell>
+                      <TableCell align="center">{event?.city}</TableCell>
+                      <TableCell align="center">{event?.state}</TableCell>
+                      <TableCell align="center">{event?.created_at}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={handleEditClick}>
                           <EditIcon />

@@ -22,14 +22,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { UsersType } from "../../../@types/users-type";
+import { IUsers } from "../../../types/UserType";
 
 interface IAdminUsers {
-  users: UsersType[];
+  users: IUsers[];
 }
 
 const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
@@ -40,7 +39,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (event: UsersType) => {
+  const openModalDelete = async (event: IUsers) => {
 
     Swal.fire({
       title: 'Atenção!',
@@ -91,7 +90,7 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
             <IconButton
               color="primary"
               aria-label="Adicionar"
-              onClick={() => router.push('/admin/events/create')}
+              onClick={() => router.push('/admin/users/create')}
             >
               <AddIcon />
               Adicionar

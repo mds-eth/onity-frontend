@@ -1,4 +1,4 @@
-export type ProductType = {
+export interface IProduct {
   id: number;
   title: string;
   product_code: string;
@@ -11,4 +11,4 @@ export type ProductType = {
   file_path: string;
   created_at: string;
   updated_at: string;
-};
+}

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { parseCookies, setCookie } from 'nookies';
-import { CartItem } from '../@types/products-type';
+import { CartItem } from '../types/products-type';
 
 type CartContextType = {
   countCart: number;

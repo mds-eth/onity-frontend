@@ -22,13 +22,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-import { EventsType } from "../../../@types/events-type";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { IEvents } from "../../../types/EventType";
 
 interface IAdminEvents {
-  events: EventsType[];
+  events: IEvents[];
 }
 
 const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
@@ -39,7 +39,7 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (event: EventsType) => {
+  const openModalDelete = async (event: IEvents) => {
 
     Swal.fire({
       title: 'Atenção!',

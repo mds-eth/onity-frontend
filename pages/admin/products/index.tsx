@@ -25,10 +25,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal, { SweetAlertResult } from "sweetalert2";
-import { ProductType } from "../../../@types/products-type";
+import { IProduct } from "../../../types/ProductType";
 
 interface IAdminProducts {
-  products: ProductType[]
+  products: IProduct[]
 }
 
 const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
@@ -39,7 +39,7 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
 
   const handleEditClick = () => { }
 
-  const openModalDelete = async (product: ProductType) => {
+  const openModalDelete = async (product: IProduct) => {
 
     Swal.fire({
       title: 'Atenção!',
