@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 
 import nookies from 'nookies';
 
+import InputMask from 'react-text-mask';
+
 import ApiService from '../../../services/api.service';
 
-import InputMask from 'react-input-mask';
-
-import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FilledInput } from '@mui/material';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
@@ -19,31 +19,108 @@ import { useRouter } from "next/router";
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Loader from "../../../components/Loader";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
-const schema = yup.object().shape({
-  event_name: yup.string().required('Nome do evento é obrigatório'),
-  status: yup
-    .string()
-    .oneOf(['SIM', 'NAO'], 'Selecione uma opção válida')
-    .required('O campo Status é obrigatório'),
-  file: yup.mixed().required('Arquivo é obrigatório'),
-  city: yup.string().required('Cidade é obrigatória'),
-  state: yup.string().required('Estado é obrigatório'),
-  init_date: yup.date().required('Data inicial é obrigatória'),
-  end_date: yup.date().required('Data final é obrigatória'),
-});
+interface IDataForm {
+  event_name: string;
+  status: boolean;
+  file: any;
+  city: string;
+  state: string;
+  init_date: string;
+  end_date: string;
+}
 
 const CreateServices: NextPage = () => {
 
   const router = useRouter();
+  const [loader, setLoader] = useState<boolean>(false);
 
-  const { handleSubmit, control, formState: { errors }, register } = useForm({
+  const schema = yup.object().shape({
+    event_name: yup.string().required('O nome do evento é obrigatório'),
+    status: yup.boolean().required('O status é obrigatório'),
+    file: yup
+      .mixed()
+      .required("Imagem é obrigatória")
+      .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
+        if (value.length === 0) return false;
+
+        return !value || (value[0]?.size <= 2000000);
+      })
+      .test("type", "Apenas estes formatos são aceitos: .jpeg, .jpg, .gif", (value: any) => {
+        return !value || (
+          value[0]?.type === "image/jpeg" ||
+          value[0]?.type === "image/jpg" ||
+          value[0]?.type === "image/png" ||
+          value[0]?.type === 'application/gif'
+        );
+      }),
+    city: yup.string().required('A cidade é obrigatória'),
+    state: yup.string().required('O estado é obrigatório'),
+    init_date: yup
+      .string()
+      .test('is-date', 'A data de início é inválida. Formato correto: DD/MM/AAAA', (value) => {
+        if (!value) return true;
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        if (!regex.test(value)) return false;
+        const [, day, month, year]: any = regex.exec(value);
+        const date = new Date(`${year}-${month}-${day}`);
+        return !isNaN(date.getTime());
+      })
+      .required('A data de início é obrigatória'),
+    end_date: yup
+      .string()
+      .test('is-date', 'A data de término é inválida. Formato correto: DD/MM/YYYY', (value) => {
+        if (!value) return true;
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        if (!regex.test(value)) return false;
+        const [, day, month, year]: any = regex.exec(value);
+        const date = new Date(`${year}-${month}-${day}`);
+        return !isNaN(date.getTime());
+      })
+      .required('A data de término é obrigatória'),
+  });
+
+  const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    // Lógica para enviar os dados do formulário
-    console.log(data);
+  const onSubmit = async (data: IDataForm) => {
+
+    setLoader(true);
+
+    try {
+
+      const formData = new FormData();
+      formData.append('event_name', data.event_name);
+      formData.append('status', String(data.status));
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('init_date', data.init_date);
+      formData.append('end_date', data.end_date);
+      formData.append('file', data.file[0]);
+
+      const response = await ApiService.postWithFile('/events', formData);
+
+      setLoader(false);
+
+      if (response.status === 201) {
+        Swal.fire({
+          text: `Evento criado com sucesso`,
+          showCancelButton: false,
+          confirmButtonText: 'Fechar',
+          icon: 'success',
+          showCloseButton: true,
+          cancelButtonText: 'Fechar'
+        }).then(async function (result: SweetAlertResult) {
+          router.push('/admin/events');
+        });
+      }
+
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   return (
@@ -51,103 +128,101 @@ const CreateServices: NextPage = () => {
       <HeaderAdmin />
       <Navigation />
       <ContainerCreate>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h6">Cadastrar serviço</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="event_name"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Nome do Evento" fullWidth error={!!errors.event_name} helperText={errors.event_name?.message} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.status}>
-                    <InputLabel>Status</InputLabel>
-                    <Select {...field}>
-                      <MenuItem value="SIM">SIM</MenuItem>
-                      <MenuItem value="NAO">NAO</MenuItem>
-                    </Select>
-                    {errors.status && <FormHelperText>{errors.status.message}</FormHelperText>}
-                  </FormControl>
-                )}
-              />
-            </Grid>
+        {loader ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6">Cadastrar serviço</Typography>
+              </Grid>
+              <Grid item xs={6} style={{ marginTop: '20px' }}>
+                <Controller
+                  name="event_name"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Nome" fullWidth error={!!errors.event_name} helperText={errors.event_name?.message} />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6} style={{ marginTop: '20px' }}>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.status}>
+                      <InputLabel>Ativo</InputLabel>
+                      <Select {...field}>
+                        <MenuItem value="true">SIM</MenuItem>
+                        <MenuItem value="false">NÃO</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
 
-            <Grid item xs={6}>
-              <Controller
-                name="state"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Estado" fullWidth error={!!errors.state} helperText={errors.state?.message} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="city"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField {...field} label="Cidade" fullWidth error={!!errors.city} helperText={errors.city?.message} />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="init_date"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputMask  {...field} mask="99/99/9999" placeholder="10/10/2023" name="init_date" id="init_date" />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <InputMask  {...register('init_date')} mask="99/99/9999" placeholder="10/10/2023" name="init_date" id="init_date" />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="file"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="file"
-                    accept=".jpg, .jpeg, .png, .pdf" // Exemplo de tipos de arquivo permitidos
-                    style={{ display: 'none' }} // Oculta o campo de entrada padrão
-                  />
-                )}
-              />
-              <label htmlFor="file">
-                <Button variant="contained" component="span" fullWidth>
-                  Selecionar Arquivo
-                </Button>
-              </label>
-              {errors.file && (
+                />
                 <Typography variant="body2" color="error">
-                  {errors.file.message}
+                  {errors?.status?.message}
                 </Typography>
-              )}
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="city"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Cidade" fullWidth error={!!errors.city} helperText={errors.city?.message} />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="state"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField {...field} label="Estado" fullWidth error={!!errors.state} helperText={errors.state?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="init_date"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField {...field} label="Data início" fullWidth error={!!errors.init_date} helperText={errors.init_date?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="end_date"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField {...field} label="Data fim" fullWidth error={!!errors.end_date} helperText={errors.end_date?.message} />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <input
+                  type="file"
+                  accept=".jpeg, .jpg, .png, .gif"
+                  {...register('file')}
+                />
+                <Typography variant="body2" color="error">
+                  {errors?.file?.message}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Button type="submit" variant="contained" color="primary">Salvar</Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">Salvar</Button>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        )}
       </ContainerCreate>
-    </Container>
+    </Container >
   );
 }
 

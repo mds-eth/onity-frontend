@@ -26,14 +26,13 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { IEvents } from "../../../types/EventType";
+import { IOrders } from "../../../types/OrderType";
 
-interface IAdminEvents {
-  events: IEvents[];
+interface IAdminOrders {
+  orders: IOrders[];
 }
 
-const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
-
-  const [eventList, setEventList] = useState(events);
+const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
 
   const router = useRouter();
 
@@ -64,9 +63,7 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
               text: 'Registro removido com sucesso.',
               icon: 'success',
               confirmButtonText: 'Fechar'
-            }).then(function () {
-              setEventList(eventList.filter((e) => e.id !== event.id));
-            });
+            })
           }
         } catch (error) {
           Swal.fire({
@@ -86,42 +83,38 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
       <Navigation />
       <ContainerOrderDashboard>
         <ContentTable>
-          <Box display="flex" justifyContent="flex-end" mb={2}>
-            <IconButton
-              color="primary"
-              aria-label="Adicionar"
-              onClick={() => router.push('/admin/events/create')}
-            >
-              <AddIcon />
-              Adicionar
-            </IconButton>
-          </Box>
-          {eventList?.length > 0 ? (
+          {orders?.length > 0 ? (
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Evento</TableCell>
-                    <TableCell align="right">Status</TableCell>
-                    <TableCell align="right">Cidade</TableCell>
-                    <TableCell align="right">Estado</TableCell>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="center">Hotel</TableCell>
+                    <TableCell align="center">Nome cliente</TableCell>
+                    <TableCell align="center">Email</TableCell>
+                    <TableCell align="center">Celular</TableCell>
+                    <TableCell align="center">Estado</TableCell>
+                    <TableCell align="center">CNPJ</TableCell>
+                    <TableCell align="center">ICMS</TableCell>
                     <TableCell align="center">Ações</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {eventList.map((event) => (
-                    <TableRow key={event.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                      <TableCell component="th" scope="row">
-                        {event.event_name}
-                      </TableCell>
-                      <TableCell align="right">{event.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                      <TableCell align="right">{event.city}</TableCell>
-                      <TableCell align="right">{event.state}</TableCell>
+                  {orders.map((order) => (
+                    <TableRow key={order.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">{order.id}</TableCell>
+                      <TableCell align="center">{order.hotel}</TableCell>
+                      <TableCell align="center">{order.name}</TableCell>
+                      <TableCell align="center">{order.email}</TableCell>
+                      <TableCell align="center">{order.phone}</TableCell>
+                      <TableCell align="center">{order.state}</TableCell>
+                      <TableCell align="center">{order.cnpj}</TableCell>
+                      <TableCell align="center">{order.icms ? 'SIM' : 'NAO'}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={handleEditClick}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="Excluir" onClick={() => openModalDelete(event)}>
+                        <IconButton aria-label="Excluir">
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
@@ -131,7 +124,7 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
               </Table>
             </TableContainer>
           ) : (
-            <h1>Nenhum evento cadastrado</h1>
+            <h1>Nenhum pedido localizado</h1>
           )}
         </ContentTable>
       </ContainerOrderDashboard>
@@ -156,12 +149,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const response = await ApiService.get('/events');
+  const response = await ApiService.get('/orders');
 
-  const events = response.data;
+  const orders = response.data;
 
   return {
-    props: { events },
+    props: { orders },
   };
 }
 

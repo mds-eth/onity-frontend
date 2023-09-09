@@ -8,6 +8,8 @@ import * as yup from 'yup';
 
 import InputMask from 'react-input-mask';
 
+import ApiService from '../../services/api.service';
+
 import { toast } from 'react-toastify';
 
 import { Header } from '../../components/Header'
@@ -21,8 +23,8 @@ import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
 import { useCart } from '../../contexts/CartContext';
 import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
-import { ICart } from '../../types/CartType';
 import { IProduct } from '../../types/ProductType';
+import Swal from 'sweetalert2';
 
 interface FormValues {
   hotel: string;
@@ -32,13 +34,15 @@ interface FormValues {
   state: string;
   cnpj: string;
   icms: string;
+  orders?: IProduct[];
 }
 
 const CartUser: NextPage = () => {
 
   const router = useRouter();
 
-  const { cart, countCart, totalPrice, removeFromCart, removeFromCartOneProduct, addToCart } = useCart();
+  const { cart, countCart, totalPrice, removeFromCart, removeFromCartOneProduct, addToCart, setCart } = useCart();
+
   const schema = yup.object().shape({
     hotel: yup.string().required('Hotel name is required'),
     name: yup.string().required('Name is required'),
@@ -63,9 +67,51 @@ const CartUser: NextPage = () => {
     }
   }, [errors])
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
 
-    router.push('/success');
+    try {
+
+      if (countCart === 0) {
+        return Swal.fire({
+          text: `É necessário selecionar ao menos um produto para realizar pedido.`,
+          showCancelButton: false,
+          confirmButtonText: 'Fechar',
+          icon: 'error',
+          showCloseButton: true,
+          cancelButtonText: 'Fechar'
+        })
+      }
+
+      data.orders = cart;
+
+      const response = await ApiService.post('/orders', data);
+
+      if (response.status === 201) {
+        Swal.fire({
+          text: `Pedido criado com sucesso`,
+          showCancelButton: false,
+          confirmButtonText: 'Fechar',
+          icon: 'success',
+          showCloseButton: true,
+          cancelButtonText: 'Fechar'
+        }).then(async function (result) {
+
+          setCart([]);
+
+          router.push('/success');
+        });
+      }
+
+    } catch (error) {
+      Swal.fire({
+        text: `Ocorreu algum erro ao realizar seu pedido. Tente novamente`,
+        showCancelButton: false,
+        confirmButtonText: 'Fechar',
+        icon: 'error',
+        showCloseButton: true,
+        cancelButtonText: 'Fechar'
+      })
+    }
   };
 
   return (

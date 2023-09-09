@@ -10,6 +10,7 @@ export const Container = styled.section`
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+  
 `;
 
 export const ContainerOrderDashboard = styled.section`
@@ -19,12 +20,14 @@ export const ContainerOrderDashboard = styled.section`
   align-items: center;
   justify-content: center;
   margin-top: 60px;
+  
 `;
 
 export const ContentTable = styled.div`
-  width: 1200px;
-  max-width: 1200px;
+  width: 100%;
   height: 100%;
+  padding: 0px 20px;
+  max-width: 1800px;
 
   h1 {
     color: white;

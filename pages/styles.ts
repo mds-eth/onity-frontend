@@ -10,6 +10,7 @@ export const Container = styled.section`
 
   @media (max-width: 880px) {
     padding: 0px 20px;
+    height: auto;
   }
 `;
 
@@ -21,7 +22,11 @@ export const ContentHomeProducts = styled.div`
   background-color: #dadada;
   flex-direction: column;
   margin-bottom: 60px;
-  overflow: auto;
+ 
+
+  @media (max-width: 880px) {
+    overflow: none;
+  }
 `;
 
 export const TitleEvent = styled.h2`
@@ -72,6 +77,11 @@ export const ProductItem = styled.li`
     width: 100%;
     max-height: 100%;
     object-fit: contain;
+  }
+
+  @media (max-width: 660px) {
+    width: 120px;
+    height: 120px;
   }
 `;
 

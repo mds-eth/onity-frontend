@@ -22,8 +22,9 @@ export const ContainerOrderDashboard = styled.section`
 `;
 
 export const ContentTable = styled.div`
-  width: 1200px;
-  max-width: 1200px;
+  width: 100%;
+  padding: 0px 20px;
+  max-width: 1800px;
   height: 100%;
 
   h1 {

@@ -10,6 +10,7 @@ export const Container = styled.section`
 
   @media (max-width: 880px) {
     padding: 0px 20px;
+    height: auto;
   }
 `;
 
@@ -43,7 +44,7 @@ export const SubTitle = styled.p`
 export const SpaceMeio = styled.div`
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   justify-content: center;
   justify-self: start;
@@ -93,6 +94,7 @@ export const ContainerCart = styled.div`
 
   @media (max-width: 880px) {
     flex-direction: column;
+    height: auto;
   }
 `;
 
@@ -139,6 +141,10 @@ export const SpaceImage = styled.div`
     height: 60%;
     object-fit: cover;
     border-radius: 50%;
+  }
+
+  @media (max-width: 880px) {
+    width: 80px;
   }
 `;
 
@@ -189,6 +195,10 @@ export const ContentActionsItem = styled.div`
   justify-content: center;
   align-items: center;
   justify-self: end;
+
+  @media (max-width: 880px) {
+    width: 100px;
+  }
 `;
 
 export const ContentForm = styled.div`
@@ -202,6 +212,7 @@ export const ContentForm = styled.div`
 
   @media (max-width: 880px) {
     width: 100%;
+    margin-bottom: 60px;
   }
 `;
 

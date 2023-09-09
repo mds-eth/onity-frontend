@@ -6,6 +6,7 @@ type CartContextType = {
   countCart: number;
   cart: IProduct[];
   totalPrice: number;
+  setCart: (cart: any) => void;
   addToCart: (item: IProduct) => void;
   removeFromCart: (itemId: string) => void;
   removeFromCartOneProduct: (itemId: string) => void;
@@ -105,6 +106,7 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     countCart: calculateTotalQuantity(cart),
     totalPrice,
     cart,
+    setCart,
     addToCart,
     removeFromCart,
     removeFromCartOneProduct,

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { GetServerSidePropsContext, NextPage } from "next";
 import React, { useState } from "react";
 
@@ -28,8 +29,8 @@ interface IDataForm {
   file: string;
   city: string;
   state: string;
-  init_date: Date;
-  end_date: Date;
+  init_date: string;
+  end_date: string;
 }
 
 interface IPropsUserEdit {
@@ -39,8 +40,8 @@ interface IPropsUserEdit {
   file_path: string;
   city: string;
   state: string;
-  init_date: Date;
-  end_date: Date;
+  init_date: string;
+  end_date: string;
   created_at: string;
   updated_at: string;
 }
@@ -53,18 +54,22 @@ const EditEvents: NextPage<IUserProps> = (props) => {
 
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState(props.event.file_path);
+
+  const [editFile, setEditFile] = useState<boolean>(false);
 
   const schema = yup.object().shape({
     event_name: yup.string().required('O nome do evento é obrigatório'),
     status: yup.boolean().required('O status é obrigatório'),
     file: yup
       .mixed()
-      .required("Imagem é obrigatório")
+      .required("Imagem é obrigatória")
       .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
-        return value && value[0]?.size <= 2000000;
+        if (value.length === 0) return false;
+        return !value || (value[0]?.size <= 2000000);
       })
       .test("type", "Apenas estes formatos são aceitos: .jpeg, .jpg, .gif", (value: any) => {
-        return value && (
+        return !value || (
           value[0]?.type === "image/jpeg" ||
           value[0]?.type === "image/jpg" ||
           value[0]?.type === "image/png" ||
@@ -74,12 +79,26 @@ const EditEvents: NextPage<IUserProps> = (props) => {
     city: yup.string().required('A cidade é obrigatória'),
     state: yup.string().required('O estado é obrigatório'),
     init_date: yup
-      .date()
-      .typeError('A data de início é inválida')
+      .string()
+      .test('is-date', 'A data de início é inválida. Formato correto: DD/MM/AAAA', (value) => {
+        if (!value) return true;
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        if (!regex.test(value)) return false;
+        const [, day, month, year]: any = regex.exec(value);
+        const date = new Date(`${year}-${month}-${day}`);
+        return !isNaN(date.getTime());
+      })
       .required('A data de início é obrigatória'),
     end_date: yup
-      .date()
-      .typeError('A data de término é inválida')
+      .string()
+      .test('is-date', 'A data de término é inválida. Formato correto: DD/MM/YYYY', (value) => {
+        if (!value) return true;
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        if (!regex.test(value)) return false;
+        const [, day, month, year]: any = regex.exec(value);
+        const date = new Date(`${year}-${month}-${day}`);
+        return !isNaN(date.getTime());
+      })
       .required('A data de término é obrigatória'),
   });
 
@@ -87,6 +106,16 @@ const EditEvents: NextPage<IUserProps> = (props) => {
     resolver: yupResolver(schema),
     defaultValues: props.event
   });
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+      setEditFile(true);
+    }
+  };
 
   const onSubmit = async (data: IDataForm) => {
 
@@ -100,12 +129,12 @@ const EditEvents: NextPage<IUserProps> = (props) => {
       formData.append('status', String(data.status));
       formData.append('city', data.city);
       formData.append('state', data.state);
-      formData.append('init_date', data.init_date.toISOString());
-      formData.append('end_date', data.end_date.toISOString());
+      formData.append('init_date', data.init_date);
+      formData.append('end_date', data.end_date);
       formData.append('file', data.file[0]);
+      formData.append('file_change', String(editFile));
 
       const response = await ApiService.putWithFile(`/events/${props.event.id}`, formData);
-
 
       setLoader(false);
 
@@ -211,7 +240,13 @@ const EditEvents: NextPage<IUserProps> = (props) => {
                   type="file"
                   accept=".jpeg, .jpg, .png, .gif"
                   {...register('file')}
+                  onChange={handleFileChange}
                 />
+                {editFile ? (
+                  <img src={selectedImage} alt="imagem front" width={100} height={100} />
+                ) : (
+                  <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${props.event.file_path}`} alt="imagem evento" width={100} height={100} />
+                )}
                 <Typography variant="body2" color="error">
                   {errors?.file?.message}
                 </Typography>
