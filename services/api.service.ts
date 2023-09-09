@@ -54,20 +54,32 @@ class ApiService {
     return await this.axiosInstance.put<T>(url, data, { headers });
   }
 
-  async putWithFile<T>(
+  async postWithFile<T>(
     url: string,
-    file: File,
+    data?: Record<string, any>,
     headers?: Record<string, string>
   ): Promise<AxiosResponse<T>> {
-    const formData = new FormData();
-    formData.append("file", file);
-
     const defaultHeaders = {
       "Content-Type": "multipart/form-data",
       ...headers,
     };
 
-    return await this.axiosInstance.put<T>(url, formData, {
+    return await this.axiosInstance.post<T>(url, data, {
+      headers: defaultHeaders,
+    });
+  }
+
+  async putWithFile<T>(
+    url: string,
+    data?: Record<string, any>,
+    headers?: Record<string, string>
+  ): Promise<AxiosResponse<T>> {
+    const defaultHeaders = {
+      "Content-Type": "multipart/form-data",
+      ...headers,
+    };
+
+    return await this.axiosInstance.put<T>(url, data, {
       headers: defaultHeaders,
     });
   }

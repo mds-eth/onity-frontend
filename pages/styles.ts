@@ -7,6 +7,10 @@ export const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 880px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const ContentHomeProducts = styled.div`
@@ -26,12 +30,19 @@ export const TitleEvent = styled.h2`
   font-size: 36px;
   font-weight: 700;
   margin-top: 30px;
+
+  @media (max-width: 880px) {
+    font-size: 28px;
+    text-align: center;
+    line-height: 30px;
+  }
 `;
 
 export const SubTitle = styled.p`
   font-size: 18px;
   color: black;
   font-weight: 300;
+  text-align: center;
   margin-top: 20px;
 `;
 

@@ -3,9 +3,11 @@ import React, { useState } from "react";
 
 import nookies from 'nookies';
 
+import InputMask from 'react-text-mask';
+
 import ApiService from '../../../services/api.service';
 
-import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FilledInput } from '@mui/material';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
@@ -18,29 +20,7 @@ import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Loader from "../../../components/Loader";
-import Swal from "sweetalert2";
-
-const schema = yup.object().shape({
-  event_name: yup.string().required('O nome do evento é obrigatório'),
-  status: yup.boolean().required('O status é obrigatório'),
-  file: yup
-    .mixed()
-    .test('fileType', 'O arquivo deve ser uma imagem', (value: any) => {
-      if (!value) return false;
-      return value && value.type.includes('image');
-    })
-    .required('O arquivo é obrigatório'),
-  city: yup.string().required('A cidade é obrigatória'),
-  state: yup.string().required('O estado é obrigatório'),
-  init_date: yup
-    .date()
-    .typeError('A data de início é inválida')
-    .required('A data de início é obrigatória'),
-  end_date: yup
-    .date()
-    .typeError('A data de término é inválida')
-    .required('A data de término é obrigatória'),
-});
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 interface IDataForm {
   event_name: string;
@@ -57,7 +37,37 @@ const CreateEvents: NextPage = () => {
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
 
-  const { handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
+  const schema = yup.object().shape({
+    event_name: yup.string().required('O nome do evento é obrigatório'),
+    status: yup.boolean().required('O status é obrigatório'),
+    file: yup
+      .mixed()
+      .required("Imagem é obrigatório")
+      .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
+        console.log(value)
+        return value && value[0]?.size <= 2000000;
+      })
+      .test("type", "Apenas estes formatos são aceitos: .jpeg, .jpg, .gif", (value: any) => {
+        return value && (
+          value[0]?.type === "image/jpeg" ||
+          value[0]?.type === "image/jpg" ||
+          value[0]?.type === "image/png" ||
+          value[0]?.type === 'application/gif'
+        );
+      }),
+    city: yup.string().required('A cidade é obrigatória'),
+    state: yup.string().required('O estado é obrigatório'),
+    init_date: yup
+      .date()
+      .typeError('A data de início é inválida')
+      .required('A data de início é obrigatória'),
+    end_date: yup
+      .date()
+      .typeError('A data de término é inválida')
+      .required('A data de término é obrigatória'),
+  });
+
+  const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
   });
 
@@ -67,7 +77,17 @@ const CreateEvents: NextPage = () => {
 
     try {
 
-      const response = await ApiService.post('/events', data);
+      const formData = new FormData();
+      console.log(data)
+      formData.append('event_name', data.event_name);
+      formData.append('status', String(data.status));
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('init_date', data.init_date.toISOString());
+      formData.append('end_date', data.end_date.toISOString());
+      formData.append('file', data.file[0]);
+
+      const response = await ApiService.postWithFile('/events', formData);
 
       setLoader(false);
 
@@ -79,7 +99,7 @@ const CreateEvents: NextPage = () => {
           icon: 'success',
           showCloseButton: true,
           cancelButtonText: 'Fechar'
-        }).then(async function (result) {
+        }).then(async function (result: SweetAlertResult) {
           router.push('/admin/events');
         });
       }
@@ -153,7 +173,6 @@ const CreateEvents: NextPage = () => {
                 <Controller
                   name="init_date"
                   control={control}
-                  defaultValue={new Date()}
                   render={({ field }) => (
                     <TextField {...field} label="Data início" fullWidth error={!!errors.init_date} helperText={errors.init_date?.message} />
                   )}
@@ -164,13 +183,21 @@ const CreateEvents: NextPage = () => {
                 <Controller
                   name="end_date"
                   control={control}
-                  defaultValue={new Date()}
                   render={({ field }) => (
                     <TextField {...field} label="Data fim" fullWidth error={!!errors.end_date} helperText={errors.end_date?.message} />
                   )}
                 />
               </Grid>
-
+              <Grid item xs={12}>
+                <input
+                  type="file"
+                  accept=".jpeg, .jpg, .png, .gif"
+                  {...register('file')}
+                />
+                <Typography variant="body2" color="error">
+                  {errors?.file?.message}
+                </Typography>
+              </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">Salvar</Button>
               </Grid>
@@ -178,7 +205,7 @@ const CreateEvents: NextPage = () => {
           </form>
         )}
       </ContainerCreate>
-    </Container>
+    </Container >
   );
 }
 

@@ -7,6 +7,10 @@ export const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 880px) {
+    min-height: auto;
+  }
 `;
 
 export const ContentHomeProducts = styled.div`
@@ -22,6 +26,11 @@ export const TitleEvent = styled.h2`
   font-size: 36px;
   font-weight: 700;
   margin-top: 30px;
+
+  @media (max-width: 880px) {
+    font-size: 28px;
+    text-align: center;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -38,6 +47,13 @@ export const ContentProducts = styled.div`
   align-items: center;
   justify-content: flex-start;
   max-width: 1200px;
+  
+
+  @media (max-width: 880px) {
+    flex-direction: column;
+    height: 1200px;
+    background-color: #dadada;
+  }
 `;
 
 export const ProductItem = styled.div`
@@ -60,6 +76,10 @@ export const ProductItem = styled.div`
     max-height: 100%;
     object-fit: contain;
   }
+
+  @media (max-width: 880px) {
+    width: 100%;
+  }
 `;
 
 export const NameProduct = styled.h1`
@@ -74,6 +94,10 @@ export const ContentDetailtProduct = styled.div`
   padding: 30px 30px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 880px) {
+    width: 100%;
+  }
 `;
 
 export const DescriptionProduct = styled.p`

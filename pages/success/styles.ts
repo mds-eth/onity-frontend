@@ -7,6 +7,10 @@ export const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 880px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const ContentSuccess = styled.div`
@@ -22,6 +26,11 @@ export const TitleEvent = styled.h2`
   font-size: 36px;
   font-weight: 700;
   margin-top: 30px;
+
+  @media (max-width: 880px) {
+    font-size: 28px;
+    text-align: center;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -49,6 +58,9 @@ export const ContentMessage = styled.div`
     font-size: 22px;
     font-weight: 500;
     margin-top: 30px;
+    @media (max-width: 880px) {
+      text-align: center;
+    }
   }
 
   button {

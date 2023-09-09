@@ -10,6 +10,10 @@ export const Container = styled.footer`
   align-items: center;
   justify-content: space-between;
   padding: 0px 50px;
+
+  @media (max-width: 880px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const Copy = styled.p`

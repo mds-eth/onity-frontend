@@ -12,6 +12,10 @@ export const Container = styled.header`
   img {
     cursor: pointer;
   }
+
+  @media (max-width: 880px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const TextTopHeader = styled.span`

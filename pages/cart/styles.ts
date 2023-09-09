@@ -7,6 +7,10 @@ export const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 880px) {
+    padding: 0px 20px;
+  }
 `;
 
 export const ContentHomeProducts = styled.div`
@@ -22,6 +26,11 @@ export const TitleEvent = styled.h2`
   font-size: 36px;
   font-weight: 700;
   margin-top: 30px;
+
+  @media (max-width: 880px) {
+    font-size: 28px;
+    text-align: center;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -47,7 +56,7 @@ export const SpaceMeio = styled.div`
     width: 90px;
     flex-direction: row;
 
-    .total{
+    .total {
       font-size: 10px;
     }
 
@@ -81,6 +90,10 @@ export const ContainerCart = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 60px;
+
+  @media (max-width: 880px) {
+    flex-direction: column;
+  }
 `;
 
 export const ContentCart = styled.ul`
@@ -94,6 +107,10 @@ export const ContentCart = styled.ul`
 
   li:nth-child(even) {
     margin: 15px 0px;
+  }
+
+  @media (max-width: 880px) {
+    width: 100%;
   }
 `;
 
@@ -182,6 +199,10 @@ export const ContentForm = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 20px 20px;
+
+  @media (max-width: 880px) {
+    width: 100%;
+  }
 `;
 
 export const HeaderForm = styled.header`

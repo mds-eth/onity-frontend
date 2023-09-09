@@ -36,7 +36,7 @@ export const ContentTable = styled.div`
 
 export const ContainerCreate = styled.section`
   width: 100%;
-  height: 450px;
+  height: 550px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
