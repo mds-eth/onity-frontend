@@ -126,7 +126,7 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                       <TableCell align="center">{product.ipi}</TableCell>
                       <TableCell align="center">{product.created_at}</TableCell>
                       <TableCell align="center">
-                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                        <IconButton aria-label="Editar" onClick={() => router.push(`/admin/products/edit/${product.id}`)}>
                           <EditIcon />
                         </IconButton>
                         <IconButton aria-label="Excluir" onClick={() => openModalDelete(product)}>

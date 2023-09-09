@@ -24,8 +24,7 @@ interface IProductDetail {
 }
 
 const ProductDetail: NextPage<IProductDetail> = ({ product }) => {
-  console.log(product)
-  console.log(`aquiiiiii`)
+
   const router = useRouter();
 
   const { addToCart } = useCart();

@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React from "react";
 
 import nookies from 'nookies';
 
@@ -17,15 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Navigation from "../../../components/Admin/Navigation";
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 
-import { Box } from "@mui/material";
-import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import { IEvents } from "../../../types/EventType";
 import { IOrders } from "../../../types/OrderType";
 
 interface IAdminOrders {
@@ -33,49 +25,6 @@ interface IAdminOrders {
 }
 
 const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
-
-  const router = useRouter();
-
-  const handleEditClick = () => { }
-
-  const openModalDelete = async (event: IEvents) => {
-
-    Swal.fire({
-      title: 'Atenção!',
-      text: `Deseja remover ${event.event_name}?`,
-      showCancelButton: true,
-      confirmButtonText: 'Remover',
-      cancelButtonAriaLabel: 'Cancelar',
-      icon: 'warning',
-      showCloseButton: true,
-      cancelButtonText: 'Fechar'
-    }).then(async function (result) {
-
-      if (result.isConfirmed) {
-
-        try {
-
-          const response = await ApiService.delete(`/events/${event.id}`);
-
-          if (response.status === 204) {
-            Swal.fire({
-              title: 'Sucesso!',
-              text: 'Registro removido com sucesso.',
-              icon: 'success',
-              confirmButtonText: 'Fechar'
-            })
-          }
-        } catch (error) {
-          Swal.fire({
-            title: 'Atenção!',
-            text: String(error),
-            icon: 'warning',
-            confirmButtonText: 'Fechar'
-          });
-        }
-      }
-    });
-  }
 
   return (
     <Container>
@@ -96,7 +45,6 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                     <TableCell align="center">Estado</TableCell>
                     <TableCell align="center">CNPJ</TableCell>
                     <TableCell align="center">ICMS</TableCell>
-                    <TableCell align="center">Ações</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -110,14 +58,6 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                       <TableCell align="center">{order.state}</TableCell>
                       <TableCell align="center">{order.cnpj}</TableCell>
                       <TableCell align="center">{order.icms ? 'SIM' : 'NAO'}</TableCell>
-                      <TableCell align="center">
-                        <IconButton aria-label="Editar" onClick={handleEditClick}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton aria-label="Excluir">
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

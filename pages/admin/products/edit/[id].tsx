@@ -1,26 +1,28 @@
+/* eslint-disable @next/next/no-img-element */
 import { GetServerSidePropsContext, NextPage } from "next";
 import React, { useState } from "react";
 
 import nookies from 'nookies';
 
-import ApiService from '../../../services/api.service';
+import ApiService from '../../../../services/api.service';
 
 import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FilledInput } from '@mui/material';
 
-import { HeaderAdmin } from "../../../components/Admin/Header";
+import { HeaderAdmin } from "../../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "./styles";
+import { Container, ContainerCreate } from "../styles";
 
-import Navigation from "../../../components/Admin/Navigation";
+import Navigation from "../../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
 
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Loader from "../../../components/Loader";
+import Loader from "../../../../components/Loader";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
 interface IDataForm {
+  id?: number;
   title: string;
   product_code: string;
   type_product: number;
@@ -31,12 +33,21 @@ interface IDataForm {
   status: boolean;
   slug: string;
   file: any;
+  file_path?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-const CreateProducts: NextPage = () => {
+interface IProductProps {
+  product: IDataForm;
+}
 
+const EditProducts: NextPage<IProductProps> = ({ product }) => {
+  console.log(product)
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState(product?.file_path);
+  const [editFile, setEditFile] = useState<boolean>(false);
 
   const schema = yup.object().shape({
     title: yup.string().required('Título é obrigatório'),
@@ -68,7 +79,18 @@ const CreateProducts: NextPage = () => {
 
   const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
+    defaultValues: product
   });
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+      setEditFile(true);
+    }
+  };
 
   const onSubmit = async (data: IDataForm) => {
 
@@ -88,14 +110,15 @@ const CreateProducts: NextPage = () => {
       formData.append('status', data.status.toString());
       formData.append('slug', data.slug);
       formData.append('file', data.file[0]);
+      formData.append('file_change', String(editFile));
 
-      const response = await ApiService.postWithFile('/products', formData);
+      const response = await ApiService.putWithFile(`/products/${product.id}`, formData);
 
       setLoader(false);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         Swal.fire({
-          text: `Produto criado com sucesso`,
+          text: `Produto editado com sucesso`,
           showCancelButton: false,
           confirmButtonText: 'Fechar',
           icon: 'success',
@@ -232,12 +255,18 @@ const CreateProducts: NextPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <input
                   type="file"
                   accept=".jpeg, .jpg, .png, .gif"
                   {...register('file')}
+                  onChange={handleFileChange}
                 />
+                {editFile ? (
+                  <img src={selectedImage} alt="imagem front" width={100} height={100} />
+                ) : (
+                  <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product?.file_path}`} alt="imagem evento" width={100} height={100} />
+                )}
                 <Typography variant="body2" color="error">
                   {errors?.file?.message}
                 </Typography>
@@ -255,7 +284,8 @@ const CreateProducts: NextPage = () => {
 
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { res } = ctx;
+
+  const { res, query } = ctx;
 
   const user = nookies.get(ctx)['[@auth:user]'];
 
@@ -271,9 +301,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
+  const { id } = query;
+
+  const response = await ApiService.get(`/products/id/${id}`);
+
+  const product = response.data;
+
   return {
-    props: {},
+    props: { product },
   };
 }
 
-export default CreateProducts;
+export default EditProducts;

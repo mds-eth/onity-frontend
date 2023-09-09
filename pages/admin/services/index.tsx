@@ -128,7 +128,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                       <TableCell align="center">{service.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{service.created_at}</TableCell>
                       <TableCell align="center">
-                        <IconButton aria-label="Editar" onClick={handleEditClick}>
+                        <IconButton aria-label="Editar" onClick={() => router.push(`/admin/services/edit/${service.id}`)}>
                           <EditIcon />
                         </IconButton>
                         <IconButton aria-label="Excluir" onClick={() => openModalDelete(service)}>

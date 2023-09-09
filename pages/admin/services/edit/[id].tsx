@@ -5,24 +5,25 @@ import nookies from 'nookies';
 
 import InputMask from 'react-text-mask';
 
-import ApiService from '../../../services/api.service';
+import ApiService from '../../../../services/api.service';
 
 import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FilledInput } from '@mui/material';
 
-import { HeaderAdmin } from "../../../components/Admin/Header";
+import { HeaderAdmin } from "../../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "./styles";
+import { Container, ContainerCreate } from "../styles";
 
-import Navigation from "../../../components/Admin/Navigation";
+import Navigation from "../../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
 
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Loader from "../../../components/Loader";
+import Loader from "../../../../components/Loader";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
 interface IDataForm {
+  id?: string;
   code: string;
   title: string;
   type_product: number;
@@ -30,10 +31,17 @@ interface IDataForm {
   price_net: number;
   ipi: number;
   status: boolean;
+  created_at?: string;
+  updated_at?: string;
 }
 
-const CreateServices: NextPage = () => {
+interface IProps {
+  service: IDataForm
+}
 
+
+const EditServices: NextPage<IProps> = ({ service }) => {
+  console.log(service)
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -49,6 +57,7 @@ const CreateServices: NextPage = () => {
 
   const { handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
     resolver: yupResolver(schema),
+    defaultValues: service
   });
 
   const onSubmit = async (data: IDataForm) => {
@@ -57,13 +66,13 @@ const CreateServices: NextPage = () => {
 
     try {
 
-      const response = await ApiService.post('/services', data);
+      const response = await ApiService.put(`/services/${service.id}`, data);
 
       setLoader(false);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         Swal.fire({
-          text: `Serviço criado com sucesso`,
+          text: `Serviço editado com sucesso`,
           showCancelButton: false,
           confirmButtonText: 'Fechar',
           icon: 'success',
@@ -90,7 +99,7 @@ const CreateServices: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Cadastrar serviço</Typography>
+                <Typography variant="h6">Editar serviço</Typography>
               </Grid>
               <Grid item xs={6} style={{ marginTop: '20px' }}>
                 <Controller
@@ -190,11 +199,11 @@ const CreateServices: NextPage = () => {
 
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { res } = ctx;
+  const { res, query } = ctx;
 
-  const user = nookies.get(ctx)['[@auth:user]'];
+  const userSession = nookies.get(ctx)['[@auth:user]'];
 
-  if (!user) {
+  if (!userSession) {
     res.writeHead(302, {
       Location: '/admin/auth/login',
       'Content-Type': 'text/html; charset=utf-8',
@@ -206,9 +215,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
+  const { id } = query;
+
+  const response = await ApiService.get(`/services/${id}`);
+
+  const service = response.data;
+
   return {
-    props: {},
+    props: { service },
   };
 }
 
-export default CreateServices;
+export default EditServices;
