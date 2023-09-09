@@ -1,19 +1,20 @@
-import type { NextPage } from 'next'
-
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
+import type { GetServerSidePropsContext, NextPage } from 'next'
 
 import { Header } from '../components/Header'
 import Footer from '../components/Footer'
 
-import AdvanceTrillium from '../assets/img/advance-trillium-rfid.jpg';
-
-import productsData from '../data/products.json';
+import ApiService from '../services/api.service';
 
 import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from './styles';
 import { useRouter } from 'next/router';
-import { ICart } from '../types/CartType';
+import { IProduct } from '../types/ProductType';
 
-const HomeProductsEvent: NextPage = () => {
+interface IProductList {
+  products: IProduct[];
+}
+
+const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
 
   const router = useRouter();
 
@@ -22,13 +23,13 @@ const HomeProductsEvent: NextPage = () => {
       <Header />
       <Container>
         <ContentHomeProducts>
-          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
+          <TitleEvent>Feira Equipotel - 19/09/2023 - 22/09/2023</TitleEvent>
           <SubTitle>Explore uma variedade de modelos de maçanetas e acabamentos para personalizar o estilo de fechadura Serene™.</SubTitle>
           <ContentProducts>
-            {productsData.map((product: ICart) => {
+            {products.map((product: IProduct) => {
               return (
-                <ProductItem key={product.id} onClick={() => router.push('/advance-trillium')}>
-                  <Image src={AdvanceTrillium} alt="image" layout='responsive' />
+                <ProductItem key={product.id} onClick={() => router.push(product.slug)}>
+                  <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product.file_path}`} alt="image" />
                   <NameProduct>{product.title}</NameProduct>
                 </ProductItem>
               )
@@ -40,5 +41,17 @@ const HomeProductsEvent: NextPage = () => {
     </>
   )
 }
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+
+  const response = await ApiService.get('/products');
+
+  const products = response.data;
+
+  return {
+    props: { products },
+  };
+}
+
 
 export default HomeProductsEvent

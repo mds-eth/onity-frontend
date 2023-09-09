@@ -22,6 +22,7 @@ import { useCart } from '../../contexts/CartContext';
 import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
 import { ICart } from '../../types/CartType';
+import { IProduct } from '../../types/ProductType';
 
 interface FormValues {
   hotel: string;
@@ -38,7 +39,6 @@ const CartUser: NextPage = () => {
   const router = useRouter();
 
   const { cart, countCart, totalPrice, removeFromCart, removeFromCartOneProduct, addToCart } = useCart();
-
   const schema = yup.object().shape({
     hotel: yup.string().required('Hotel name is required'),
     name: yup.string().required('Name is required'),
@@ -77,14 +77,14 @@ const CartUser: NextPage = () => {
           <ContainerCart>
             <ContentCart>
               {countCart > 0 ? (
-                cart?.map((item: ICart) => {
+                cart?.map((item: IProduct) => {
                   return (
                     <ItemCart key={item.id}>
                       <SpaceImage>
                         <Image src={AdvanceTrillium} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
-                        <span>{formatCoinBR(item.price)}</span>
+                        <span>{formatCoinBR(item.price_net)}</span>
                         <span>{item.title}</span>
                       </SpaceMeio>
                       <SpaceMeio className='count'>

@@ -44,7 +44,6 @@ const CreateEvents: NextPage = () => {
       .mixed()
       .required("Imagem é obrigatório")
       .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
-        console.log(value)
         return value && value[0]?.size <= 2000000;
       })
       .test("type", "Apenas estes formatos são aceitos: .jpeg, .jpg, .gif", (value: any) => {
@@ -78,7 +77,6 @@ const CreateEvents: NextPage = () => {
     try {
 
       const formData = new FormData();
-      console.log(data)
       formData.append('event_name', data.event_name);
       formData.append('status', String(data.status));
       formData.append('city', data.city);

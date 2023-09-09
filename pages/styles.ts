@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  height: auto;
+  height: calc(100vh - 120px);
   background-color: #dadada;
   display: flex;
   align-items: center;
@@ -16,13 +16,12 @@ export const Container = styled.section`
 export const ContentHomeProducts = styled.div`
   width: 100%;
   max-width: 1200px;
-  min-height: 500px;
-  height: auto;
   display: flex;
   align-items: center;
   background-color: #dadada;
   flex-direction: column;
-  margin-bottom: 120px;
+  margin-bottom: 60px;
+  overflow: auto;
 `;
 
 export const TitleEvent = styled.h2`

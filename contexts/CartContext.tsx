@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { parseCookies, setCookie } from 'nookies';
-import { CartItem } from '../types/products-type';
+import { IProduct } from '../types/ProductType';
 
 type CartContextType = {
   countCart: number;
-  cart: CartItem[];
+  cart: IProduct[];
   totalPrice: number;
-  addToCart: (item: CartItem) => void;
+  addToCart: (item: IProduct) => void;
   removeFromCart: (itemId: string) => void;
   removeFromCartOneProduct: (itemId: string) => void;
 };
@@ -26,26 +26,26 @@ type CartProviderProps = {
 };
 
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<IProduct[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     const { cart: cartCookie } = parseCookies();
     if (cartCookie) {
-      const parsedCart: CartItem[] = JSON.parse(cartCookie);
+      const parsedCart: IProduct[] = JSON.parse(cartCookie);
       setCart(parsedCart);
       calculateTotalPrice(parsedCart);
     }
   }, []);
 
-  const addToCart = (item: CartItem) => {
+  const addToCart = (item: IProduct) => {
 
     const existingItem = cart.find(cartItem => cartItem.id === item.id);
 
     if (existingItem) {
       const updatedCart = cart.map(cartItem =>
         cartItem.id === existingItem.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          ? { ...cartItem, quantity: cartItem?.quantity + 1 }
           : cartItem
       );
 
@@ -53,7 +53,7 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       setCookie(undefined, 'cart', JSON.stringify(updatedCart), { path: '/' });
       calculateTotalPrice(updatedCart);
     } else {
-      const newItem: CartItem = { ...item, quantity: 1 };
+      const newItem: IProduct = { ...item, quantity: 1 };
       const newCart = [...cart, newItem];
       setCart(newCart);
       setCookie(undefined, 'cart', JSON.stringify(newCart), { path: '/' });
@@ -74,12 +74,12 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     const existingItem = cart.find(cartItem => cartItem.id === itemId);
 
     if (existingItem) {
-      let updatedCart: CartItem[] = [];
+      let updatedCart: IProduct[] = [];
 
-      if (existingItem.quantity > 1) {
+      if (existingItem?.quantity > 1) {
         updatedCart = cart.map(cartItem =>
           cartItem.id === existingItem.id
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            ? { ...cartItem, quantity: cartItem?.quantity - 1 }
             : cartItem
         );
       } else {
@@ -92,12 +92,12 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   };
 
-  const calculateTotalQuantity = (cartItems: CartItem[]) => {
+  const calculateTotalQuantity = (cartItems: IProduct[]) => {
     return cartItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const calculateTotalPrice = (cartItems: CartItem[]) => {
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const calculateTotalPrice = (cartItems: IProduct[]) => {
+    const total = cartItems.reduce((sum, item) => sum + item.price_net * item.quantity, 0);
     setTotalPrice(total);
   };
 

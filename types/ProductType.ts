@@ -1,5 +1,5 @@
 export interface IProduct {
-  id: number;
+  id: any;
   title: string;
   product_code: string;
   type_product: string;
@@ -8,7 +8,9 @@ export interface IProduct {
   factor: string;
   ipi: number;
   status: boolean;
+  slug: string;
   file_path: string;
   created_at: string;
   updated_at: string;
+  quantity?: number;
 }
