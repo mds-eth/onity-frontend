@@ -5,13 +5,11 @@ import nookies from 'nookies';
 
 import ApiService from '../../../services/api.service';
 
-import InputMask from 'react-input-mask';
-
 import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "./styles";
+import { Container, ContainerCreate } from "../../../pageStyles/admin/users/styles";
 
 import Navigation from "../../../components/Admin/Navigation";
 import { useRouter } from "next/router";

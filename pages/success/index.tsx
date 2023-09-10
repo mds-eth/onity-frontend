@@ -7,7 +7,7 @@ import Footer from '../../components/Footer'
 
 import { AiFillCheckCircle } from "react-icons/ai";
 
-import { Container, ContentSuccess, TitleEvent, ContentMessage } from './styles';
+import { Container, ContentSuccess, TitleEvent, ContentMessage } from '../../pageStyles/success/styles';
 
 const PageSuccess: NextPage = () => {
 

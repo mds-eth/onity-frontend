@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Button, Form, Input, Container, TitleForm } from "./styles";
+import { Button, Form, Input, Container, TitleForm } from "../../../../pageStyles/admin/auth/login/styles";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";

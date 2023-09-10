@@ -47,7 +47,6 @@ export const ContentProducts = styled.div`
   align-items: center;
   justify-content: flex-start;
   max-width: 1200px;
-  
 
   @media (max-width: 880px) {
     flex-direction: column;

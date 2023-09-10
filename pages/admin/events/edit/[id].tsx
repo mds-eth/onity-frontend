@@ -6,13 +6,11 @@ import nookies from 'nookies';
 
 import ApiService from '../../../../services/api.service';
 
-import InputMask from 'react-input-mask';
-
-import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 import { HeaderAdmin } from "../../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "../styles";
+import { Container, ContainerCreate } from "../../../../pageStyles/admin/events/styles";
 
 import Navigation from "../../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
@@ -27,7 +25,7 @@ import { urlToFiles } from "../../../../utils/Utils";
 interface IDataForm {
   event_name: string;
   status: boolean;
-  file: string;
+  file: any;
   city: string;
   state: string;
   init_date: string;
@@ -263,7 +261,7 @@ const EditEvents: NextPage<IUserProps> = (props) => {
                   <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${props.event.file_path}`} alt="imagem evento" width={100} height={100} />
                 )}
                 <Typography variant="body2" color="error">
-                  {errors?.file?.message}
+                  <>{errors?.file?.message}</>
                 </Typography>
               </Grid>
               <Grid item xs={12}>

@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 
 import ApiService from '../services/api.service';
 
-import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from './styles';
+import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from '../pageStyles/styles';
 import { useRouter } from 'next/router';
 import { IProduct } from '../types/ProductType';
 

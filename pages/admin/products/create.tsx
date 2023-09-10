@@ -9,7 +9,7 @@ import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, M
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "./styles";
+import { Container, ContainerCreate } from "../../../pageStyles/admin/products/styles";
 
 import Navigation from "../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
@@ -239,7 +239,7 @@ const CreateProducts: NextPage = () => {
                   {...register('file')}
                 />
                 <Typography variant="body2" color="error">
-                  {errors?.file?.message}
+                  <>{errors?.file?.message}</>
                 </Typography>
               </Grid>
               <Grid item xs={12}>

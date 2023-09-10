@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { GetServerSidePropsContext, NextPage } from 'next'
 
-import Image from 'next/image';
-
 import { useRouter } from 'next/router';
 
 import { BsCartPlus } from "react-icons/bs";
@@ -12,13 +10,11 @@ import Footer from '../../components/Footer'
 
 import ApiService from '../../services/api.service';
 
-import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
-
 import { useCart } from '../../contexts/CartContext';
 import { formatCoinBR } from '../../utils/Utils';
 import { IProduct } from '../../types/ProductType';
 
-import { Container, ContentHomeProducts, TitleEvent, ContentProducts, ProductItem, PriceProduct, ContentDetailtProduct, ButtonAddCart, NameProduct, DescriptionProduct } from './styles';
+import { Container, ContentHomeProducts, TitleEvent, ContentProducts, ProductItem, PriceProduct, ContentDetailtProduct, ButtonAddCart, NameProduct, DescriptionProduct } from '../../pageStyles/[product]/styles';
 
 interface IProductDetail {
   product: IProduct;

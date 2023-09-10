@@ -4,7 +4,7 @@ import nookies from 'nookies';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
-import { Container, ContainerListDashboard, ItemDashboard } from "./styles";
+import { Container, ContainerListDashboard, ItemDashboard } from "../../../pageStyles/admin/dashboard/styles";
 
 import Navigation from "../../../components/Admin/Navigation";
 

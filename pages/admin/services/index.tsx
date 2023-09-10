@@ -7,7 +7,7 @@ import ApiService from '../../../services/api.service';
 
 import { HeaderAdmin } from "../../../components/Admin/Header";
 
-import { Container, ContainerOrderDashboard, ContentTable } from "./styles";
+import { Container, ContainerOrderDashboard, ContentTable } from "../../../pageStyles/admin/services/styles";
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

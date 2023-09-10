@@ -1,4 +1,4 @@
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const jump = keyframes`
   from{

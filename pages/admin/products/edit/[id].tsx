@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import nookies from 'nookies';
 
 import ApiService from '../../../../services/api.service';
 
-import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, FilledInput } from '@mui/material';
+import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 import { HeaderAdmin } from "../../../../components/Admin/Header";
 
-import { Container, ContainerCreate } from "../styles";
+import { Container, ContainerCreate } from "../../../../pageStyles/admin/products/styles";
 
 import Navigation from "../../../../components/Admin/Navigation";
 import { useRouter } from "next/router";
@@ -284,7 +284,7 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
                   <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product?.file_path}`} alt="imagem evento" width={100} height={100} />
                 )}
                 <Typography variant="body2" color="error">
-                  {errors?.file?.message}
+                  <>{errors?.file?.message}</>
                 </Typography>
               </Grid>
               <Grid item xs={12}>

@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 
-import Image from 'next/image';
-
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -17,7 +15,7 @@ import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
 import { BsFillTrashFill } from "react-icons/bs";
 
-import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from './styles';
+import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from '../../pageStyles/cart/styles';
 import { useRouter } from 'next/router';
 
 import { useCart } from '../../contexts/CartContext';
