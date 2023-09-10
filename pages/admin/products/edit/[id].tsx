@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import nookies from 'nookies';
 
@@ -20,6 +20,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Loader from "../../../../components/Loader";
 import Swal, { SweetAlertResult } from "sweetalert2";
+import { urlToFiles } from "../../../../utils/Utils";
 
 interface IDataForm {
   id?: number;
@@ -43,7 +44,7 @@ interface IProductProps {
 }
 
 const EditProducts: NextPage<IProductProps> = ({ product }) => {
-  console.log(product)
+
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState(product?.file_path);
@@ -77,10 +78,22 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
       }),
   });
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
+  const { register, handleSubmit, control, formState: { errors }, reset } = useForm<IDataForm>({
     resolver: yupResolver(schema),
     defaultValues: product
   });
+
+  useEffect(() => {
+    urlToFiles(`${process.env.NEXT_PUBLIC_API_BACKEND}${product.file_path}`)
+      .then(files => {
+        product.file = files
+
+        reset(product);
+      })
+      .catch(error => {
+        console.error('Erro ao criar o FileList:', error);
+      });
+  }, []);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -93,6 +106,7 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
   };
 
   const onSubmit = async (data: IDataForm) => {
+    console.log(data)
 
     setLoader(true);
 
@@ -133,6 +147,8 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
       setLoader(false);
     }
   };
+
+
 
   return (
     <Container>
@@ -255,7 +271,7 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <input
                   type="file"
                   accept=".jpeg, .jpg, .png, .gif"

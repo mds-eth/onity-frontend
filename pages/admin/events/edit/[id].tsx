@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import nookies from 'nookies';
 
@@ -22,6 +22,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Loader from "../../../../components/Loader";
 import Swal from "sweetalert2";
+import { urlToFiles } from "../../../../utils/Utils";
 
 interface IDataForm {
   event_name: string;
@@ -39,6 +40,7 @@ interface IPropsUserEdit {
   status: boolean;
   file_path: string;
   city: string;
+  file?: FileList;
   state: string;
   init_date: string;
   end_date: string;
@@ -52,12 +54,6 @@ interface IUserProps {
 
 const EditEvents: NextPage<IUserProps> = (props) => {
 
-  const router = useRouter();
-  const [loader, setLoader] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState(props.event.file_path);
-
-  const [editFile, setEditFile] = useState<boolean>(false);
-
   const schema = yup.object().shape({
     event_name: yup.string().required('O nome do evento é obrigatório'),
     status: yup.boolean().required('O status é obrigatório'),
@@ -65,7 +61,9 @@ const EditEvents: NextPage<IUserProps> = (props) => {
       .mixed()
       .required("Imagem é obrigatória")
       .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
+        console.log(value)
         if (value.length === 0) return false;
+
         return !value || (value[0]?.size <= 2000000);
       })
       .test("type", "Apenas estes formatos são aceitos: .jpeg, .jpg, .gif", (value: any) => {
@@ -102,10 +100,28 @@ const EditEvents: NextPage<IUserProps> = (props) => {
       .required('A data de término é obrigatória'),
   });
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
+  const { register, handleSubmit, control, formState: { errors }, reset } = useForm<IDataForm>({
     resolver: yupResolver(schema),
     defaultValues: props.event
   });
+
+  useEffect(() => {
+    urlToFiles(`${process.env.NEXT_PUBLIC_API_BACKEND}${props.event.file_path}`)
+      .then(files => {
+        props.event.file = files
+
+        reset(props.event);
+      })
+      .catch(error => {
+        console.error('Erro ao criar o FileList:', error);
+      });
+  }, []);
+
+  const router = useRouter();
+  const [loader, setLoader] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState(props.event.file_path);
+
+  const [editFile, setEditFile] = useState<boolean>(false);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -155,7 +171,6 @@ const EditEvents: NextPage<IUserProps> = (props) => {
       setLoader(false);
     }
   };
-
   return (
     <Container>
       <HeaderAdmin />

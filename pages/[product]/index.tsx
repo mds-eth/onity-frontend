@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { GetServerSidePropsContext, NextPage } from 'next'
 
 import Image from 'next/image';
@@ -43,7 +44,7 @@ const ProductDetail: NextPage<IProductDetail> = ({ product }) => {
           <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContentProducts>
             <ProductItem>
-              <Image src={AdvanceTrillium} alt="image" layout='responsive' />
+              <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product.file_path}`} alt="image" />
             </ProductItem>
             <ContentDetailtProduct>
               <NameProduct>{product?.title}</NameProduct>

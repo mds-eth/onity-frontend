@@ -22,7 +22,6 @@ export const ContentHomeProducts = styled.div`
   background-color: #dadada;
   flex-direction: column;
   margin-bottom: 60px;
- 
 
   @media (max-width: 880px) {
     overflow: none;
@@ -54,28 +53,24 @@ export const ContentProducts = styled.ul`
   width: 100%;
   max-width: 1200px;
   display: flex;
-  align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 `;
 
 export const ProductItem = styled.li`
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   background-color: #f3f3f3;
   margin: 20px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  border-radius: 12px;
   cursor: pointer;
-  border-radius: 50%;
 
   img {
-    border-radius: 50%;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
     object-fit: contain;
   }
 

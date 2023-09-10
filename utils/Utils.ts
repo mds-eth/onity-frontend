@@ -7,6 +7,19 @@ export const formatCoinBR = (date: any): string => {
   }).format(date);
 };
 
+export const urlToFiles = async (url: string) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+
+  const file = new File([blob], "image.jpg", { type: blob.type });
+
+  const fileList = new DataTransfer();
+
+  fileList.items.add(file);
+
+  return fileList.files;
+};
+
 export const formatDate = (inputDate: string): string => {
   if (typeof window !== "undefined") {
     return new Intl.DateTimeFormat("pt-BR", {

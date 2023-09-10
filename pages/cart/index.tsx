@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 
 import Image from 'next/image';
@@ -19,7 +20,6 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from './styles';
 import { useRouter } from 'next/router';
 
-import AdvanceTrillium from '../../assets/img/advance-trillium-rfid.jpg';
 import { useCart } from '../../contexts/CartContext';
 import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
@@ -127,7 +127,7 @@ const CartUser: NextPage = () => {
                   return (
                     <ItemCart key={item.id}>
                       <SpaceImage>
-                        <Image src={AdvanceTrillium} alt="image" />
+                        <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${item.file_path}`} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
                         <span>{formatCoinBR(item.price_net)}</span>
