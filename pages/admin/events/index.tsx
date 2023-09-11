@@ -37,8 +37,6 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
 
   const router = useRouter();
 
-  const handleEditClick = () => { }
-
   const openModalDelete = async (event: IEvents) => {
 
     Swal.fire({
@@ -120,7 +118,14 @@ const AdminEvents: NextPage<IAdminEvents> = ({ events }) => {
                       <TableCell align="center">{event?.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{event?.city}</TableCell>
                       <TableCell align="center">{event?.state}</TableCell>
-                      <TableCell align="center">{event?.created_at}</TableCell>
+                      <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }).format(new Date(event.created_at))}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={() => router.push(`/admin/events/edit/${event.id}`)}>
                           <EditIcon />

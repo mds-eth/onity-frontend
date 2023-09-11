@@ -37,8 +37,6 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
 
   const router = useRouter();
 
-  const handleEditClick = () => { }
-
   const openModalDelete = async (product: IProduct) => {
 
     Swal.fire({
@@ -124,7 +122,14 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                       <TableCell align="center">{product.price_net}</TableCell>
                       <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{product.ipi}</TableCell>
-                      <TableCell align="center">{product.created_at}</TableCell>
+                      <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }).format(new Date(product.created_at))}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={() => router.push(`/admin/products/edit/${product.id}`)}>
                           <EditIcon />

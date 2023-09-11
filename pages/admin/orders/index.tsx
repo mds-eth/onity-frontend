@@ -18,13 +18,19 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Navigation from "../../../components/Admin/Navigation";
 
-import { IOrders } from "../../../types/OrderType";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+import { IOrders, IProduct } from "../../../types/OrderType";
+import { Box, Collapse, IconButton, Typography } from "@mui/material";
 
 interface IAdminOrders {
   orders: IOrders[];
 }
 
 const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
+
+  const [open, setOpen] = React.useState(false);
 
   return (
     <Container>
@@ -45,11 +51,56 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                     <TableCell align="center">Estado</TableCell>
                     <TableCell align="center">CNPJ</TableCell>
                     <TableCell align="center">ICMS</TableCell>
+                    <TableCell align="center">Criado em</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orders.map((order) => (
+                  {orders.map((order: IOrders) => (
                     <TableRow key={order.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                          <Typography variant="h6" gutterBottom component="div">
+                            Produtos
+                          </Typography>
+                          <Table size="small" aria-label="purchases">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Código produto</TableCell>
+                                <TableCell align="center">IPI</TableCell>
+                                <TableCell align="center">Preço NET</TableCell>
+                                <TableCell align="center">Quantidade</TableCell>
+                                <TableCell align="center">Título</TableCell>
+                                <TableCell align="center">Tipo produto</TableCell>
+                                <TableCell align="center">Criado em</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {order.orders.map((order: IProduct) => (
+                                <TableRow key={order.id}>
+                                  <TableCell component="th" scope="row">
+                                    {order.product_code}
+                                  </TableCell>
+                                  <TableCell align="center">{order.ipi}</TableCell>
+                                  <TableCell align="center">{order.price_net}</TableCell>
+                                  <TableCell align="center">{order.quantity}</TableCell>
+                                  <TableCell align="center">{order.title}</TableCell>
+                                  <TableCell align="center">{order.type_product}</TableCell>
+                                  <TableCell align="center">{order.type_product}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </Box>
+                      </Collapse>
+                      {/* <TableCell>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={() => setOpen(!open)}
+                        >
+                          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                      </TableCell> */}
                       <TableCell component="th" scope="row">{order.id}</TableCell>
                       <TableCell align="center">{order.hotel}</TableCell>
                       <TableCell align="center">{order.name}</TableCell>
@@ -58,6 +109,14 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                       <TableCell align="center">{order.state}</TableCell>
                       <TableCell align="center">{order.cnpj}</TableCell>
                       <TableCell align="center">{order.icms ? 'SIM' : 'NAO'}</TableCell>
+                      <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }).format(new Date(order.created_at))}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

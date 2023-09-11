@@ -37,8 +37,6 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
 
   const router = useRouter();
 
-  const handleEditClick = () => { }
-
   const openModalDelete = async (service: IServices) => {
 
     Swal.fire({
@@ -126,7 +124,14 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                       <TableCell align="center">{service.price_net}</TableCell>
                       <TableCell align="center">{service.ipi}</TableCell>
                       <TableCell align="center">{service.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                      <TableCell align="center">{service.created_at}</TableCell>
+                      <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }).format(new Date(service.created_at))}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={() => router.push(`/admin/services/edit/${service.id}`)}>
                           <EditIcon />

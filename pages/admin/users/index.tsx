@@ -37,8 +37,6 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
 
   const router = useRouter();
 
-  const handleEditClick = () => { }
-
   const openModalDelete = async (event: IUsers) => {
 
     Swal.fire({
@@ -118,7 +116,14 @@ const AdminUsers: NextPage<IAdminUsers> = ({ users }) => {
                       <TableCell align="center">{user.name}</TableCell>
                       <TableCell align="center">{user.email}</TableCell>
                       <TableCell align="center">{user.status === true ? 'Ativo' : 'Inativo'}</TableCell>
-                      <TableCell align="center">{user.email}</TableCell>
+                      <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      }).format(new Date(user.created_at))}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="Editar" onClick={() => router.push(`/admin/users/edit/${user.id}`)}>
                           <EditIcon />
