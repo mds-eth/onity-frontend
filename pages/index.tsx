@@ -9,6 +9,7 @@ import ApiService from '../services/api.service';
 import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from '../pageStyles/styles';
 import { useRouter } from 'next/router';
 import { IProduct } from '../types/ProductType';
+import { configHost } from '../services/configHost';
 
 interface IProductList {
   products: IProduct[];
@@ -29,7 +30,7 @@ const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
             {products.map((product: IProduct) => {
               return (
                 <ProductItem key={product.id} onClick={() => router.push(product.slug)}>
-                  <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product.file_path}`} alt="image" />
+                  <img src={`${configHost.host}uploads/${product.file_path}`} alt="image" />
                   <NameProduct>{product.title}</NameProduct>
                 </ProductItem>
               )

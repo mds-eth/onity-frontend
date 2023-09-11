@@ -15,6 +15,7 @@ import { formatCoinBR } from '../../utils/Utils';
 import { IProduct } from '../../types/ProductType';
 
 import { Container, ContentHomeProducts, TitleEvent, ContentProducts, ProductItem, PriceProduct, ContentDetailtProduct, ButtonAddCart, NameProduct, DescriptionProduct } from '../../pageStyles/[product]/styles';
+import { configHost } from '../../services/configHost';
 
 interface IProductDetail {
   product: IProduct;
@@ -40,7 +41,7 @@ const ProductDetail: NextPage<IProductDetail> = ({ product }) => {
           <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContentProducts>
             <ProductItem>
-              <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${product.file_path}`} alt="image" />
+              <img src={`${configHost.host}uploads/${product.file_path}`} alt="image" />
             </ProductItem>
             <ContentDetailtProduct>
               <NameProduct>{product?.title}</NameProduct>

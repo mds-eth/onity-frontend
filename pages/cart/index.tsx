@@ -23,6 +23,7 @@ import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
 import { IProduct } from '../../types/ProductType';
 import Swal from 'sweetalert2';
+import { configHost } from '../../services/configHost';
 
 interface FormValues {
   hotel: string;
@@ -125,7 +126,7 @@ const CartUser: NextPage = () => {
                   return (
                     <ItemCart key={item.id}>
                       <SpaceImage>
-                        <img src={`${process.env.NEXT_PUBLIC_API_BACKEND}${item.file_path}`} alt="image" />
+                        <img src={`${configHost.host}uploads/${item.file_path}`} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
                         <span>{formatCoinBR(item.price_net)}</span>
