@@ -2,13 +2,14 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { parseCookies } from "nookies";
 import { decryptData } from "../utils/Utils";
+import { configHost } from "./configHost";
 
 class ApiService {
   private readonly axiosInstance: AxiosInstance;
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_API_BACKEND,
+      baseURL: configHost.host,
     });
 
     this.setupInterceptors();
@@ -20,7 +21,8 @@ class ApiService {
     const token = cookies["[@auth:user]"]
       ? await decryptData(JSON.parse(cookies["[@auth:user]"]))
       : false;
-
+    console.log(token);
+    console.log(cookies);
     this.axiosInstance.interceptors.request.use((config) => {
       if (token.access_token) {
         config.headers.Authorization = `${token.access_token}`;
