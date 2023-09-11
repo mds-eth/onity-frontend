@@ -41,7 +41,7 @@ const ProductDetail: NextPage<IProductDetail> = ({ product }) => {
           <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContentProducts>
             <ProductItem>
-              <img src={`${configHost.host}uploads/${product.file_path}`} alt="image" />
+              <img src={`${configHost.host}${product.file_path}`} alt="image" />
             </ProductItem>
             <ContentDetailtProduct>
               <NameProduct>{product?.title}</NameProduct>

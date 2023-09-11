@@ -30,7 +30,7 @@ const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
             {products.map((product: IProduct) => {
               return (
                 <ProductItem key={product.id} onClick={() => router.push(product.slug)}>
-                  <img src={`${configHost.host}uploads/${product.file_path}`} alt="image" />
+                  <img src={`${configHost.host}${product.file_path}`} alt="image" />
                   <NameProduct>{product.title}</NameProduct>
                 </ProductItem>
               )

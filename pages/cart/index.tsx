@@ -126,7 +126,7 @@ const CartUser: NextPage = () => {
                   return (
                     <ItemCart key={item.id}>
                       <SpaceImage>
-                        <img src={`${configHost.host}uploads/${item.file_path}`} alt="image" />
+                        <img src={`${configHost.host}${item.file_path}`} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
                         <span>{formatCoinBR(item.price_net)}</span>
