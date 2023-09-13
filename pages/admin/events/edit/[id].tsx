@@ -59,7 +59,6 @@ const EditEvents: NextPage<IUserProps> = (props) => {
       .mixed()
       .required("Imagem é obrigatória")
       .test("fileSize", "Arquivo com tamanho superior a 5MB. Limite máximo permitido é 5MB.", (value: any) => {
-        console.log(value)
         if (value.length === 0) return false;
 
         return !value || (value[0]?.size <= 2000000);
@@ -199,10 +198,10 @@ const EditEvents: NextPage<IUserProps> = (props) => {
                   defaultValue={false}
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.status}>
-                      <InputLabel>Status</InputLabel>
+                      <InputLabel>Ativo</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="true">SIM</MenuItem>
-                        <MenuItem value="false">NÃO</MenuItem>
+                        <MenuItem value="1">SIM</MenuItem>
+                        <MenuItem value="0">NÃO</MenuItem>
                       </Select>
                     </FormControl>
                   )}

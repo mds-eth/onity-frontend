@@ -1,6 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { useRouter } from "next/router";
+
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { parseCookies } from "nookies";
+
+import { destroyCookie, parseCookies } from "nookies";
 import { decryptData } from "../utils/Utils";
 import { configHost } from "./configHost";
 
@@ -21,8 +24,7 @@ class ApiService {
     const token = cookies["[@auth:user]"]
       ? await decryptData(JSON.parse(cookies["[@auth:user]"]))
       : false;
-    console.log(token);
-    console.log(cookies);
+
     this.axiosInstance.interceptors.request.use((config) => {
       if (token.access_token) {
         config.headers.Authorization = `${token.access_token}`;
@@ -30,6 +32,17 @@ class ApiService {
 
       return config;
     });
+
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          destroyCookie(null, "[@auth:user]");
+          window.location.href = "/admin/auth/login";
+        }
+        return Promise.reject(error);
+      }
+    );
   }
 
   async get<T>(

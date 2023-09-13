@@ -154,8 +154,8 @@ const CreateEvents: NextPage = () => {
                     <FormControl fullWidth error={!!errors.status}>
                       <InputLabel>Ativo</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="true">SIM</MenuItem>
-                        <MenuItem value="false">NÃO</MenuItem>
+                        <MenuItem value="1">SIM</MenuItem>
+                        <MenuItem value="0">NÃO</MenuItem>
                       </Select>
                     </FormControl>
                   )}

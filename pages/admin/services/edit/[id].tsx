@@ -39,7 +39,7 @@ interface IProps {
 
 
 const EditServices: NextPage<IProps> = ({ service }) => {
-  console.log(service)
+  
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -144,8 +144,8 @@ const EditServices: NextPage<IProps> = ({ service }) => {
                     <FormControl fullWidth error={!!errors.status}>
                       <InputLabel>Ativo</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="0">Ativo</MenuItem>
-                        <MenuItem value="1">Inativo</MenuItem>
+                        <MenuItem value="1">Ativo</MenuItem>
+                        <MenuItem value="0">Inativo</MenuItem>
                       </Select>
                     </FormControl>
                   )}

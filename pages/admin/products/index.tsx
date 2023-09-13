@@ -32,7 +32,7 @@ interface IAdminProducts {
 }
 
 const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
-
+  
   const [productsList, setProductsList] = useState(products);
 
   const router = useRouter();
@@ -100,12 +100,12 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
-                    <TableCell align="center">Title</TableCell>
+                    <TableCell align="center">Título</TableCell>
                     <TableCell align="center">Código produto</TableCell>
-                    <TableCell align="center">Tipo produto</TableCell>
-                    <TableCell align="center">Preço</TableCell>
-                    <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">Tipo de produto</TableCell>
+                    <TableCell align="center">Preço NET</TableCell>
                     <TableCell align="center">IPI</TableCell>
+                    <TableCell align="center">Ativo</TableCell>
                     <TableCell align="center">Criado em</TableCell>
                     <TableCell align="center">Ações</TableCell>
                   </TableRow>
@@ -120,8 +120,8 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                       <TableCell align="center">{product.product_code}</TableCell>
                       <TableCell align="center">{product.type_product}</TableCell>
                       <TableCell align="center">{product.price_net}</TableCell>
-                      <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{product.ipi}</TableCell>
+                      <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
                         day: "2-digit",
                         month: "2-digit",

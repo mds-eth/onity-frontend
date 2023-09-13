@@ -83,7 +83,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
       <HeaderAdmin />
       <Navigation />
       <ContainerOrderDashboard>
-        <ContentTable>
+        <ContentTable style={{ overflow: 'auto', marginBottom: '60px' }}>
           <Box display="flex" justifyContent="flex-end" mb={2}>
             <IconButton
               color="primary"
@@ -100,13 +100,13 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
-                    <TableCell align="center">Código</TableCell>
                     <TableCell align="center">Título</TableCell>
+                    <TableCell align="center">Código</TableCell>
                     <TableCell align="center">Tipo produto</TableCell>
-                    <TableCell align="center">Quantidade</TableCell>
+                    <TableCell align="center">Quantidade por porta</TableCell>
                     <TableCell align="center">Preço</TableCell>
                     <TableCell align="center">IPI</TableCell>
-                    <TableCell align="center">Status</TableCell>
+                    <TableCell align="center">Ativo</TableCell>
                     <TableCell align="center">Criado em</TableCell>
                     <TableCell align="center">Ações</TableCell>
                   </TableRow>
@@ -118,7 +118,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                         {service.id}
                       </TableCell>
                       <TableCell align="center">{service.code}</TableCell>
-                      <TableCell align="center">{service.title}</TableCell>
+                      <TableCell align="center">{service.title.substring(0, 30)}...</TableCell>
                       <TableCell align="center">{service.type_product}</TableCell>
                       <TableCell align="center">{service.quantity}</TableCell>
                       <TableCell align="center">{service.price_net}</TableCell>

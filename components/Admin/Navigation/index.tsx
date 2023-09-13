@@ -10,9 +10,9 @@ const Navigation: React.FC = () => {
   return (
     <ContainerOptions>
       <OptionMenu onClick={() => router.push('/admin/events')}>Eventos</OptionMenu>
+      <OptionMenu onClick={() => router.push('/admin/products')}>Produtos</OptionMenu>
       <OptionMenu onClick={() => router.push('/admin/services')}>Serviços</OptionMenu>
       <OptionMenu onClick={() => router.push('/admin/orders')}>Pedidos</OptionMenu>
-      <OptionMenu onClick={() => router.push('/admin/products')}>Produtos</OptionMenu>
       <OptionMenu onClick={() => router.push('/admin/users')}>Usuários</OptionMenu>
     </ContainerOptions>
   )

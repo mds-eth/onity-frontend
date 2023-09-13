@@ -116,8 +116,8 @@ const CreateServices: NextPage = () => {
                     <FormControl fullWidth error={!!errors.type_product}>
                       <InputLabel>Tipo produto</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="0">Nacional</MenuItem>
-                        <MenuItem value="1">Importado</MenuItem>
+                        <MenuItem value="0">Material</MenuItem>
+                        <MenuItem value="1">Serviço</MenuItem>
                       </Select>
                     </FormControl>
                   )}
@@ -135,8 +135,8 @@ const CreateServices: NextPage = () => {
                     <FormControl fullWidth error={!!errors.status}>
                       <InputLabel>Ativo</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="0">Ativo</MenuItem>
-                        <MenuItem value="1">Inativo</MenuItem>
+                        <MenuItem value="1">Ativo</MenuItem>
+                        <MenuItem value="0">Inativo</MenuItem>
                       </Select>
                     </FormControl>
                   )}
@@ -151,7 +151,7 @@ const CreateServices: NextPage = () => {
                   name="quantity"
                   control={control}
                   render={({ field }) => (
-                    <TextField {...field} label="Quantidade" fullWidth error={!!errors.quantity} helperText={errors.price_net?.message} />
+                    <TextField {...field} type="number" label="Quantidade" fullWidth error={!!errors.quantity} helperText={errors.price_net?.message} />
                   )}
                 />
               </Grid>

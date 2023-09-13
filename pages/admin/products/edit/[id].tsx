@@ -28,8 +28,6 @@ interface IDataForm {
   product_code: string;
   type_product: number;
   price_net: number;
-  price_gross: number;
-  factor: number;
   ipi: number;
   status: boolean;
   slug: string;
@@ -55,8 +53,6 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
     product_code: yup.string().required('Código do produto é obrigatório'),
     type_product: yup.number().required('Tipo de produto é obrigatório'),
     price_net: yup.number().required('Preço líquido é obrigatório'),
-    price_gross: yup.number().required('Preço bruto é obrigatório'),
-    factor: yup.number().required('Fator é obrigatório'),
     ipi: yup.number().required('IPI é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
     slug: yup.string().required('Slug é obrigatório'),
@@ -106,8 +102,7 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
   };
 
   const onSubmit = async (data: IDataForm) => {
-    console.log(data)
-
+    
     setLoader(true);
 
     try {
@@ -118,8 +113,6 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
       formData.append('product_code', data.product_code);
       formData.append('type_product', data.type_product.toString());
       formData.append('price_net', data.price_net.toString());
-      formData.append('price_gross', data.price_gross.toString());
-      formData.append('factor', data.factor.toString());
       formData.append('ipi', data.ipi.toString());
       formData.append('status', data.status.toString());
       formData.append('slug', data.slug);
@@ -181,8 +174,8 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
                     <FormControl fullWidth error={!!errors.status}>
                       <InputLabel>Ativo</InputLabel>
                       <Select {...field}>
-                        <MenuItem value="true">SIM</MenuItem>
-                        <MenuItem value="false">NÃO</MenuItem>
+                        <MenuItem value="1">Ativo</MenuItem>
+                        <MenuItem value="0">Inativo</MenuItem>
                       </Select>
                     </FormControl>
                   )}
@@ -227,26 +220,6 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
                   control={control}
                   render={({ field }) => (
                     <TextField {...field} label="Preço NET" fullWidth error={!!errors.price_net} helperText={errors.price_net?.message} />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Controller
-                  name="price_gross"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField {...field} label="Preço bruto" fullWidth error={!!errors.price_gross} helperText={errors.price_gross?.message} />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Controller
-                  name="factor"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField {...field} label="Fator" fullWidth error={!!errors.factor} helperText={errors.factor?.message} />
                   )}
                 />
               </Grid>
