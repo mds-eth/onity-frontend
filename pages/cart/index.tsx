@@ -32,10 +32,8 @@ interface FormValues {
   phone: string;
   state: string;
   cnpj: string;
-  icms: string | boolean;
-  orders?: IProduct[];
+  icms: boolean;
 }
-
 
 const CartUser: NextPage = () => {
 
@@ -50,7 +48,7 @@ const CartUser: NextPage = () => {
     phone: yup.string().required('Phone number is required'),
     state: yup.string().required('State is required'),
     cnpj: yup.string().required('CNPJ is required'),
-    icms: yup.string().required('ICMS option is required'),
+    icms: yup.boolean().required('ICMS option is required'),
   });
 
   const {
@@ -81,10 +79,11 @@ const CartUser: NextPage = () => {
         })
       }
 
-      data.orders = cart;
-      data.icms = data.icms === '1' ? true : false;
-
-      const response = await ApiService.post('/orders', data);
+      const response = await ApiService.post('/orders', {
+        ...data,
+        cart: cart,
+        icms: data.icms ? true : false
+      });
 
       if (response.status === 201) {
         Swal.fire({

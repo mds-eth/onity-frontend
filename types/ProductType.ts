@@ -6,7 +6,6 @@ export interface IProduct {
   price_net: number;
   price_gross: number;
   factor: string;
-  ipi: number;
   status: boolean;
   slug: string;
   file_path: string;

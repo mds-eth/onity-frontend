@@ -26,7 +26,6 @@ interface IDataForm {
   type_product: number;
   quantity: number;
   price_net: number;
-  ipi: number;
   status: boolean;
 }
 
@@ -41,7 +40,6 @@ const CreateServices: NextPage = () => {
     type_product: yup.number().required('Tipo de produto é obrigatório'),
     quantity: yup.number().required('Quantidade é obrigatória'),
     price_net: yup.number().required('Preço é obrigatório'),
-    ipi: yup.number().required('IPI é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
   });
 
@@ -166,15 +164,6 @@ const CreateServices: NextPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={6}>
-                <Controller
-                  name="ipi"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
-                  )}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">Salvar</Button>
               </Grid>

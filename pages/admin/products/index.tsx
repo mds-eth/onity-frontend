@@ -104,7 +104,6 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                     <TableCell align="center">Código produto</TableCell>
                     <TableCell align="center">Tipo de produto</TableCell>
                     <TableCell align="center">Preço NET</TableCell>
-                    <TableCell align="center">IPI</TableCell>
                     <TableCell align="center">Ativo</TableCell>
                     <TableCell align="center">Criado em</TableCell>
                     <TableCell align="center">Ações</TableCell>
@@ -120,7 +119,6 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                       <TableCell align="center">{product.product_code}</TableCell>
                       <TableCell align="center">{product.type_product}</TableCell>
                       <TableCell align="center">{product.price_net}</TableCell>
-                      <TableCell align="center">{product.ipi}</TableCell>
                       <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
                         day: "2-digit",

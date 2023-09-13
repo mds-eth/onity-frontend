@@ -5,7 +5,6 @@ export interface IServices {
   type_product: number;
   quantity: number;
   price_net: number;
-  ipi: number;
   status: boolean;
   created_at: string;
 }

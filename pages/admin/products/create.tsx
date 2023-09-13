@@ -26,7 +26,6 @@ interface IDataForm {
   product_code: string;
   type_product: number;
   price_net: number;
-  ipi: number;
   status: boolean;
   slug: string;
   file: any;
@@ -62,7 +61,6 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
     product_code: yup.string().required('Código do produto é obrigatório'),
     type_product: yup.number().required('Tipo de produto é obrigatório'),
     price_net: yup.number().required('Preço líquido é obrigatório'),
-    ipi: yup.number().required('IPI é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
     slug: yup
       .string()
@@ -92,7 +90,7 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
   });
 
   const { register, handleSubmit, control, formState: { errors } } = useForm<IDataForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
   });
 
   const onSubmit = async (data: IDataForm) => {
@@ -107,7 +105,6 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
       formData.append('product_code', data.product_code);
       formData.append('type_product', data.type_product.toString());
       formData.append('price_net', data.price_net.toString());
-      formData.append('ipi', data.ipi.toString());
       formData.append('status', data.status.toString());
       formData.append('slug', data.slug);
       formData.append('file', data.file[0]);
@@ -240,16 +237,6 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
                   control={control}
                   render={({ field }) => (
                     <TextField {...field} label="SLUG" fullWidth error={!!errors.slug} helperText={errors.slug?.message} />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Controller
-                  name="ipi"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField type="number"  {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
                   )}
                 />
               </Grid>

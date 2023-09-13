@@ -75,7 +75,7 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {order.orders.map((order: IProduct) => (
+                              {order?.orders?.map((order: IProduct) => (
                                 <TableRow key={order.id}>
                                   <TableCell component="th" scope="row">
                                     {order.product_code}
@@ -151,7 +151,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const response = await ApiService.get('/orders');
 
   const orders = response.data;
-
+  
   return {
     props: { orders },
   };
