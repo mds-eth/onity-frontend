@@ -81,7 +81,7 @@ const CartUser: NextPage = () => {
 
       const response = await ApiService.post('/orders', {
         ...data,
-        cart: cart,
+        orders: cart,
         icms: data.icms ? true : false
       });
 
