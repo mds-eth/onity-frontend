@@ -48,7 +48,6 @@ const ProductDetail: NextPage<IProductDetail> = ({ product }) => {
               <DescriptionProduct>
                 {product?.title}
               </DescriptionProduct>
-              <PriceProduct>Valor Total: {formatCoinBR(product?.price_net)}</PriceProduct>
               <ButtonAddCart onClick={() => handleAddProductToCart()}>
                 <BsCartPlus />
                 Adicionar ao carrinho

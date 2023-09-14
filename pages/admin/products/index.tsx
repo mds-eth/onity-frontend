@@ -26,13 +26,14 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal, { SweetAlertResult } from "sweetalert2";
 import { IProduct } from "../../../types/ProductType";
+import { formatCoinBR } from "../../../utils/Utils";
 
 interface IAdminProducts {
   products: IProduct[]
 }
 
 const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
-  
+
   const [productsList, setProductsList] = useState(products);
 
   const router = useRouter();
@@ -118,8 +119,8 @@ const AdminProducts: NextPage<IAdminProducts> = ({ products }) => {
                       </TableCell>
                       <TableCell align="center">{product.title}</TableCell>
                       <TableCell align="center">{product.product_code}</TableCell>
-                      <TableCell align="center">{product.type_product}</TableCell>
-                      <TableCell align="center">{product.price_net}</TableCell>
+                      <TableCell align="center">{product.type_product === '0' ? 'Nacional' : 'Importado'}</TableCell>
+                      <TableCell align="center">{formatCoinBR(product.price_net)}</TableCell>
                       <TableCell align="center">{product.ipi}</TableCell>
                       <TableCell align="center">{product.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {

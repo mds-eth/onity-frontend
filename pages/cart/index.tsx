@@ -129,7 +129,6 @@ const CartUser: NextPage = () => {
                         <img src={`${configHost.host}${item.file_path}`} alt="image" />
                       </SpaceImage>
                       <SpaceMeio>
-                        <span>{formatCoinBR(item.price_net)}</span>
                         <span>{item.title}</span>
                       </SpaceMeio>
                       <SpaceMeio className='count'>
