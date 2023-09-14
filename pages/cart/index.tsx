@@ -216,7 +216,6 @@ const CartUser: NextPage = () => {
                   </div>
                 </Row>
                 <FooterForm>
-                  <span>Valor total: <b>{formatCoinBR(totalPrice)}</b></span>
                   <Submit type='submit' disabled={countCart === 0}>Enviar</Submit>
                 </FooterForm>
               </FormCart>
