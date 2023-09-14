@@ -24,7 +24,9 @@ interface IDataForm {
   code: string;
   title: string;
   type_product: number;
+  type: number;
   quantity: number;
+  ipi: number;
   price_net: number;
   status: boolean;
 }
@@ -38,6 +40,8 @@ const CreateServices: NextPage = () => {
     code: yup.string().required('Código é obrigatório'),
     title: yup.string().required('Título é obrigatório'),
     type_product: yup.number().required('Tipo de produto é obrigatório'),
+    type: yup.number().required('Tipo é obrigatório'),
+    ipi: yup.number().required('IPI é obrigatório'),
     quantity: yup.number().required('Quantidade é obrigatória'),
     price_net: yup.number().required('Preço é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
@@ -86,7 +90,7 @@ const CreateServices: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Cadastrar serviço</Typography>
+                <Typography variant="h6">Cadastrar Item Adicional</Typography>
               </Grid>
               <Grid item xs={6} style={{ marginTop: '20px' }}>
                 <Controller
@@ -113,6 +117,25 @@ const CreateServices: NextPage = () => {
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.type_product}>
                       <InputLabel>Tipo produto</InputLabel>
+                      <Select {...field}>
+                        <MenuItem value="0">Nacional</MenuItem>
+                        <MenuItem value="1">Importado</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+
+                />
+                <Typography variant="body2" color="error">
+                  {errors?.type_product?.message}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Controller
+                  name="type"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.type}>
+                      <InputLabel>Tipo</InputLabel>
                       <Select {...field}>
                         <MenuItem value="0">Material</MenuItem>
                         <MenuItem value="1">Serviço</MenuItem>
@@ -160,6 +183,16 @@ const CreateServices: NextPage = () => {
                   control={control}
                   render={({ field }) => (
                     <TextField {...field} label="Preço NET" fullWidth error={!!errors.price_net} helperText={errors.price_net?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="ipi"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField type="number"  {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
                   )}
                 />
               </Grid>

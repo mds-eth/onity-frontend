@@ -27,6 +27,7 @@ interface IDataForm {
   type_product: number;
   price_net: number;
   status: boolean;
+  ipi: number;
   slug: string;
   file: any;
   items: String[],
@@ -62,6 +63,7 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
     type_product: yup.number().required('Tipo de produto é obrigatório'),
     price_net: yup.number().required('Preço líquido é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
+    ipi: yup.number().required('IPI é obrigatório'),
     slug: yup
       .string()
       .required('Slug é obrigatório')
@@ -106,6 +108,7 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
       formData.append('type_product', data.type_product.toString());
       formData.append('price_net', data.price_net.toString());
       formData.append('status', data.status.toString());
+      formData.append('ipi', data.ipi.toString());
       formData.append('slug', data.slug);
       formData.append('file', data.file[0]);
       formData.append('items', JSON.stringify(services.filter(service => nameItem.includes(service.title))));
@@ -237,6 +240,16 @@ const CreateProducts: NextPage<IAdminCreateProduct> = ({ services }) => {
                   control={control}
                   render={({ field }) => (
                     <TextField {...field} label="SLUG" fullWidth error={!!errors.slug} helperText={errors.slug?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="ipi"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField type="number"  {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
                   )}
                 />
               </Grid>

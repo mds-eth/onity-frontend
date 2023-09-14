@@ -26,6 +26,7 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { IServices } from "../../../types/ServiceType";
+import { formatCoinBR } from "../../../utils/Utils";
 
 interface IAdminServices {
   services: IServices[];
@@ -103,6 +104,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                     <TableCell align="center">Título</TableCell>
                     <TableCell align="center">Código</TableCell>
                     <TableCell align="center">Tipo produto</TableCell>
+                    <TableCell align="center">Tipo </TableCell>
                     <TableCell align="center">Quantidade por porta</TableCell>
                     <TableCell align="center">Preço</TableCell>
                     <TableCell align="center">Ativo</TableCell>
@@ -118,9 +120,10 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                       </TableCell>
                       <TableCell align="center">{service.code}</TableCell>
                       <TableCell align="center">{service.title.substring(0, 30)}...</TableCell>
-                      <TableCell align="center">{service.type_product}</TableCell>
+                      <TableCell align="center">{service.type_product === '0' ? 'Nacional' : 'Importado'}</TableCell>
+                      <TableCell align="center">{service.type === '0' ? 'Material' : 'Serviço'}</TableCell>
                       <TableCell align="center">{service.quantity}</TableCell>
-                      <TableCell align="center">{service.price_net}</TableCell>
+                      <TableCell align="center">{formatCoinBR(service.price_net)}</TableCell>
                       <TableCell align="center">{service.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
                         day: "2-digit",

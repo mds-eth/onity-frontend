@@ -6,7 +6,7 @@ import nookies from 'nookies';
 
 import ApiService from '../../../../services/api.service';
 
-import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem, Theme, SelectChangeEvent, OutlinedInput, Box, Chip, useTheme } from '@mui/material';
 
 import { HeaderAdmin } from "../../../../components/Admin/Header";
 
@@ -21,6 +21,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Loader from "../../../../components/Loader";
 import Swal, { SweetAlertResult } from "sweetalert2";
 import { urlToFiles } from "../../../../utils/Utils";
+import { IServices } from "../../../../types/ServiceType";
 
 interface IDataForm {
   id?: number;
@@ -30,22 +31,53 @@ interface IDataForm {
   price_net: number;
   status: boolean;
   slug: string;
+  ipi: number;
   file: any;
   file_path?: string;
   created_at?: string;
   updated_at?: string;
+  items?: String[],
 }
 
 interface IProductProps {
   product: IDataForm;
+  services: IServices[]
 }
 
-const EditProducts: NextPage<IProductProps> = ({ product }) => {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
+const EditProducts: NextPage<IProductProps> = ({ product, services }) => {
+  const theme = useTheme();
 
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
+  const [nameItem, setNameItem] = React.useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState(product?.file_path);
   const [editFile, setEditFile] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (Array.isArray(product.items) && Array.isArray(services)) {
+      const updatedNameItem = product.items.map((item: any) => {
+        const service = services.find((service) => service.id === item.id);
+
+        if (service) {
+          return service.title;
+        }
+        return ''
+      });
+      setNameItem(updatedNameItem);
+    }
+  }, [product.items, services]);
 
   const schema = yup.object().shape({
     title: yup.string().required('Título é obrigatório'),
@@ -70,10 +102,15 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
           value[0]?.type === 'application/gif'
         );
       }),
+    items: yup
+      .array(
+        yup.string().required('Ao menos um item é obrigatório'),
+      )
+      .min(1)
   });
 
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<IDataForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     defaultValues: product
   });
 
@@ -100,7 +137,7 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
   };
 
   const onSubmit = async (data: IDataForm) => {
-    
+
     setLoader(true);
 
     try {
@@ -112,9 +149,11 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
       formData.append('type_product', data.type_product.toString());
       formData.append('price_net', data.price_net.toString());
       formData.append('status', data.status.toString());
+      formData.append('ipi', data.ipi.toString());
       formData.append('slug', data.slug);
       formData.append('file', data.file[0]);
       formData.append('file_change', String(editFile));
+      formData.append('items', JSON.stringify(services.filter(service => nameItem.includes(service.title))));
 
       const response = await ApiService.putWithFile(`/products/${product.id}`, formData);
 
@@ -139,6 +178,23 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
   };
 
 
+  function getStyles(name: string, personName: readonly string[], theme: Theme) {
+    return {
+      fontWeight:
+        personName.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
+
+  const handleChange = (event: SelectChangeEvent<typeof nameItem>) => {
+    const {
+      target: { value },
+    } = event;
+    setNameItem(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
 
   return (
     <Container>
@@ -232,6 +288,16 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
               </Grid>
 
               <Grid item xs={6}>
+                <Controller
+                  name="ipi"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField type="number"  {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
                 <input
                   type="file"
                   accept=".jpeg, .jpg, .png, .gif"
@@ -245,6 +311,46 @@ const EditProducts: NextPage<IProductProps> = ({ product }) => {
                 )}
                 <Typography variant="body2" color="error">
                   <>{errors?.file?.message}</>
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Controller
+                  name="items"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.type_product}>
+                      <InputLabel>Itens adicionais</InputLabel>
+                      <Select
+                        multiple
+                        {...field}
+                        value={nameItem}
+                        onChange={handleChange}
+                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                        renderValue={(selected) => (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                        MenuProps={MenuProps}
+                      >
+                        {services.map((service) => (
+                          <MenuItem
+                            key={service.id}
+                            value={service.title}
+                            style={getStyles(service.title, nameItem, theme)}
+                          >
+                            {service.title}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+                <Typography variant="body2" color="error">
+                  <>{errors?.items?.message}</>
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -279,12 +385,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const { id } = query;
 
-  const response = await ApiService.get(`/products/id/${id}`);
+  const [responseService, responseProduct] = await Promise.all([
+    ApiService.get('/services'),
+    ApiService.get(`/products/id/${id}`)
+  ])
 
-  const product = response.data;
+  const services = responseService.data;
+  const product = responseProduct.data;
 
   return {
-    props: { product },
+    props: { services, product },
   };
 }
 

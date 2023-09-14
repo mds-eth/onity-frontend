@@ -25,6 +25,7 @@ interface IDataForm {
   code: string;
   title: string;
   type_product: number;
+  type: number;
   quantity: number;
   price_net: number;
   status: boolean;
@@ -38,7 +39,7 @@ interface IProps {
 
 
 const EditServices: NextPage<IProps> = ({ service }) => {
-  
+
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -46,6 +47,7 @@ const EditServices: NextPage<IProps> = ({ service }) => {
     code: yup.string().required('Código é obrigatório'),
     title: yup.string().required('Título é obrigatório'),
     type_product: yup.number().required('Tipo de produto é obrigatório'),
+    type: yup.number().required('Tipo é obrigatório'),
     quantity: yup.number().required('Quantidade é obrigatória'),
     price_net: yup.number().required('Preço é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
@@ -125,6 +127,26 @@ const EditServices: NextPage<IProps> = ({ service }) => {
                       <Select {...field}>
                         <MenuItem value="0">Nacional</MenuItem>
                         <MenuItem value="1">Importado</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+
+                />
+                <Typography variant="body2" color="error">
+                  {errors?.type_product?.message}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="type"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth error={!!errors.type}>
+                      <InputLabel>Tipo</InputLabel>
+                      <Select {...field}>
+                        <MenuItem value="0">Material</MenuItem>
+                        <MenuItem value="1">Serviço</MenuItem>
                       </Select>
                     </FormControl>
                   )}

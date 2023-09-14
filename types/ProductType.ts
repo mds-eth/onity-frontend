@@ -7,6 +7,7 @@ export interface IProduct {
   price_gross: number;
   factor: string;
   status: boolean;
+  ipi: number;
   slug: string;
   file_path: string;
   created_at: string;
