@@ -31,7 +31,7 @@ interface FormValues {
   email: string;
   phone: string;
   state: string;
-  cnpj: string;
+  cnpj?: string;
   icms: boolean;
 }
 
@@ -47,7 +47,7 @@ const CartUser: NextPage = () => {
     email: yup.string().email('Invalid email').required('Email is required'),
     phone: yup.string().required('Phone number is required'),
     state: yup.string().required('State is required'),
-    cnpj: yup.string().required('CNPJ is required'),
+    cnpj: yup.string(),
     icms: yup.boolean().required('ICMS option is required'),
   });
 

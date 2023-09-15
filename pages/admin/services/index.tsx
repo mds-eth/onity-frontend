@@ -107,6 +107,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                     <TableCell align="center">Tipo </TableCell>
                     <TableCell align="center">Quantidade por porta</TableCell>
                     <TableCell align="center">Preço</TableCell>
+                    <TableCell align="center">IPI</TableCell>
                     <TableCell align="center">Ativo</TableCell>
                     <TableCell align="center">Criado em</TableCell>
                     <TableCell align="center">Ações</TableCell>
@@ -124,6 +125,7 @@ const AdminServices: NextPage<IAdminServices> = ({ services }) => {
                       <TableCell align="center">{service.type === '0' ? 'Material' : 'Serviço'}</TableCell>
                       <TableCell align="center">{service.quantity}</TableCell>
                       <TableCell align="center">{formatCoinBR(service.price_net)}</TableCell>
+                      <TableCell align="center">{service.ipi}</TableCell>
                       <TableCell align="center">{service.status === true ? 'Ativo' : 'Inativo'}</TableCell>
                       <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
                         day: "2-digit",

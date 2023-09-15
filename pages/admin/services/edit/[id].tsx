@@ -26,6 +26,7 @@ interface IDataForm {
   title: string;
   type_product: number;
   type: number;
+  ipi: number;
   quantity: number;
   price_net: number;
   status: boolean;
@@ -49,6 +50,7 @@ const EditServices: NextPage<IProps> = ({ service }) => {
     type_product: yup.number().required('Tipo de produto é obrigatório'),
     type: yup.number().required('Tipo é obrigatório'),
     quantity: yup.number().required('Quantidade é obrigatória'),
+    ipi: yup.number().required('IPI é obrigatório'),
     price_net: yup.number().required('Preço é obrigatório'),
     status: yup.boolean().required('Status é obrigatório'),
   });
@@ -97,7 +99,7 @@ const EditServices: NextPage<IProps> = ({ service }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Editar serviço</Typography>
+                <Typography variant="h6">Editar Item Adicional</Typography>
               </Grid>
               <Grid item xs={6} style={{ marginTop: '20px' }}>
                 <Controller
@@ -136,7 +138,6 @@ const EditServices: NextPage<IProps> = ({ service }) => {
                   {errors?.type_product?.message}
                 </Typography>
               </Grid>
-
               <Grid item xs={6}>
                 <Controller
                   name="type"
@@ -180,7 +181,7 @@ const EditServices: NextPage<IProps> = ({ service }) => {
                   name="quantity"
                   control={control}
                   render={({ field }) => (
-                    <TextField {...field} label="Quantidade" fullWidth error={!!errors.quantity} helperText={errors.price_net?.message} />
+                    <TextField {...field} type="number" label="Quantidade" fullWidth error={!!errors.quantity} helperText={errors.price_net?.message} />
                   )}
                 />
               </Grid>
@@ -191,6 +192,16 @@ const EditServices: NextPage<IProps> = ({ service }) => {
                   control={control}
                   render={({ field }) => (
                     <TextField {...field} label="Preço NET" fullWidth error={!!errors.price_net} helperText={errors.price_net?.message} />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name="ipi"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField type="number"  {...field} label="IPI" fullWidth error={!!errors.ipi} helperText={errors.ipi?.message} />
                   )}
                 />
               </Grid>
