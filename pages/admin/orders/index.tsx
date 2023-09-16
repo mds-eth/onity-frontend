@@ -35,29 +35,47 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
   const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = useState<boolean>(false);
 
-  const handleSendEmails = async () => {
-    setLoader(true);
+  const handleModalSendEmails = () => {
 
-    try {
+    const total = orders.length;
 
-      const response = await ApiService.post('/calculate', {});
+    Swal.fire({
+      title: 'Atenção!',
+      html: `${total > 1 ? 'Serão' : 'Será'} ${total > 1 ? 'enviados' : 'enviado'} <b>${total}</b> email${total > 1 ? 's' : ''}, deseja continuar?`,
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonAriaLabel: 'Cancelar',
+      icon: 'warning',
+      showCloseButton: true,
+      cancelButtonText: 'Fechar'
+    }).then(async function (result) {
 
-      setLoader(false);
+      if (result.isConfirmed) {
 
-      if (response.status === 200) {
-        Swal.fire({
-          text: `Disparo realizado com sucesso.`,
-          showCancelButton: false,
-          confirmButtonText: 'Fechar',
-          icon: 'success',
-          showCloseButton: true,
-          cancelButtonText: 'Fechar'
-        })
+        setLoader(true);
+
+        try {
+
+          const response = await ApiService.post('/calculate', {});
+
+          setLoader(false);
+
+          if (response.status === 200) {
+            Swal.fire({
+              text: `Disparo realizado com sucesso.`,
+              showCancelButton: false,
+              confirmButtonText: 'Fechar',
+              icon: 'success',
+              showCloseButton: true,
+              cancelButtonText: 'Fechar'
+            })
+          }
+
+        } catch (error) {
+          setLoader(false);
+        }
       }
-
-    } catch (error) {
-      setLoader(false);
-    }
+    });
   }
 
   return (
@@ -70,7 +88,7 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
             <IconButton
               color="primary"
               aria-label="emails"
-              onClick={handleSendEmails}
+              onClick={handleModalSendEmails}
             >
               Disparar emails
             </IconButton>
