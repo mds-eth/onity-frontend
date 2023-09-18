@@ -26,6 +26,8 @@ export const ContainerOrderDashboard = styled.section`
 export const ContentTable = styled.div`
   width: 100%;
   height: 100%;
+  overflow: auto;
+  margin-bottom: 60px;
 
   h1 {
     color: white;
