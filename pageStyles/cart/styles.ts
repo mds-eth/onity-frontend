@@ -54,6 +54,7 @@ export const SpaceMeio = styled.div`
     width: 90px;
     flex-direction: row;
     margin-top: 20px;
+    padding: 10px 0px;
 
     .total {
       font-size: 10px;
