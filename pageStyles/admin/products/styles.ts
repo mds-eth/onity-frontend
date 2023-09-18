@@ -46,4 +46,5 @@ export const ContainerCreate = styled.section`
   padding: 20px 120px;
   background-color: white;
   max-width: 1200px;
+  overflow: auto;
 `;

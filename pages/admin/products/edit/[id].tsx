@@ -102,11 +102,6 @@ const EditProducts: NextPage<IProductProps> = ({ product, services }) => {
           value[0]?.type === 'application/gif'
         );
       }),
-    items: yup
-      .array(
-        yup.string().required('Ao menos um item é obrigatório'),
-      )
-      .min(1)
   });
 
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm<IDataForm>({
@@ -138,9 +133,18 @@ const EditProducts: NextPage<IProductProps> = ({ product, services }) => {
 
   const onSubmit = async (data: IDataForm) => {
 
-    setLoader(true);
-
     try {
+
+      if (services.filter(service => nameItem.includes(service.title)).length === 0) {
+        return Swal.fire({
+          title: 'Atenção!',
+          text: 'Informe ao menos um item adicional.',
+          icon: 'warning',
+          confirmButtonText: 'Fechar'
+        });
+      }
+
+      setLoader(true);
 
       const formData = new FormData();
 
