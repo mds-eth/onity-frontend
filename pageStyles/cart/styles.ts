@@ -127,6 +127,7 @@ export const ItemCart = styled.li`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  background-color: #FFFFFF;
 `;
 
 export const SpaceImage = styled.div`
