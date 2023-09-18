@@ -112,4 +112,8 @@ export const SpaceAddCart = styled.div`
   color: #ffffff;
   cursor: pointer;
   margin-bottom: 10px;
+
+  @media (max-width: 660px) {
+    width: 90%;
+  }
 `;
