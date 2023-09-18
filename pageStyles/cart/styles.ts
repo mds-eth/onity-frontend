@@ -79,6 +79,14 @@ export const SpaceMeio = styled.div`
     height: 28px;
     border: none;
   }
+  span {
+    text-align: center;
+  }
+  @media (max-width: 880px) {
+    span {
+      font-size: 12px;
+    }
+  }
 `;
 
 export const ContainerCart = styled.div`
