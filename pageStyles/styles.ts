@@ -69,8 +69,7 @@ export const ProductItem = styled.div`
   border-radius: 6px;
 
   @media (max-width: 660px) {
-    width: 120px;
-    height: 120px;
+    width: 100%;
   }
 `;
 
