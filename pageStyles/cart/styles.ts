@@ -44,18 +44,16 @@ export const SubTitle = styled.p`
 export const SpaceMeio = styled.div`
   height: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  justify-self: start;
-  text-align: flex-start;
 
-  &.count {
+  .count {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 90px;
     flex-direction: row;
+    margin-top: 20px;
 
     .total {
       font-size: 10px;
@@ -98,12 +96,12 @@ export const ContainerCart = styled.div`
 
 export const ContentCart = styled.ul`
   width: 100%;
-  height: 200px;
   display: flex;
   align-items: center;
   flex-direction: column;
   max-width: 1200px;
   overflow: scroll scroll;
+  max-height: 200px;
 
   li:nth-child(even) {
     margin: 15px 0px;
@@ -116,26 +114,19 @@ export const ContentCart = styled.ul`
 
 export const ItemCart = styled.li`
   width: 100%;
-  min-height: 100px;
   border: 1px solid #c5c5c5;
-  padding: 10px 30px;
-  display: grid;
-  grid-template-columns: 1fr 2fr 2fr 1fr;
   align-items: center;
-  display: grid;
-  grid-template-columns: auto 1fr 1fr auto;
-  align-items: center;
-  gap: 5px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const SpaceImage = styled.div`
   width: 100px;
-  max-height: 100%;
-  justify-self: start;
+  height: 100%;
 
   img {
-    width: 60%;
-    height: 60%;
+    width: 100%;
+    max-height: 100%;
     object-fit: cover;
   }
 
@@ -205,7 +196,7 @@ export const ContentForm = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 20px 20px;
-  margin-bottom: 60px;
+  margin: 20px 0px 60px 0px;
 `;
 
 export const HeaderForm = styled.header`

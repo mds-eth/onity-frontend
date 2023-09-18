@@ -19,7 +19,6 @@ import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterFor
 import { useRouter } from 'next/router';
 
 import { useCart } from '../../contexts/CartContext';
-import { formatCoinBR } from '../../utils/Utils';
 import { useEffect } from 'react';
 import { IProduct } from '../../types/ProductType';
 import Swal from 'sweetalert2';
@@ -130,11 +129,12 @@ const CartUser: NextPage = () => {
                       </SpaceImage>
                       <SpaceMeio>
                         <span>{item.title}</span>
-                      </SpaceMeio>
-                      <SpaceMeio className='count'>
-                        <div className='less' onClick={() => removeFromCartOneProduct(item?.id)}>-</div>
-                        <div className='total'>{item?.quantity === null ? 1 : item?.quantity}</div>
-                        <div className='more' onClick={() => addToCart(item)}>+</div>
+
+                        <div className='count'>
+                          <div className='less' onClick={() => removeFromCartOneProduct(item?.id)}>-</div>
+                          <div className='total'>{item?.quantity === null ? 1 : item?.quantity}</div>
+                          <div className='more' onClick={() => addToCart(item)}>+</div>
+                        </div>
                       </SpaceMeio>
                       <ContentActionsItem>
                         <ButtonRemove onClick={() => removeFromCart(item.id)}>
