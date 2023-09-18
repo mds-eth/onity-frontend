@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
     font-size: 16px;
     line-height: 1.6;
     color: #333;
+    background-color: #DADADA;
   }
 
   a {
@@ -21,9 +22,8 @@ const GlobalStyles = createGlobalStyle`
 
   input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
 }
 
 input[type=number] {

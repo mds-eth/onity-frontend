@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  height: calc(100vh - 120px);
+  height: auto;
   background-color: #dadada;
   display: flex;
   align-items: center;
@@ -85,22 +85,20 @@ export const SpaceMeio = styled.div`
 
 export const ContainerCart = styled.div`
   width: 100%;
-  height: 480px;
   max-width: 1200px;
   margin-top: 60px;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 60px;
+  flex-direction: column;
 
   @media (max-width: 880px) {
-    flex-direction: column;
     height: auto;
   }
 `;
 
 export const ContentCart = styled.ul`
-  width: 49%;
-  height: 100%;
+  width: 100%;
+  height: 200px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -133,14 +131,12 @@ export const ItemCart = styled.li`
 export const SpaceImage = styled.div`
   width: 100px;
   max-height: 100%;
-  border-radius: 50%;
   justify-self: start;
 
   img {
     width: 60%;
     height: 60%;
     object-fit: cover;
-    border-radius: 50%;
   }
 
   @media (max-width: 880px) {
@@ -202,18 +198,14 @@ export const ContentActionsItem = styled.div`
 `;
 
 export const ContentForm = styled.div`
-  width: 49%;
+  width: 100%;
   height: 100%;
   border: 1px solid #c5c5c5;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 20px 20px;
-
-  @media (max-width: 880px) {
-    width: 100%;
-    margin-bottom: 60px;
-  }
+  margin-bottom: 60px;
 `;
 
 export const HeaderForm = styled.header`

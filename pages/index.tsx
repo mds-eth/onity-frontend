@@ -6,10 +6,11 @@ import Footer from '../components/Footer'
 
 import ApiService from '../services/api.service';
 
-import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, NameProduct } from '../pageStyles/styles';
+import { Container, ContentHomeProducts, TitleEvent, SubTitle, ContentProducts, ProductItem, SpaceImage, SpaceTitle, SpaceAddCart } from '../pageStyles/styles';
 import { useRouter } from 'next/router';
 import { IProduct } from '../types/ProductType';
 import { configHost } from '../services/configHost';
+import { useCart } from '../contexts/CartContext';
 
 interface IProductList {
   products: IProduct[];
@@ -18,6 +19,14 @@ interface IProductList {
 const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
 
   const router = useRouter();
+
+  const { addToCart } = useCart();
+
+  const handleAddProductToCart = (product: IProduct) => {
+    addToCart(product);
+
+    router.push('/cart');
+  }
 
   return (
     <>
@@ -29,9 +38,16 @@ const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
           <ContentProducts>
             {products.map((product: IProduct) => {
               return (
-                <ProductItem key={product.id} onClick={() => router.push(product.slug)}>
-                  <img src={`${configHost.host}${product.file_path}`} alt="image" />
-                  <NameProduct>{product.title}</NameProduct>
+                <ProductItem key={product.id}>
+                  <SpaceImage>
+                    <img src={`${configHost.host}${product.file_path}`} alt="image" />
+                  </SpaceImage>
+                  <SpaceTitle>
+                    <span>{product.title}</span>
+                  </SpaceTitle>
+                  <SpaceAddCart onClick={() => handleAddProductToCart(product)}>
+                    <span>ADICIONAR AO CARRINHO</span>
+                  </SpaceAddCart>
                 </ProductItem>
               )
             })}

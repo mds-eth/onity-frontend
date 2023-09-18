@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  height: calc(100vh - 120px);
+  height: auto;
   background-color: #dadada;
   display: flex;
   align-items: center;
@@ -49,30 +49,24 @@ export const SubTitle = styled.p`
   margin-top: 20px;
 `;
 
-export const ContentProducts = styled.ul`
+export const ContentProducts = styled.div`
   width: 100%;
   max-width: 1200px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 40px;
 `;
 
-export const ProductItem = styled.li`
-  width: 200px;
-  height: 200px;
-  background-color: #f3f3f3;
-  margin: 20px 20px;
+export const ProductItem = styled.div`
+  width: 216px;
+  height: 374px;
+  background-color: #ffffff;
+  margin: 0px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-direction: column;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+  border-radius: 6px;
 
   @media (max-width: 660px) {
     width: 120px;
@@ -80,8 +74,43 @@ export const ProductItem = styled.li`
   }
 `;
 
-export const NameProduct = styled.h3`
-  font-size: 16px;
+export const SpaceImage = styled.div`
+  width: 100%;
+  height: 215px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
+export const SpaceTitle = styled.div`
+  width: 184px;
+  height: 129px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
   color: black;
-  margin-bottom: 20px;
+  cursor: pointer;
+`;
+
+export const SpaceAddCart = styled.div`
+  width: 184px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  background-color: #0095d6;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  margin-bottom: 10px;
 `;
