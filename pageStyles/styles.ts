@@ -62,7 +62,7 @@ export const ProductItem = styled.div`
   width: 216px;
   height: 374px;
   background-color: #ffffff;
-  margin: 0px 20px;
+  margin: 10px 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
