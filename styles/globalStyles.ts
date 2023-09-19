@@ -30,6 +30,10 @@ input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+}
+
   ul {
     list-style: none;
   }

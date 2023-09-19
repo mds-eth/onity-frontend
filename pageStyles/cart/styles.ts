@@ -194,6 +194,10 @@ export const ContentActionsItem = styled.div`
     flex-direction: row;
     margin-right: 20px;
 
+    @media(max-width: 680px){
+      margin-right: 40px;
+    }
+
     input {
       text-align: center;
       width: 30px !important;
