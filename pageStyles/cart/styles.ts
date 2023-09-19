@@ -96,10 +96,6 @@ export const ContentCart = styled.ul`
   overflow: scroll scroll;
   max-height: 200px;
 
-  li:nth-child(even) {
-    transform: translateY(10px);
-  }
-
   @media (max-width: 880px) {
     width: 100%;
   }
@@ -108,11 +104,13 @@ export const ContentCart = styled.ul`
 export const ItemCart = styled.li`
   width: 100%;
   max-height: 100px;
+  min-height: 100px;
   height: 100px;
   align-items: center;
   display: flex;
   justify-content: space-between;
   background-color: #ffffff;
+  margin: 10px 0px;
 `;
 
 export const SpaceImage = styled.div`
