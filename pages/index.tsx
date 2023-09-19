@@ -23,7 +23,7 @@ const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
   const { addToCart } = useCart();
 
   const handleAddProductToCart = (product: IProduct) => {
-    addToCart(product);
+    addToCart(product, 1);
 
     router.push('/cart');
   }
