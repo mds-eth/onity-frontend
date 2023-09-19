@@ -268,6 +268,24 @@ export const Row = styled.div`
   justify-content: space-between;
   margin-top: 15px;
 
+  .terms {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    .label-terms {
+      width: 150px;
+      margin-left: 10px;
+    }
+
+    input {
+      width: 15px !important;
+      margin: 0px !important;
+      height: 15px;
+    }
+  }
+
   div {
     display: flex;
     flex-direction: column;
@@ -327,7 +345,7 @@ export const FooterForm = styled.footer`
 export const Submit = styled.button`
   width: 120px;
   height: 100%;
-  background-color: #0095D6;
+  background-color: #0095d6;
   border-radius: 6px;
   border: none;
   color: #ffffff;

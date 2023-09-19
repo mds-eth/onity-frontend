@@ -51,11 +51,15 @@ export const Title = styled.h2`
 export const SubTitle = styled.p`
   color: #fff;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-top: 20px;
+
+  @media (max-width: 680px) {
+    font-size: 14px;
+  }
 `;
 
 export const ContentProducts = styled.div`

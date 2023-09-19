@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 
 import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
-import { BsFillTrashFill } from "react-icons/bs";
 
 import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from '../../pageStyles/cart/styles';
 import { useRouter } from 'next/router';
@@ -32,6 +31,7 @@ interface FormValues {
   state: string;
   cnpj?: string;
   icms: boolean;
+  terms: boolean;
 }
 
 const CartUser: NextPage = () => {
@@ -48,6 +48,7 @@ const CartUser: NextPage = () => {
     state: yup.string().required('State is required'),
     cnpj: yup.string(),
     icms: yup.boolean().required('ICMS option is required'),
+    terms: yup.boolean().required('terms is required'),
   });
 
   const {
@@ -65,11 +66,23 @@ const CartUser: NextPage = () => {
   }, [errors])
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+
     try {
 
       if (countCart === 0) {
         return Swal.fire({
           text: `É necessário selecionar ao menos um produto para realizar pedido.`,
+          showCancelButton: false,
+          confirmButtonText: 'Fechar',
+          icon: 'error',
+          showCloseButton: true,
+          cancelButtonText: 'Fechar'
+        })
+      }
+
+      if (!data.terms) {
+        return Swal.fire({
+          text: `É necessário aceitar os termos de uso para prosseguir com orçamento.`,
           showCancelButton: false,
           confirmButtonText: 'Fechar',
           icon: 'error',
@@ -222,7 +235,12 @@ const CartUser: NextPage = () => {
                       <option value="0">NAO</option>
                     </select>
                   </div>
+                  <div className='terms'>
+                    <label className='label-terms' htmlFor="terms">Aceito os termos de uso</label>
+                    <input {...register('terms')} type="checkbox" name="terms" id="terms" className={errors.terms && 'error'} />
+                  </div>
                 </Row>
+
                 <FooterForm>
                   <Submit type='submit' disabled={countCart === 0}>Enviar</Submit>
                 </FooterForm>

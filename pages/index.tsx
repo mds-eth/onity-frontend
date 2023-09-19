@@ -35,7 +35,7 @@ const HomeProductsEvent: NextPage<IProductList> = ({ products }) => {
         <ContainerBanner>
           <Title>Feira Equipotel</Title>
           <span>19/09/2023 - 22/09/2023</span>
-          <SubTitle>Explore uma variedade de modelos de maçanetas e acabamentos para personalizar o estilo de fechadura Serene™.</SubTitle>
+          <SubTitle>Explore uma variedade de equipamentos Onity para o seu hotel.</SubTitle>
         </ContainerBanner>
         <ContentHomeProducts>
           <h2>Categoria do produto</h2>
