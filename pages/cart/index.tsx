@@ -134,6 +134,10 @@ const CartUser: NextPage = () => {
 
     const newValue = event.target.value;
 
+    if (parseInt(newValue) < 1) {
+      return removeFromCart(item.id);
+    }
+
     addToCart(item, parseInt(newValue))
 
     setInputValues((prevInputValues: any) => ({
@@ -169,9 +173,8 @@ const CartUser: NextPage = () => {
                       </SpaceMeio>
                       <ContentActionsItem>
                         <div className='count'>
-                          <div className='less' onClick={() => removeFromCartOneProduct(item?.id)}>-</div>
-                          <input onChange={(event) => handleChangeQuantityValue(event, item)} name={`input-${item.id}`} className='total' id='value' type="tel" value={inputValues[item.id] || item.quantity} />
-                          <div className='more' onClick={() => addToCart(item, item.quantity + 1)}>+</div>
+                          <span>Quantidade</span>
+                          <input onChange={(event) => handleChangeQuantityValue(event, item)} name={`input-${item.id}`} className='total' id='value' type="number" value={inputValues[item.id] || item.quantity} />
                         </div>
                       </ContentActionsItem>
                     </ItemCart>

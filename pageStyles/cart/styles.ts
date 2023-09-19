@@ -188,20 +188,30 @@ export const ContentActionsItem = styled.div`
   .count {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 130px;
     height: 100%;
-    flex-direction: row;
+    flex-direction: column;
     margin-right: 20px;
 
-    @media(max-width: 680px){
+    span {
+      color: #1d1d1c;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 680px) {
       margin-right: 40px;
     }
 
     input {
       text-align: center;
-      width: 30px !important;
-      height: 30px !important;
+      width: 40px !important;
+      height: 40px !important;
       border: none;
     }
 
@@ -222,7 +232,6 @@ export const ContentActionsItem = styled.div`
       font-weight: bold;
       width: 30px;
       height: 30px;
-      border-radius: 50%;
       background-color: #eff0f2;
       cursor: pointer;
     }
