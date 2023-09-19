@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.section`
   width: 100%;
   height: auto;
-  background-color: #dadada;
+  background-color: #eff0f2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,46 +42,21 @@ export const SubTitle = styled.p`
 `;
 
 export const SpaceMeio = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 20px;
 
-  .count {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90px;
-    flex-direction: row;
-    margin-top: 20px;
-    padding: 10px 0px;
-
-    .total {
-      font-size: 10px;
-    }
-
-    .less,
-    .more,
-    .total {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: #1c1c1c;
-      cursor: pointer;
-    }
-  }
-
-  input {
-    width: 50px;
-    height: 28px;
-    border: none;
-  }
   span {
-    text-align: center;
+    color: #1d1d1c;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
   }
   @media (max-width: 880px) {
     span {
@@ -98,6 +73,15 @@ export const ContainerCart = styled.div`
   margin-bottom: 60px;
   flex-direction: column;
 
+  h2 {
+    color: #003395;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 15px;
+  }
+
   @media (max-width: 880px) {
     height: auto;
   }
@@ -113,7 +97,7 @@ export const ContentCart = styled.ul`
   max-height: 200px;
 
   li:nth-child(even) {
-    margin: 15px 0px;
+    transform: translateY(10px);
   }
 
   @media (max-width: 880px) {
@@ -123,11 +107,12 @@ export const ContentCart = styled.ul`
 
 export const ItemCart = styled.li`
   width: 100%;
-  border: 1px solid #c5c5c5;
+  max-height: 100px;
+  height: 100px;
   align-items: center;
   display: flex;
   justify-content: space-between;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 
 export const SpaceImage = styled.div`
@@ -137,7 +122,7 @@ export const SpaceImage = styled.div`
   img {
     width: 100%;
     max-height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   @media (max-width: 880px) {
@@ -170,18 +155,23 @@ export const ButtonAddCart = styled.button`
   }
 `;
 
-export const ButtonRemove = styled.button`
-  width: 40px;
-  min-height: 30px;
-  cursor: pointer;
-  border-radius: 6px;
-  border: none;
-  background-color: red;
-  color: #ffffff;
+export const ButtonRemove = styled.div`
+  min-height: 20px;
   font-size: 14px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  cursor: pointer;
+
+  span {
+    color: #0095d6;
+    text-align: center;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 10px;
+  }
 `;
 
 export const ContentActionsItem = styled.div`
@@ -196,17 +186,44 @@ export const ContentActionsItem = styled.div`
   @media (max-width: 880px) {
     width: 100px;
   }
+
+  .count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90px;
+    flex-direction: row;
+
+    .total {
+      font-size: 10px;
+    }
+
+    .less,
+    .more,
+    .total {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #eff0f2;
+      cursor: pointer;
+    }
+  }
 `;
 
 export const ContentForm = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid #c5c5c5;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 20px 20px;
   margin: 20px 0px 60px 0px;
+  background-color: #fff;
 `;
 
 export const HeaderForm = styled.header`
@@ -233,12 +250,21 @@ export const FormCart = styled.form`
     border-radius: 6px;
     outline: none;
     padding: 0px 10px;
+    border-radius: 4px;
+    border: 1px solid #eaeaea;
+    background: #fff;
+  }
+  label {
+    color: #1d1d1c;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 `;
 
 export const Row = styled.div`
   width: 100%;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -248,6 +274,26 @@ export const Row = styled.div`
     display: flex;
     flex-direction: column;
     width: 50%;
+
+    input {
+      width: 95%;
+      height: 30px;
+      border: none;
+      border-radius: 6px;
+      outline: none;
+      padding: 0px 10px;
+      border-radius: 4px;
+      border: 1px solid #eaeaea;
+      background: #fff;
+      margin-top: 5px;
+    }
+    select {
+      border-radius: 4px;
+      border: 1px solid #eaeaea;
+      background: #fff;
+      width: 95%;
+      margin-top: 5px;
+    }
   }
 
   input,
@@ -258,6 +304,16 @@ export const Row = styled.div`
     border-radius: 6px;
     outline: none;
     padding: 0px 10px;
+  }
+
+  @media (max-width: 680px) {
+    flex-direction: column;
+    div {
+      width: 100%;
+    }
+    div:nth-child(2) {
+      margin-top: 10px;
+    }
   }
 `;
 
@@ -273,7 +329,7 @@ export const FooterForm = styled.footer`
 export const Submit = styled.button`
   width: 120px;
   height: 100%;
-  background-color: green;
+  background-color: #0095D6;
   border-radius: 6px;
   border: none;
   color: #ffffff;

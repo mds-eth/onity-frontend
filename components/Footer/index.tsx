@@ -1,14 +1,15 @@
 import React from 'react';
 
-import Image from 'next/image'
-
-import { Container, AlertPrivate, Copy } from './styles';
+import { Container, AlertPrivate } from './styles';
 
 const Footer: React.FC = () => {
   return (
     <Container>
-      <Image src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="Logo Onity" width={80} height={40} />
-      <AlertPrivate href='#'>Aviso de Privacidade</AlertPrivate>
+      <div className="message">
+        <span>Aviso de Privacidade</span>
+        <span>Termos de uso</span>
+      </div>
+      <AlertPrivate href='#'>© {new Date().getFullYear()} Todos os direitos reservados.</AlertPrivate>
     </Container>
   )
 }

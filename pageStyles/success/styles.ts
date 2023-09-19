@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   width: 100%;
-  height: calc(100vh - 120px);
-  background-color: #dadada;
+  height: auto;
+  background-color: #eff0f2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@ export const ContentMessage = styled.div`
     width: 120px;
     height: 40px;
     border: none;
-    background-color: green;
+    background-color: #0095d6;
     color: #ffffff;
     margin-top: 40px;
   }

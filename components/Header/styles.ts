@@ -2,25 +2,20 @@ import styled from "styled-components";
 
 export const Container = styled.header`
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #041424;
+  background-color: #003395f2;
   padding: 0px 50px;
 
-  img {
+  svg {
     cursor: pointer;
   }
 
   @media (max-width: 880px) {
     padding: 0px 20px;
   }
-`;
-
-export const TextTopHeader = styled.span`
-  font-weight: 600;
-  color: #ffffff;
 `;
 
 export const SpaceCart = styled.div`

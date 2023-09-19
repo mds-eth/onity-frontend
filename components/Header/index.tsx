@@ -1,10 +1,8 @@
 import React from 'react';
 
-import Image from 'next/image';
-
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
-import { Container, TextTopHeader, SpaceCart } from './styles';
+import { Container, SpaceCart } from './styles';
 
 import { useRouter } from 'next/router';
 import { useCart } from '../../contexts/CartContext';
@@ -17,9 +15,10 @@ export const Header: React.FC = () => {
 
   return (
     <Container>
-      <Image onClick={() => router.push('/')} src="https://images.carriercms.com/image/upload/v1646838227/common/logos-svg/Onity-logo.svg" alt="Logo Onity" width={80} height={40} />
+      <svg onClick={() => router.push('/')} width="104" height="41" viewBox="0 0 104 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M91.7107 41L104 8.57954H98.3063L92.5891 24.9606L87.266 8.57954H80.7726L89.6652 31.7546L85.8118 41H91.7107ZM18.0401 3.97207L17.806 3.91422V8.24861L17.9615 8.29121C20.4647 8.98177 21.7313 12.4633 21.7313 17.2546V19.4689C21.7313 24.1683 20.7972 29.225 14.0055 29.2277C7.21484 29.225 6.27759 24.1683 6.27759 19.4689V17.2546C6.27759 12.4633 7.54771 8.98177 10.0484 8.29121L10.2018 8.24861V3.91422L9.96982 3.97207C3.72784 5.51283 0 10.9351 0 17.3057V19.4177C0 27.7143 4.97292 32.9868 13.9991 32.9908C23.038 32.9868 28.0103 27.7143 28.0103 19.4177V17.3057C28.0103 10.9351 24.2856 5.51283 18.0401 3.97207ZM76.1491 32.4814C77.5984 32.4814 78.6957 32.2232 79.249 32.0102V28.743C78.7479 28.8708 78.3459 28.9556 77.7987 28.9556C75.7003 28.9556 74.8512 27.7556 74.8512 25.9494V11.9045H79.249V8.55487H74.8512V1.97796L68.7562 3.43935V8.55487H65.7604V11.9045H68.7562V26.2036C68.7562 29.4295 70.8557 32.4814 76.1491 32.4814ZM56.579 31.7259H62.6733V8.55488H56.579V31.7259ZM46.4287 31.7259H52.5226V15.1385C52.5226 11.4005 49.8748 8.04548 41.8334 8.04548C37.2868 8.04548 33.8453 8.6894 31.292 9.71941V31.7259H37.3873V12.0005C38.5397 11.6104 39.5838 11.3548 41.5838 11.3548C45.4283 11.3548 46.4287 13.3327 46.4287 15.221V31.7259ZM15.7985 16.2923H12.2445V0H15.7985V16.2923Z" fill="white" />
+      </svg>
 
-      <TextTopHeader>Feira Equipotel</TextTopHeader>
       <SpaceCart onClick={() => router.push('/cart')}>
         <AiOutlineShoppingCart />
         {countCart > 0 && (

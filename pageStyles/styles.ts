@@ -3,13 +3,13 @@ import styled from "styled-components";
 export const Container = styled.section`
   width: 100%;
   height: auto;
-  background-color: #dadada;
+  background-color: #eff0f2;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   @media (max-width: 880px) {
-    padding: 0px 20px;
     height: auto;
   }
 `;
@@ -19,20 +19,27 @@ export const ContentHomeProducts = styled.div`
   max-width: 1200px;
   display: flex;
   align-items: center;
-  background-color: #dadada;
+  background-color: #eff0f2;
   flex-direction: column;
   margin-bottom: 60px;
+
+  h2 {
+    color: #003395;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 40px;
+  }
 
   @media (max-width: 880px) {
     overflow: none;
   }
 `;
-
-export const TitleEvent = styled.h2`
-  color: #b6a379;
+export const Title = styled.h2`
+  color: #ffffff;
   font-size: 36px;
   font-weight: 700;
-  margin-top: 30px;
 
   @media (max-width: 880px) {
     font-size: 28px;
@@ -42,10 +49,12 @@ export const TitleEvent = styled.h2`
 `;
 
 export const SubTitle = styled.p`
-  font-size: 18px;
-  color: black;
-  font-weight: 300;
+  color: #fff;
   text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin-top: 20px;
 `;
 
@@ -60,7 +69,7 @@ export const ContentProducts = styled.div`
 
 export const ProductItem = styled.div`
   width: 216px;
-  height: 374px;
+  min-height: 374px;
   background-color: #ffffff;
   margin: 10px 20px;
   display: flex;
@@ -79,7 +88,6 @@ export const SpaceImage = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  
 
   img {
     width: 100%;
@@ -106,14 +114,63 @@ export const SpaceAddCart = styled.div`
   display: flex;
   align-items: center;
   background-color: #0095d6;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: 12px;
   font-weight: bold;
   color: #ffffff;
   cursor: pointer;
   margin-bottom: 10px;
 
+  .icon {
+    width: 30px;
+    height: 100%;
+    background-color: #1aa0da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .text {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-size: 10px;
+    }
+  }
+
   @media (max-width: 660px) {
     width: 90%;
+  }
+`;
+
+export const ContainerBanner = styled.section`
+  width: 100%;
+  height: 277px;
+  background-image: url("./assets/banner.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  span {
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 680px) {
+    padding: 0px 10px;
   }
 `;

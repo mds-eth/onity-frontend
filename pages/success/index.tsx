@@ -7,7 +7,7 @@ import Footer from '../../components/Footer'
 
 import { AiFillCheckCircle } from "react-icons/ai";
 
-import { Container, ContentSuccess, TitleEvent, ContentMessage } from '../../pageStyles/success/styles';
+import { Container, ContentSuccess, ContentMessage } from '../../pageStyles/success/styles';
 
 const PageSuccess: NextPage = () => {
 
@@ -20,10 +20,9 @@ const PageSuccess: NextPage = () => {
       <Header />
       <Container>
         <ContentSuccess>
-          <TitleEvent>Feira Equipotel - 18/09/2023 - 22/09/2023</TitleEvent>
           <ContentMessage>
             <AiFillCheckCircle />
-            <p>Seu pedido foi criado com sucesso. Acompanhe seu e-mail para maiores informações.</p>
+            <p>Seu pedido foi criado com sucesso. Em breve chegará em seu e-mail o seu orçamento conforme solicitado.</p>
             <button onClick={() => router.push('/')}>Voltar ao início</button>
           </ContentMessage>
         </ContentSuccess>
