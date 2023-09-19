@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+import { useEffect, useState } from 'react';
+
 import type { NextPage } from 'next'
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -14,11 +16,11 @@ import { toast } from 'react-toastify';
 import { Header } from '../../components/Header'
 import Footer from '../../components/Footer'
 
-import { Container, ContentHomeProducts, TitleEvent, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from '../../pageStyles/cart/styles';
+import { Container, ContentHomeProducts, ContentCart, Row, FooterForm, Submit, HeaderForm, FormCart, ItemCart, SpaceMeio, ContentActionsItem, ButtonRemove, ContainerCart, SpaceImage, ContentForm } from '../../pageStyles/cart/styles';
 import { useRouter } from 'next/router';
 
 import { useCart } from '../../contexts/CartContext';
-import { useEffect } from 'react';
+
 import { IProduct } from '../../types/ProductType';
 import Swal from 'sweetalert2';
 import { configHost } from '../../services/configHost';
@@ -37,6 +39,9 @@ interface FormValues {
 const CartUser: NextPage = () => {
 
   const router = useRouter();
+
+  const [inputValues, setInputValues] = useState<any>({});
+
 
   const { cart, countCart, removeFromCart, removeFromCartOneProduct, addToCart, setCart } = useCart();
 
@@ -125,6 +130,18 @@ const CartUser: NextPage = () => {
     }
   };
 
+  const handleChangeQuantityValue = (event: any, item: IProduct) => {
+
+    const newValue = event.target.value;
+
+    addToCart(item, parseInt(newValue))
+
+    setInputValues((prevInputValues: any) => ({
+      ...prevInputValues,
+      [item.id]: newValue,
+    }));
+  };
+
   return (
     <>
       <Header />
@@ -144,7 +161,7 @@ const CartUser: NextPage = () => {
                         <span>{item.title}</span>
                         <ButtonRemove onClick={() => removeFromCart(item.id)}>
                           <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0.923077V2.46154H8V0.923077H4ZM8.92308 2.46154V0.830769C8.92308 0.371962 8.55116 0 8.09231 0H3.90769C3.44887 0 3.07692 0.371948 3.07692 0.830769V2.46154H0.461538C0.206638 2.46154 0 2.66818 0 2.92308C0 3.17798 0.206638 3.38462 0.461538 3.38462H11.5385C11.7934 3.38462 12 3.17798 12 2.92308C12 2.66818 11.7934 2.46154 11.5385 2.46154H8.92308ZM1.69231 4.92308C1.94721 4.92308 2.15385 5.12971 2.15385 5.38461V11.0769H9.84615V5.38461C9.84615 5.12971 10.0528 4.92308 10.3077 4.92308C10.5626 4.92308 10.7692 5.12971 10.7692 5.38461V11.1692C10.7692 11.6281 10.3973 12 9.93846 12H2.06154C1.60273 12 1.23077 11.6281 1.23077 11.1692V5.38461C1.23077 5.12971 1.43741 4.92308 1.69231 4.92308ZM4.76923 4.92308C5.02413 4.92308 5.23077 5.12971 5.23077 5.38461V9.07692C5.23077 9.33182 5.02413 9.53846 4.76923 9.53846C4.51433 9.53846 4.30769 9.33182 4.30769 9.07692V5.38461C4.30769 5.12971 4.51433 4.92308 4.76923 4.92308ZM7.23077 4.92308C7.48567 4.92308 7.69231 5.12971 7.69231 5.38461V9.07692C7.69231 9.33182 7.48567 9.53846 7.23077 9.53846C6.97587 9.53846 6.76923 9.33182 6.76923 9.07692V5.38461C6.76923 5.12971 6.97587 4.92308 7.23077 4.92308Z" fill="#0095D6" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M4 0.923077V2.46154H8V0.923077H4ZM8.92308 2.46154V0.830769C8.92308 0.371962 8.55116 0 8.09231 0H3.90769C3.44887 0 3.07692 0.371948 3.07692 0.830769V2.46154H0.461538C0.206638 2.46154 0 2.66818 0 2.92308C0 3.17798 0.206638 3.38462 0.461538 3.38462H11.5385C11.7934 3.38462 12 3.17798 12 2.92308C12 2.66818 11.7934 2.46154 11.5385 2.46154H8.92308ZM1.69231 4.92308C1.94721 4.92308 2.15385 5.12971 2.15385 5.38461V11.0769H9.84615V5.38461C9.84615 5.12971 10.0528 4.92308 10.3077 4.92308C10.5626 4.92308 10.7692 5.12971 10.7692 5.38461V11.1692C10.7692 11.6281 10.3973 12 9.93846 12H2.06154C1.60273 12 1.23077 11.6281 1.23077 11.1692V5.38461C1.23077 5.12971 1.43741 4.92308 1.69231 4.92308ZM4.76923 4.92308C5.02413 4.92308 5.23077 5.12971 5.23077 5.38461V9.07692C5.23077 9.33182 5.02413 9.53846 4.76923 9.53846C4.51433 9.53846 4.30769 9.33182 4.30769 9.07692V5.38461C4.30769 5.12971 4.51433 4.92308 4.76923 4.92308ZM7.23077 4.92308C7.48567 4.92308 7.69231 5.12971 7.69231 5.38461V9.07692C7.69231 9.33182 7.48567 9.53846 7.23077 9.53846C6.97587 9.53846 6.76923 9.33182 6.76923 9.07692V5.38461C6.76923 5.12971 6.97587 4.92308 7.23077 4.92308Z" fill="#0095D6" />
                           </svg>
                           <span>Excluir</span>
                         </ButtonRemove>
@@ -153,8 +170,8 @@ const CartUser: NextPage = () => {
                       <ContentActionsItem>
                         <div className='count'>
                           <div className='less' onClick={() => removeFromCartOneProduct(item?.id)}>-</div>
-                          <div className='total'>{item?.quantity === null ? 1 : item?.quantity}</div>
-                          <div className='more' onClick={() => addToCart(item)}>+</div>
+                          <input onChange={(event) => handleChangeQuantityValue(event, item)} name={`input-${item.id}`} className='total' id='value' type="tel" value={inputValues[item.id] || item.quantity} />
+                          <div className='more' onClick={() => addToCart(item, item.quantity + 1)}>+</div>
                         </div>
                       </ContentActionsItem>
                     </ItemCart>
@@ -236,8 +253,8 @@ const CartUser: NextPage = () => {
                     </select>
                   </div>
                   <div className='terms'>
-                    <label className='label-terms' htmlFor="terms">Aceito os termos de uso</label>
-                    <input {...register('terms')} type="checkbox" name="terms" id="terms" className={errors.terms && 'error'} />
+                    <label className='label-terms' htmlFor="terms">Eu aceito os Termos e Condições de envio dos meus dados</label>
+                    <input disabled={countCart === 0} {...register('terms')} type="checkbox" name="terms" id="terms" className={errors.terms && 'error'} />
                   </div>
                 </Row>
 

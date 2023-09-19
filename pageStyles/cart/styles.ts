@@ -189,11 +189,23 @@ export const ContentActionsItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 90px;
+    width: 130px;
+    height: 100%;
     flex-direction: row;
+    margin-right: 20px;
+
+    input {
+      text-align: center;
+      width: 30px !important;
+      height: 30px !important;
+      border: none;
+    }
 
     .total {
       font-size: 10px;
+      width: 200px;
+      height: 100px;
+      background-color: red;
     }
 
     .less,
@@ -204,8 +216,8 @@ export const ContentActionsItem = styled.div`
       justify-content: center;
       color: black;
       font-weight: bold;
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background-color: #eff0f2;
       cursor: pointer;
@@ -275,8 +287,11 @@ export const Row = styled.div`
     justify-content: flex-end;
 
     .label-terms {
-      width: 150px;
       margin-left: 10px;
+
+      @media (max-width: 680px) {
+        font-size: 10px;
+      }
     }
 
     input {

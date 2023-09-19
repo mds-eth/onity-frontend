@@ -7,7 +7,7 @@ type CartContextType = {
   cart: IProduct[];
   totalPrice: number;
   setCart: (cart: any) => void;
-  addToCart: (item: IProduct) => void;
+  addToCart: (item: IProduct, quantity: number) => void;
   removeFromCart: (itemId: string) => void;
   removeFromCartOneProduct: (itemId: string) => void;
 };
@@ -39,14 +39,14 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const addToCart = (item: IProduct) => {
+  const addToCart = (item: IProduct, quantity?: number) => {
 
     const existingItem = cart.find(cartItem => cartItem.id === item.id);
-
+    
     if (existingItem) {
       const updatedCart = cart.map(cartItem =>
         cartItem.id === existingItem.id
-          ? { ...cartItem, quantity: cartItem?.quantity + 1 }
+          ? { ...cartItem, quantity: quantity ? quantity : cartItem?.quantity + 1 }
           : cartItem
       );
 
