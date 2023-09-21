@@ -84,15 +84,17 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
       <Navigation />
       <ContainerOrderDashboard>
         <ContentTable>
-          <Box display="flex" justifyContent="flex-end" mb={12}>
-            <IconButton
-              color="primary"
-              aria-label="emails"
-              onClick={handleModalSendEmails}
-            >
-              Disparar emails
-            </IconButton>
-          </Box>
+          {window.location.href.includes('localhost') && (
+            <Box display="flex" justifyContent="flex-end" mb={12}>
+              <IconButton
+                color="primary"
+                aria-label="emails"
+                onClick={handleModalSendEmails}
+              >
+                Disparar emails
+              </IconButton>
+            </Box>
+          )}
           {loader ? (
             <Loader />
           ) : (

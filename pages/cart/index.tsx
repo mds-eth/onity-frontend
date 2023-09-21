@@ -43,7 +43,7 @@ const CartUser: NextPage = () => {
   const [inputValues, setInputValues] = useState<any>({});
 
 
-  const { cart, countCart, removeFromCart, removeFromCartOneProduct, addToCart, setCart } = useCart();
+  const { cart, countCart, removeFromCart, addToCart, setCart } = useCart();
 
   const schema = yup.object().shape({
     hotel: yup.string().required('Hotel name is required'),
