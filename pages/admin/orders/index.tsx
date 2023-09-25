@@ -32,7 +32,6 @@ interface IAdminOrders {
 
 const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
 
-  const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = useState<boolean>(false);
 
   const handleModalSendEmails = () => {
@@ -78,97 +77,52 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
     });
   }
 
-  return (
-    <Container>
-      <HeaderAdmin />
-      <Navigation />
-      <ContainerOrderDashboard>
-        <ContentTable>
-          {window.location.href.includes('localhost') && (
-            <Box display="flex" justifyContent="flex-end" mb={12}>
-              <IconButton
-                color="primary"
-                aria-label="emails"
-                onClick={handleModalSendEmails}
-              >
-                Disparar emails
-              </IconButton>
-            </Box>
-          )}
-          {loader ? (
-            <Loader />
-          ) : (
-            orders?.length > 0 ? (
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+  function Row(props: { row: IOrders }) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
+
+    return (
+      <React.Fragment>
+        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell align="center">
+            {row.hotel}
+          </TableCell>
+          <TableCell align="center">{row.name}</TableCell>
+          <TableCell align="center">{row.email}</TableCell>
+          <TableCell align="center">{row.phone}</TableCell>
+          <TableCell align="center">{row.icms}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Produtos
+                </Typography>
+                <Table size="small" aria-label="purchases">
                   <TableHead>
-                    <TableRow>
-                      <TableCell>ID</TableCell>
-                      <TableCell align="center">Hotel</TableCell>
-                      <TableCell align="center">Nome cliente</TableCell>
-                      <TableCell align="center">Email</TableCell>
-                      <TableCell align="center">Celular</TableCell>
-                      <TableCell align="center">Estado</TableCell>
-                      <TableCell align="center">CNPJ</TableCell>
-                      <TableCell align="center">ICMS</TableCell>
+                    <TableRow hover>
+                      <TableCell align="center">Código produto</TableCell>
+                      <TableCell align="center">Produto</TableCell>
+                      <TableCell align="center">Quantidade</TableCell>
                       <TableCell align="center">Criado em</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {orders.map((order: IOrders) => (
-                      <TableRow key={order.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                          <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                              Produtos
-                            </Typography>
-                            <Table size="small" aria-label="purchases">
-                              <TableHead>
-                                <TableRow>
-                                  <TableCell>Código produto</TableCell>
-                                  <TableCell align="center">IPI</TableCell>
-                                  <TableCell align="center">Preço NET</TableCell>
-                                  <TableCell align="center">Quantidade</TableCell>
-                                  <TableCell align="center">Título</TableCell>
-                                  <TableCell align="center">Tipo produto</TableCell>
-                                  <TableCell align="center">Criado em</TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {order?.orders?.map((order: IProduct) => (
-                                  <TableRow key={order.id}>
-                                    <TableCell component="th" scope="row">
-                                      {order.product_code}
-                                    </TableCell>
-                                    <TableCell align="center">{order.ipi}</TableCell>
-                                    <TableCell align="center">{order.price_net}</TableCell>
-                                    <TableCell align="center">{order.quantity}</TableCell>
-                                    <TableCell align="center">{order.title}</TableCell>
-                                    <TableCell align="center">{order.type_product}</TableCell>
-                                    <TableCell align="center">{order.type_product}</TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </Box>
-                        </Collapse>
-                        {/* <TableCell>
-                        <IconButton
-                          aria-label="expand row"
-                          size="small"
-                          onClick={() => setOpen(!open)}
-                        >
-                          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        </IconButton>
-                      </TableCell> */}
-                        <TableCell component="th" scope="row">{order.id}</TableCell>
-                        <TableCell align="center">{order.hotel}</TableCell>
-                        <TableCell align="center">{order.name}</TableCell>
-                        <TableCell align="center">{order.email}</TableCell>
-                        <TableCell align="center">{order.phone}</TableCell>
-                        <TableCell align="center">{order.state}</TableCell>
-                        <TableCell align="center">{order.cnpj}</TableCell>
-                        <TableCell align="center">{order.icms ? 'SIM' : 'NAO'}</TableCell>
+                    {row.orders.map((order: any) => (
+                      <TableRow key={order.id}>
+                        <TableCell align="center">{order.product_code}</TableCell>
+                        <TableCell align="center">{order.title}</TableCell>
+                        <TableCell align="center">{order.quantity}</TableCell>
                         <TableCell align="center">{new Intl.DateTimeFormat("pt-BR", {
                           day: "2-digit",
                           month: "2-digit",
@@ -178,6 +132,43 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                           second: "2-digit",
                         }).format(new Date(order.created_at))}</TableCell>
                       </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+
+
+  return (
+    <Container>
+      <HeaderAdmin />
+      <Navigation />
+      <ContainerOrderDashboard>
+        <ContentTable>
+          {loader ? (
+            <Loader />
+          ) : (
+            orders?.length > 0 ? (
+              <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell align="center">Hotel</TableCell>
+                      <TableCell align="center">Nome cliente</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">Celular</TableCell>
+                      <TableCell align="center">ICMS</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {orders.map((order: IOrders) => (
+                      <Row key={order.id} row={order} />
                     ))}
                   </TableBody>
                 </Table>
@@ -198,6 +189,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const user = nookies.get(ctx)['[@auth:user]'];
 
   if (!user) {
+    console.log(`to entrando aqui`)
     res.writeHead(302, {
       Location: '/admin/auth/login',
       'Content-Type': 'text/html; charset=utf-8',
