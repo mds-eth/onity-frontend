@@ -27,7 +27,7 @@ import { Box, Collapse, IconButton, Typography } from "@mui/material";
 import Loader from "../../../components/Loader";
 
 interface IAdminOrders {
-  orders: IOrders[];
+  data: IOrders[];
 }
 
 const headers = [
@@ -40,7 +40,7 @@ const headers = [
   { label: "Quantidade", key: "quantity" },
 ];
 
-const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
+const AdminEvents: NextPage<IAdminOrders> = ({ data }) => {
 
   const [loader, setLoader] = useState<boolean>(false);
   const [csvData, setCsvData] = useState<[]>([]);
@@ -49,16 +49,17 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
 
     let listOrders: any = [];
 
-    orders.map((order: IOrders) => {
-      let orderNew: any = {};
-
-      orderNew.name = order.name;
-      orderNew.email = order.email;
-      orderNew.icms = order.icms ? 'SIM' : 'NAO';
-      orderNew.phone = order.phone;
-      orderNew.created_at = order.created_at;
+    data.map((order: IOrders) => {
 
       order.orders.map((orderCurrent: IProduct) => {
+        let orderNew: any = {};
+
+        orderNew.name = order.name;
+        orderNew.email = order.email;
+        orderNew.icms = order.icms ? 'SIM' : 'NAO';
+        orderNew.phone = order.phone;
+        orderNew.created_at = order.created_at;
+
         orderNew.title = orderCurrent.title;
         orderNew.quantity = orderCurrent.quantity;
 
@@ -67,7 +68,7 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
     })
     setCsvData(listOrders);
 
-  }, [orders])
+  }, [data])
 
   function Row(props: { row: IOrders }) {
     const { row } = props;
@@ -156,7 +157,7 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
           {loader ? (
             <Loader />
           ) : (
-            orders?.length > 0 ? (
+            data?.length > 0 ? (
               <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
@@ -170,7 +171,7 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {orders.map((order: IOrders) => (
+                    {data.map((order: IOrders) => (
                       <Row key={order.id} row={order} />
                     ))}
                   </TableBody>
@@ -206,10 +207,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const response = await ApiService.get('/orders');
 
-  const orders = response.data;
+  const data = response.data;
 
   return {
-    props: { orders },
+    props: { data },
   };
 }
 
