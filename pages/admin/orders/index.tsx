@@ -34,6 +34,8 @@ const headers = [
   { label: "Nome", key: "name" },
   { label: "Email", key: "email" },
   { label: "ICMS", key: "icms" },
+  { label: "CNPJ", key: "cnpj" },
+  { label: "Hotel", key: "hotel" },
   { label: "Estado", key: "state" },
   { label: "Telefone", key: "phone" },
   { label: "Criado em", key: "created_at" },
@@ -58,6 +60,8 @@ const AdminEvents: NextPage<IAdminOrders> = ({ data }) => {
         orderNew.name = order.name;
         orderNew.email = order.email;
         orderNew.icms = order.icms ? 'SIM' : 'NAO';
+        orderNew.cnpj = order.cnpj;
+        orderNew.hotel = order.hotel;
         orderNew.state = order.state;
         orderNew.phone = order.phone;
         orderNew.created_at = order.created_at;
