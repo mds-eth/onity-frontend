@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 
 import nookies from 'nookies';
 
@@ -23,59 +24,50 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import { IOrders, IProduct } from "../../../types/OrderType";
 import { Box, Collapse, IconButton, Typography } from "@mui/material";
-import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 
 interface IAdminOrders {
   orders: IOrders[];
 }
 
+const headers = [
+  { label: "Nome", key: "name" },
+  { label: "Email", key: "email" },
+  { label: "ICMS", key: "icms" },
+  { label: "Telefone", key: "phone" },
+  { label: "Criado em", key: "created_at" },
+  { label: "Produto", key: "title" },
+  { label: "Quantidade", key: "quantity" },
+];
+
 const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
 
   const [loader, setLoader] = useState<boolean>(false);
+  const [csvData, setCsvData] = useState<[]>([]);
 
-  const handleModalSendEmails = () => {
+  useEffect(() => {
 
-    const total = orders.length;
+    let listOrders: any = [];
 
-    Swal.fire({
-      title: 'Atenção!',
-      html: `${total > 1 ? 'Serão' : 'Será'} ${total > 1 ? 'enviados' : 'enviado'} <b>${total}</b> email${total > 1 ? 's' : ''}, deseja continuar?`,
-      showCancelButton: true,
-      confirmButtonText: 'Enviar',
-      cancelButtonAriaLabel: 'Cancelar',
-      icon: 'warning',
-      showCloseButton: true,
-      cancelButtonText: 'Fechar'
-    }).then(async function (result) {
+    orders.map((order: IOrders) => {
+      let orderNew: any = {};
 
-      if (result.isConfirmed) {
+      orderNew.name = order.name;
+      orderNew.email = order.email;
+      orderNew.icms = order.icms ? 'SIM' : 'NAO';
+      orderNew.phone = order.phone;
+      orderNew.created_at = order.created_at;
 
-        setLoader(true);
+      order.orders.map((orderCurrent: IProduct) => {
+        orderNew.title = orderCurrent.title;
+        orderNew.quantity = orderCurrent.quantity;
 
-        try {
+        listOrders.push(orderNew);
+      })
+    })
+    setCsvData(listOrders);
 
-          const response = await ApiService.post('/calculate', {});
-
-          setLoader(false);
-
-          if (response.status === 200) {
-            Swal.fire({
-              text: `Disparo realizado com sucesso.`,
-              showCancelButton: false,
-              confirmButtonText: 'Fechar',
-              icon: 'success',
-              showCloseButton: true,
-              cancelButtonText: 'Fechar'
-            })
-          }
-
-        } catch (error) {
-          setLoader(false);
-        }
-      }
-    });
-  }
+  }, [orders])
 
   function Row(props: { row: IOrders }) {
     const { row } = props;
@@ -150,6 +142,17 @@ const AdminEvents: NextPage<IAdminOrders> = ({ orders }) => {
       <Navigation />
       <ContainerOrderDashboard>
         <ContentTable>
+          <Box display="flex" justifyContent="flex-end" mb={2}>
+            <CSVLink
+              data={csvData}
+              headers={headers}
+              filename={"pedidos-onity.csv"}
+              className="btn btn-primary"
+              target="_blank"
+            >
+              Download CSV
+            </CSVLink>;
+          </Box>
           {loader ? (
             <Loader />
           ) : (
